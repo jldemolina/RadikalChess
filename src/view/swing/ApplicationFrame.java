@@ -1,4 +1,4 @@
-package view.swing.swing;
+package view.swing;
 
 import model.Board;
 
@@ -71,7 +71,6 @@ public class ApplicationFrame extends JFrame {
     private JPanel createBoardPanel() {
         boardPanel = new BoardPanel(board);
         boardPanel.setSize(400, 600);
-        boardPanel.setVisible(true);
         return boardPanel;
     }
 

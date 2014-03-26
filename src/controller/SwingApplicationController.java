@@ -1,6 +1,6 @@
 package controller;
 
-import view.swing.swing.ApplicationFrame;
+import view.swing.ApplicationFrame;
 
 public class SwingApplicationController {
 
