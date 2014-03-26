@@ -1,4 +1,4 @@
-package view.swing;
+package view.swing.swing;
 
 import model.Board;
 
@@ -16,7 +16,7 @@ public class BoardPanel extends JPanel {
         cellPanels = new CellPanel[board.getNumberOfRows()][board.getNumberOfCols()];
         this.setLayout(new GridLayout(board.getNumberOfRows(), board.getNumberOfCols()));
         this.board = board;
-        fillCellPanels();
+        initializeBoard();
     }
 
     @Override
@@ -30,6 +30,11 @@ public class BoardPanel extends JPanel {
         return movement;
     }
 
+    private void initializeBoard() {
+        fillCellPanels();
+        placePieces();
+    }
+
     private void fillCellPanels() {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
@@ -39,8 +44,13 @@ public class BoardPanel extends JPanel {
                     cellPanels[i][j] = new CellPanel(i, j, Color.WHITE);
                 }
                 this.add(cellPanels[i][j]);
-                cellPanels[i][j].setButton(new JButton(""));
+                cellPanels[i][j].setPieceImageViewer(new PieceImageViewer());
             }
         }
     }
+
+    private void placePieces() {
+
+    }
+
 }

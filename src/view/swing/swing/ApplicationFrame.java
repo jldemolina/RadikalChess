@@ -1,32 +1,28 @@
-package view.swing;
+package view.swing.swing;
 
 import model.Board;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameView extends JFrame {
+public class ApplicationFrame extends JFrame {
 
     private BoardPanel boardPanel;
     private Board board;
 
-    public GameView() {
+    public ApplicationFrame() {
         board = new Board(6, 4);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("RadikalChess");
-        Dimension dimension = new Dimension(400, 600);
-        setMinimumSize(dimension);
+        setMinimumSize(new Dimension(400, 660));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
         this.add(createToolbar(), BorderLayout.NORTH);
         this.add(createBoardPanel(), BorderLayout.CENTER);
-
-        pack();
     }
 
     @Override
@@ -78,14 +74,5 @@ public class GameView extends JFrame {
         boardPanel.setVisible(true);
         return boardPanel;
     }
-
-    private JPanel createLogPanel() {
-        LogPanel panel = new LogPanel();
-        panel.setBorder(new LineBorder(Color.black));
-        panel.setSize(new Dimension(200, 600));
-        panel.setVisible(true);
-        return panel;
-    }
-
 
 }

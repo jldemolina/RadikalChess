@@ -1,9 +1,11 @@
 package model.Pieces;
 
+import model.Image;
+
 public class Pawn extends Piece {
 
-    public Pawn(int color) {
-        super(color);
+    public Pawn(int color, Image image) {
+        super(color, image);
     }
 
     @Override

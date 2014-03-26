@@ -1,9 +1,11 @@
 package model.Pieces;
 
+import model.Image;
+
 public class King extends Piece {
 
-    public King(int color) {
-        super(color);
+    public King(int color, Image image) {
+        super(color, image);
     }
 
     @Override

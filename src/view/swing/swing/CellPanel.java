@@ -1,4 +1,4 @@
-package view.swing;
+package view.swing.swing;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.*;
 public class CellPanel extends JPanel {
     private int x, y;
     private Color color;
-    private JButton button;
+    private PieceImageViewer pieceImageViewer;
 
     public CellPanel(int x, int y, Color color) {
         this.x = x;
@@ -16,8 +16,8 @@ public class CellPanel extends JPanel {
         this.setVisible(true);
     }
 
-    public JButton getButton() {
-        return button;
+    public PieceImageViewer getPieceImageViewer() {
+        return pieceImageViewer;
     }
 
     public void paint(Graphics g) {
@@ -32,14 +32,14 @@ public class CellPanel extends JPanel {
         return y;
     }
 
-    public boolean isVisibleButton() {
-        return this.button.isVisible();
+    public boolean isVisiblePiece() {
+        return this.pieceImageViewer.isVisible();
     }
 
-    public void setButton(JButton button) {
-        this.add(button);
-        this.button = button;
-        button.setVisible(false);
+    public void setPieceImageViewer(PieceImageViewer pieceImageViewer) {
+        this.add(pieceImageViewer);
+        this.pieceImageViewer = pieceImageViewer;
+        pieceImageViewer.setVisible(true);
     }
 
 }

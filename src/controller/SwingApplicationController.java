@@ -1,10 +1,11 @@
 package controller;
 
-import view.swing.GameView;
+import view.swing.swing.ApplicationFrame;
 
 public class SwingApplicationController {
 
     public void execute() {
-        GameView gameView = new GameView();
+        ApplicationFrame applicationFrame = new ApplicationFrame();
     }
+
 }

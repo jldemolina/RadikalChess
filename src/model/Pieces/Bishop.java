@@ -1,9 +1,11 @@
 package model.Pieces;
 
+import model.Image;
+
 public class Bishop extends Piece {
 
-    public Bishop(int color) {
-        super(color);
+    public Bishop(int color, Image image) {
+        super(color, image);
     }
 
     @Override
