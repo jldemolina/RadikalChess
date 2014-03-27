@@ -12,12 +12,12 @@ public class ApplicationFrame extends JFrame {
     private BoardPanel boardPanel;
     private Board board;
 
-    public ApplicationFrame() {
-        board = new Board(6, 4);
+    public ApplicationFrame(Board board) {
+        this.board = board;
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle("RadikalChess");
-        setMinimumSize(new Dimension(400, 660));
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setMinimumSize(new Dimension(400, 660));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
@@ -32,7 +32,6 @@ public class ApplicationFrame extends JFrame {
 
     private void reset() {
         remove(boardPanel);
-
         createBoardPanel();
         repaint();
         pack();

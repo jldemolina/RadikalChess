@@ -1,11 +1,17 @@
 package model;
 
+import model.Pieces.Piece;
+
 public class Move {
 
-    private Position origin;
-    private Position destination;
+    private final Board board;
+    private final Piece piece;
+    private final Position origin;
+    private final Position destination;
 
-    public Move(Position origin, Position destination) {
+    public Move(Board board, Piece piece, Position origin, Position destination) {
+        this.board = board;
+        this.piece = piece;
         this.origin = origin;
         this.destination = destination;
     }

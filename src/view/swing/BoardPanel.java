@@ -42,9 +42,9 @@ public class BoardPanel extends JPanel {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if ((j + i) % 2 == 0) {
-                    cellPanels[i][j] = new CellPanel(i, j, Color.BLACK);
+                    cellPanels[i][j] = new CellPanel(board.getCells()[i][j], Color.BLACK);
                 } else {
-                    cellPanels[i][j] = new CellPanel(i, j, Color.WHITE);
+                    cellPanels[i][j] = new CellPanel(board.getCells()[i][j], Color.WHITE);
                 }
                 this.add(cellPanels[i][j]);
             }
@@ -62,16 +62,16 @@ public class BoardPanel extends JPanel {
         cellPanels[1][2].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
         cellPanels[1][3].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
 
-        cellPanels[4][0].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][1].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][2].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][3].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][0].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][1].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][2].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][3].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
 
-        cellPanels[5][0].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacrook.png"))));
-        cellPanels[5][1].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
-        cellPanels[5][2].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
-        cellPanels[5][3].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacking.png"))));
-        cellPanels[5][3].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/lilacking.png"))));
+        cellPanels[5][0].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacrook.png"))));
+        cellPanels[5][1].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
+        cellPanels[5][2].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
+        cellPanels[5][3].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacking.png"))));
+        cellPanels[5][3].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
 }

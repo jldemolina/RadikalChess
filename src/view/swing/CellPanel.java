@@ -1,36 +1,35 @@
 package view.swing;
 
+import model.Cell;
 import model.Pieces.Piece;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public class CellPanel extends JPanel {
-    private int x, y;
+    private Cell cell;
     private Color color;
     private JButton pieceButton;
     private Piece piece;
+    private boolean pressed;
 
-    public CellPanel(int x, int y, Color color) {
+    public CellPanel(Cell cell, Color color) {
+        this.cell = cell;
         this.pieceButton = new JButton();
-        pieceButton.setBackground(color);
-        this.add(pieceButton);
-        this.x = x;
-        this.y = y;
         this.color = color;
         this.setBackground(color);
         this.setVisible(true);
-    }
-
-    public void paint(Graphics g) {
-        super.paint(g);
+        preparePieceButton();
     }
 
     public void addPiece(Piece piece) {
         try {
+            cell.setPiece(piece);
             this.piece = piece;
             pieceButton.setIcon(new ImageIcon(ImageIO.read(new ByteArrayInputStream(piece.getImage().getBitmap().getByteArray()))));
         } catch (IOException ex) {
@@ -40,18 +39,34 @@ public class CellPanel extends JPanel {
 
     public void removePiece() {
         if (piece != null) {
+            cell.setPiece(null);
             piece = null;
             pieceButton.setIcon(null);
             repaint();
         }
     }
 
-    public int getXPos() {
-        return x;
+    public Piece getPiece() {
+        return piece;
     }
 
-    public int getYPos() {
-        return y;
+    public boolean hasAnyPiece() {
+        return piece != null;
+    }
+
+    public boolean isPressed() {
+        return pressed;
+    }
+
+    public void preparePieceButton() {
+        pieceButton.setBackground(color);
+        pieceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        this.add(pieceButton);
     }
 
 }

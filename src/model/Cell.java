@@ -6,9 +6,6 @@ public class Cell implements Cloneable {
 
     private Piece piece;
 
-    public Cell() {
-    }
-
     public Piece getPiece() {
         return piece;
     }
