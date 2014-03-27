@@ -17,7 +17,7 @@ public class ApplicationFrame extends JFrame {
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(400, 660));
+        this.setMinimumSize(new Dimension(450, 700));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
@@ -59,7 +59,6 @@ public class ApplicationFrame extends JFrame {
     private JButton createPlayButton() {
         JButton playButton = new JButton("Play");
         return playButton;
-
     }
 
     private JButton createMakeDecisionButton() {

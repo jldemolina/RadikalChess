@@ -1,22 +1,21 @@
 package view.swing;
 
-import model.Bitmap;
-import model.Board;
+import model.*;
 import model.Image;
 import model.Pieces.Pawn;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
     private Board board;
-    private boolean movement;
 
     public BoardPanel(Board board) {
         this.board = board;
-        this.movement = false;
         cellPanels = new CellPanel[board.getNumberOfRows()][board.getNumberOfCols()];
         this.setLayout(new GridLayout(board.getNumberOfRows(), board.getNumberOfCols()));
         this.setVisible(true);
@@ -27,10 +26,6 @@ public class BoardPanel extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(Color.black);
-    }
-
-    private boolean isMoving() {
-        return movement;
     }
 
     private void initializeBoard() {
@@ -46,7 +41,54 @@ public class BoardPanel extends JPanel {
                 } else {
                     cellPanels[i][j] = new CellPanel(board.getCells()[i][j], Color.WHITE);
                 }
+                addCellPanelActionListener(cellPanels[i][j]);
                 this.add(cellPanels[i][j]);
+            }
+        }
+    }
+
+    private void addCellPanelActionListener(final CellPanel cellPanel) {
+        cellPanel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!cellPanel.hasAnyPiece()) {
+                    movePressedPieceTo(cellPanel);
+                } else {
+                    unPressedCellsWithPieces();
+                    cellPanel.setPressed(true);
+                }
+            }
+        });
+    }
+
+    private void movePressedPieceTo(CellPanel cellPanel) {
+        for (int i = 0; i < board.getNumberOfRows(); i++) {
+            for (int j = 0; j < board.getNumberOfCols(); j++) {
+                if (cellPanels[i][j].hasAnyPiece()) {
+                    if (cellPanels[i][j].isPressed()) {
+                        if (MoveChecker.getInstance().isAValidMove(new Move
+                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
+                                cellPanels[i][j].getPiece(), board)) {
+                            cellPanel.addPiece(cellPanels[i][j].getPiece());
+                            cellPanels[i][j].removePiece();
+                            cellPanels[i][j].setPressed(false);
+                            cellPanel.setPressed(false);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private void unPressedCellsWithPieces() {
+        for (int i = 0; i < board.getNumberOfRows(); i++) {
+            for (int j = 0; j < board.getNumberOfCols(); j++) {
+                if (cellPanels[i][j].hasAnyPiece()) {
+                    if (cellPanels[i][j].isPressed()) {
+                        cellPanels[i][j].setPressed(false);
+                    }
+                }
             }
         }
     }

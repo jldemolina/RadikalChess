@@ -10,7 +10,7 @@ public class Board {
         cells = new Cell[numberOfRows][numberOfCols];
         for (int i = 0; i < numberOfRows; i++) {
             for (int j = 0; j < numberOfCols; j++) {
-                cells[i][j] = new Cell();
+                cells[i][j] = new Cell(new Position(i, j));
             }
         }
     }

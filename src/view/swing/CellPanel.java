@@ -2,11 +2,11 @@ package view.swing;
 
 import model.Cell;
 import model.Pieces.Piece;
+import model.Position;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -22,6 +22,7 @@ public class CellPanel extends JPanel {
         this.cell = cell;
         this.pieceButton = new JButton();
         this.color = color;
+        this.pressed = false;
         this.setBackground(color);
         this.setVisible(true);
         preparePieceButton();
@@ -54,19 +55,24 @@ public class CellPanel extends JPanel {
         return piece != null;
     }
 
+    public void setPressed(boolean pressed) {
+        this.pressed = pressed;
+    }
+
     public boolean isPressed() {
         return pressed;
     }
 
+    public Position getPosition() {
+        return cell.getPosition();
+    }
+
     public void preparePieceButton() {
         pieceButton.setBackground(color);
-        pieceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         this.add(pieceButton);
     }
 
+    public void addActionListener(ActionListener l) {
+        pieceButton.addActionListener(l);
+    }
 }

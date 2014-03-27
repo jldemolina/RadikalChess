@@ -2,9 +2,14 @@ package model;
 
 import model.Pieces.Piece;
 
-public class Cell implements Cloneable {
+public class Cell {
 
     private Piece piece;
+    private final Position position;
+
+    public Cell(Position position) {
+        this.position = position;
+    }
 
     public Piece getPiece() {
         return piece;
@@ -14,11 +19,9 @@ public class Cell implements Cloneable {
         this.piece = piece;
     }
 
-    @Override
-    public Cell clone() {
-        Cell cell = new Cell();
-        if (piece != null) cell.setPiece(this.getPiece().clone());
-        return cell;
+    public Position getPosition() {
+        return position;
     }
+
 
 }
