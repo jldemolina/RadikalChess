@@ -1,10 +1,10 @@
-package model.Pieces;
+package radikalchess.model.Pieces;
 
-import model.Image;
+import radikalchess.model.Image;
 
-public class Rook extends Piece {
+public class Queen extends Piece {
 
-    public Rook(int color, Image image) {
+    public Queen(int color, Image image) {
         super(color, image);
     }
 

@@ -1,4 +1,4 @@
-package model;
+package radikalchess.model;
 
 import java.io.File;
 import java.io.IOException;

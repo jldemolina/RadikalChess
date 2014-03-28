@@ -1,4 +1,4 @@
-package model;
+package radikalchess.model;
 
 public class Position implements Cloneable {
     private int col;

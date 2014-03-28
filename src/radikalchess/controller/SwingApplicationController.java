@@ -1,7 +1,7 @@
-package controller;
+package radikalchess.controller;
 
-import model.Board;
-import view.swing.ApplicationFrame;
+import radikalchess.model.Board;
+import radikalchess.view.swing.ApplicationFrame;
 
 public class SwingApplicationController {
 

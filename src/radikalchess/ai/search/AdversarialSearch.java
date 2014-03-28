@@ -1,6 +1,6 @@
-package ai.search;
+package radikalchess.ai.search;
 
-import ai.Metrics;
+import radikalchess.ai.Metrics;
 
 /**
  * Variant of the search interface. Since players can only control the next

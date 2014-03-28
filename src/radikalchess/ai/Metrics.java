@@ -1,4 +1,4 @@
-package ai;
+package radikalchess.ai;
 
 import java.util.Hashtable;
 import java.util.Set;

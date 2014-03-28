@@ -1,4 +1,4 @@
-import controller.SwingApplicationController;
+import radikalchess.controller.SwingApplicationController;
 
 public class SwingApplication {
 

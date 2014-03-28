@@ -1,7 +1,7 @@
-package model.Pieces;
+package radikalchess.model.Pieces;
 
-import model.Image;
-import model.Position;
+import radikalchess.model.Image;
+import radikalchess.model.Position;
 
 public abstract class Piece implements Cloneable {
 

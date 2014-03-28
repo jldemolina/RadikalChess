@@ -1,6 +1,6 @@
-package model;
+package radikalchess.model;
 
-import model.Pieces.Piece;
+import radikalchess.model.Pieces.Piece;
 
 public class Cell {
 

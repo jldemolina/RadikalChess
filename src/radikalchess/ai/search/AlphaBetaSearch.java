@@ -1,7 +1,7 @@
-package ai.search;
+package radikalchess.ai.search;
 
-import ai.Game;
-import ai.Metrics;
+import radikalchess.ai.Game;
+import radikalchess.ai.Metrics;
 
 public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
         AdversarialSearch<STATE, ACTION> {

@@ -1,6 +1,6 @@
-package view.swing;
+package radikalchess.view.swing;
 
-import model.Board;
+import radikalchess.model.Board;
 
 import javax.swing.*;
 import java.awt.*;

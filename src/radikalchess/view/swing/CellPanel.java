@@ -1,8 +1,8 @@
-package view.swing;
+package radikalchess.view.swing;
 
-import model.Cell;
-import model.Pieces.Piece;
-import model.Position;
+import radikalchess.model.Cell;
+import radikalchess.model.Pieces.Piece;
+import radikalchess.model.Position;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

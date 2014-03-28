@@ -1,6 +1,6 @@
-package model.Pieces;
+package radikalchess.model.Pieces;
 
-import model.Image;
+import radikalchess.model.Image;
 
 public class King extends Piece {
 

@@ -1,4 +1,4 @@
-package view.swing;
+package radikalchess.view.swing;
 
 import javax.swing.*;
 import java.awt.*;

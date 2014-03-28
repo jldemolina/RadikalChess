@@ -1,4 +1,4 @@
-package ai;
+package radikalchess.ai;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * start.</li>
  * <li>PLAYER(s): Defines which player has the move in a state.</li>
  * <li>ACTIONS(s): Returns the set of legal moves in a state.</li>
- * <li>RESULT(s, a): The transition model, which defines the result of a move.</li>
+ * <li>RESULT(s, a): The transition radikalchess.model, which defines the result of a move.</li>
  * <li>TERMINAL-TEST(s): A terminal test, which is true when the game is over
  * and false TERMINAL STATES otherwise. States where the game has ended are
  * called terminal states.</li>

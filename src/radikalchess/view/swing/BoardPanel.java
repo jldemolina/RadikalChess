@@ -1,8 +1,8 @@
-package view.swing;
+package radikalchess.view.swing;
 
-import model.*;
-import model.Image;
-import model.Pieces.*;
+import radikalchess.model.*;
+import radikalchess.model.Image;
+import radikalchess.model.Pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
