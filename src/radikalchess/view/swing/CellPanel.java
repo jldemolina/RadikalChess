@@ -32,10 +32,11 @@ public class CellPanel extends JPanel {
         try {
             cell.setPiece(piece);
             this.piece = piece;
+            piece.setPosition(cell.getPosition());
             pieceButton.setIcon(new ImageIcon(ImageIO.read(new ByteArrayInputStream(piece.getImage().getBitmap().getByteArray()))));
         } catch (IOException ex) {
         }
-        this.repaint();
+        repaint();
     }
 
     public void removePiece() {

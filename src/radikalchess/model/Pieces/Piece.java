@@ -14,6 +14,11 @@ public abstract class Piece implements Cloneable {
         this.image = image;
     }
 
+    public Piece(int color, Image image, Position position) {
+        this(color, image);
+        this.position = position;
+    }
+
     public int getColor() {
         return color;
     }

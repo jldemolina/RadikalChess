@@ -54,8 +54,7 @@ public class BoardPanel extends JPanel {
                 if (!cellPanel.hasAnyPiece()) {
                     movePressedPieceTo(cellPanel);
                 } else {
-                    unPressedCellsWithPieces();
-                    cellPanel.setPressed(true);
+                    killPiece(cellPanel);
                 }
             }
         });
@@ -81,16 +80,27 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    private void unPressedCellsWithPieces() {
+    private void killPiece(CellPanel cellPanel) {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
                     if (cellPanels[i][j].isPressed()) {
-                        cellPanels[i][j].setPressed(false);
+                        if (MoveChecker.getInstance().isAValidKillerMove(new Move
+                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
+                                cellPanels[i][j].getPiece(), board)) {
+                            cellPanel.addPiece(cellPanels[i][j].getPiece());
+                            cellPanels[i][j].removePiece();
+                            cellPanels[i][j].setPressed(false);
+                            cellPanel.setPressed(false);
+                        } else {
+                            cellPanels[i][j].setPressed(false);
+                        }
+                        return;
                     }
                 }
             }
         }
+        cellPanel.setPressed(true);
     }
 
     private void placePieces() {
