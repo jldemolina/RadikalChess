@@ -57,6 +57,7 @@ public class CellPanel extends JPanel {
     }
 
     public void setPressed(boolean pressed) {
+        this.pieceButton.setSelected(pressed);
         this.pressed = pressed;
     }
 

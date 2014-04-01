@@ -17,7 +17,6 @@ public class BoardPanel extends JPanel {
     private final Player playerA;
     private final Player playerB;
 
-
     public BoardPanel(Board board, Player playerA, Player playerB) {
         this.board = board;
         this.playerA = playerA;
@@ -71,13 +70,16 @@ public class BoardPanel extends JPanel {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
                     if (cellPanels[i][j].isPressed()) {
-                        if (MoveChecker.getInstance().isAValidMove(new Move
-                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), board)) {
-                            cellPanel.addPiece(cellPanels[i][j].getPiece());
-                            cellPanels[i][j].removePiece();
-                            cellPanels[i][j].setPressed(false);
-                            cellPanel.setPressed(false);
+                        Player player = (this.playerA == cellPanels[i][j].getPiece().getPlayer()) ? playerB : playerA;
+                        if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)) {
+                            if (MoveChecker.getInstance().isAValidMove(new Move
+                                    (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
+                                    cellPanels[i][j].getPiece(), board)) {
+                                cellPanel.addPiece(cellPanels[i][j].getPiece());
+                                cellPanels[i][j].removePiece();
+                                cellPanels[i][j].setPressed(false);
+                                cellPanel.setPressed(false);
+                            }
                         }
                         break;
                     }
@@ -93,13 +95,11 @@ public class BoardPanel extends JPanel {
                     if (cellPanels[i][j].isPressed()) {
                         if (MoveChecker.getInstance().isAValidKillerMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), board, cellPanels[i][j].getPiece().getPlayer())) {
+                                cellPanels[i][j].getPiece(), board)) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
                             cellPanels[i][j].removePiece();
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
-                        } else {
-                            cellPanels[i][j].setPressed(false);
                         }
                         return;
                     }
@@ -107,6 +107,11 @@ public class BoardPanel extends JPanel {
             }
         }
         cellPanel.setPressed(true);
+    }
+
+    private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
+        return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player)) <
+                new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player));
     }
 
     private void placePieces() {

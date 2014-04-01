@@ -2,7 +2,6 @@ package radikalchess.model.checkers;
 
 import radikalchess.model.Board;
 import radikalchess.model.Move;
-import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.pieces.*;
 
@@ -26,8 +25,8 @@ public class MoveChecker {
         return false;
     }
 
-    public boolean isAValidKillerMove(Move move, Piece piece, Board board, Player player) {
-        if (arePiecesOfSamePlayer(player, board, move.getOrigin(), move.getDestination())) return false;
+    public boolean isAValidKillerMove(Move move, Piece piece, Board board) {
+        if (arePiecesOfSamePlayer(board, move.getOrigin(), move.getDestination())) return false;
         if (piece instanceof Pawn) return isAValidKillerPawnMove(move);
         if (piece instanceof Bishop) return isAValidKillerBishopMove(move, board);
         if (piece instanceof Rook) return isAValidKillerRookMove(move, board);
@@ -217,7 +216,7 @@ public class MoveChecker {
         return false;
     }
 
-    private boolean arePiecesOfSamePlayer(Player player, Board board, Position origin, Position destination) {
+    private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {
         return board.getPieceAt(origin).getPlayer() == board.getPieceAt(destination).getPlayer();
     }
 }

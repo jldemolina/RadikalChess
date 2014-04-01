@@ -1,5 +1,6 @@
 package radikalchess.model;
 
+import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
 
 public class Board {
@@ -34,6 +35,18 @@ public class Board {
     public void setPieceAt(Position position, Piece piece) {
         if (piece != null) piece.setPosition(position);
         cells[position.getRow()][position.getCol()].setPiece(piece);
+    }
+
+    public Position searchKingPosition(Player player) {
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                if (cells[i][j].getPiece() != null) {
+                    if (cells[i][j].getPiece() instanceof King && (cells[i][j].getPiece().getPlayer().equals(player)))
+                        return cells[i][j].getPiece().getPosition();
+                }
+            }
+        }
+        return null;
     }
 
 }
