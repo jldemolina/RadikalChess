@@ -1,6 +1,10 @@
-package radikalchess.model;
+package radikalchess.model.checkers;
 
-import radikalchess.model.Pieces.*;
+import radikalchess.model.Board;
+import radikalchess.model.Move;
+import radikalchess.model.Player;
+import radikalchess.model.Position;
+import radikalchess.model.pieces.*;
 
 public class MoveChecker {
     public static MoveChecker INSTANCE;
@@ -22,22 +26,18 @@ public class MoveChecker {
         return false;
     }
 
-    public boolean isAValidKillerMove(Move move, Piece piece, Board board) {
+    public boolean isAValidKillerMove(Move move, Piece piece, Board board, Player player) {
+        if (arePiecesOfSamePlayer(player, board, move.getOrigin(), move.getDestination())) return false;
         if (piece instanceof Pawn) return isAValidKillerPawnMove(move);
         if (piece instanceof Bishop) return isAValidKillerBishopMove(move, board);
         if (piece instanceof Rook) return isAValidKillerRookMove(move, board);
         if (piece instanceof Queen) return isAValidKillerQueenMove(move, board);
-        if (piece instanceof King) return false;
+        if (piece instanceof King) return isAValidKingMove(move);
         return false;
     }
 
-    private boolean isAValidKillerPawnMove(Move move) {
-        return (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1);
-    }
-
     private boolean isAValidPawnMove(Move move) {
-        return ((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 0 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1) ||
-                (Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 0 && Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1));
+        return ((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 0 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1));
     }
 
     private boolean isAValidBishopMove(Move move, Board board) {
@@ -128,6 +128,10 @@ public class MoveChecker {
         return false;
     }
 
+    private boolean isAValidKillerPawnMove(Move move) {
+        return (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1);
+    }
+
     private boolean isAValidKillerQueenMove(Move move, Board board) {
         return (isAValidCompleteKillerHorizontalMove(move, board) || isAValidCompleteKillerVerticalMove(move, board) || isAValidCompleteKillerDiagonalMove(move, board));
     }
@@ -211,5 +215,9 @@ public class MoveChecker {
             return true;
         }
         return false;
+    }
+
+    private boolean arePiecesOfSamePlayer(Player player, Board board, Position origin, Position destination) {
+        return board.getPieceAt(origin).getPlayer() == board.getPieceAt(destination).getPlayer();
     }
 }

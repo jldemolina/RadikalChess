@@ -1,6 +1,7 @@
 package radikalchess.view.swing;
 
 import radikalchess.model.Board;
+import radikalchess.model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +12,13 @@ public class ApplicationFrame extends JFrame {
 
     private BoardPanel boardPanel;
     private Board board;
+    private Player playerA;
+    private Player playerB;
 
-    public ApplicationFrame(Board board) {
+    public ApplicationFrame(Player playerA, Player playerB, Board board) {
         this.board = board;
+        this.playerA = playerA;
+        this.playerB = playerB;
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -67,7 +72,7 @@ public class ApplicationFrame extends JFrame {
     }
 
     private JPanel createBoardPanel() {
-        boardPanel = new BoardPanel(board);
+        boardPanel = new BoardPanel(board, playerA, playerB);
         boardPanel.setSize(400, 600);
         return boardPanel;
     }

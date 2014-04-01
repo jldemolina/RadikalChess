@@ -2,7 +2,8 @@ package radikalchess.view.swing;
 
 import radikalchess.model.*;
 import radikalchess.model.Image;
-import radikalchess.model.Pieces.*;
+import radikalchess.model.checkers.MoveChecker;
+import radikalchess.model.pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +13,15 @@ import java.awt.event.ActionListener;
 public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
-    private Board board;
+    private final Board board;
+    private final Player playerA;
+    private final Player playerB;
 
-    public BoardPanel(Board board) {
+
+    public BoardPanel(Board board, Player playerA, Player playerB) {
         this.board = board;
+        this.playerA = playerA;
+        this.playerB = playerB;
         cellPanels = new CellPanel[board.getNumberOfRows()][board.getNumberOfCols()];
         this.setLayout(new GridLayout(board.getNumberOfRows(), board.getNumberOfCols()));
         this.setVisible(true);
@@ -87,7 +93,7 @@ public class BoardPanel extends JPanel {
                     if (cellPanels[i][j].isPressed()) {
                         if (MoveChecker.getInstance().isAValidKillerMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), board)) {
+                                cellPanels[i][j].getPiece(), board, cellPanels[i][j].getPiece().getPlayer())) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
                             cellPanels[i][j].removePiece();
                             cellPanels[i][j].setPressed(false);
@@ -104,25 +110,25 @@ public class BoardPanel extends JPanel {
     }
 
     private void placePieces() {
-        cellPanels[0][0].addPiece(new King(0, new Image(new Bitmap("images/pieces/blueking.png"))));
-        cellPanels[0][1].addPiece(new Queen(0, new Image(new Bitmap("images/pieces/bluequeen.png"))));
-        cellPanels[0][2].addPiece(new Bishop(0, new Image(new Bitmap("images/pieces/bluebishop.png"))));
-        cellPanels[0][3].addPiece(new Rook(0, new Image(new Bitmap("images/pieces/bluerook.png"))));
+        cellPanels[0][0].addPiece(new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));
+        cellPanels[0][1].addPiece(new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))));
+        cellPanels[0][2].addPiece(new Bishop(playerA, new Image(new Bitmap("images/pieces/bluebishop.png"))));
+        cellPanels[0][3].addPiece(new Rook(playerA, new Image(new Bitmap("images/pieces/bluerook.png"))));
 
-        cellPanels[1][0].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][1].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][2].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][3].addPiece(new Pawn(0, new Image(new Bitmap("images/pieces/bluepawn.png"))));
+        cellPanels[1][0].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
+        cellPanels[1][1].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
+        cellPanels[1][2].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
+        cellPanels[1][3].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
 
-        cellPanels[4][0].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][1].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][2].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][3].addPiece(new Pawn(1, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][0].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][1].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][2].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][3].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
 
-        cellPanels[5][0].addPiece(new Rook(1, new Image(new Bitmap("images/pieces/lilacrook.png"))));
-        cellPanels[5][1].addPiece(new Bishop(1, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
-        cellPanels[5][2].addPiece(new Queen(1, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
-        cellPanels[5][3].addPiece(new King(1, new Image(new Bitmap("images/pieces/lilacking.png"))));
+        cellPanels[5][0].addPiece(new Rook(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
+        cellPanels[5][1].addPiece(new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
+        cellPanels[5][2].addPiece(new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
+        cellPanels[5][3].addPiece(new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
 }

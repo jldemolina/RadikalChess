@@ -1,6 +1,6 @@
 package radikalchess.model;
 
-import radikalchess.model.Pieces.Piece;
+import radikalchess.model.pieces.Piece;
 
 public class Board {
 
