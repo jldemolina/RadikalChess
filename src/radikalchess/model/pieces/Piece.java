@@ -1,26 +1,22 @@
-package radikalchess.model.Pieces;
+package radikalchess.model.pieces;
 
 import radikalchess.model.Image;
+import radikalchess.model.Player;
 import radikalchess.model.Position;
 
 public abstract class Piece implements Cloneable {
 
-    protected int color;
+    protected Player player;
     protected Position position;
     protected Image image;
 
-    public Piece(int color, Image image) {
-        this.color = color;
+    public Piece(Player player, Image image) {
+        this.player = player;
         this.image = image;
     }
 
-    public Piece(int color, Image image, Position position) {
-        this(color, image);
-        this.position = position;
-    }
-
-    public int getColor() {
-        return color;
+    public Player getPlayer() {
+        return player;
     }
 
     public Position getPosition() {
@@ -34,10 +30,5 @@ public abstract class Piece implements Cloneable {
     public void setPosition(Position position) {
         this.position = position;
     }
-
-    public abstract int getStack();
-
-    @Override
-    public abstract Piece clone();
 
 }

@@ -3,6 +3,7 @@ package radikalchess.view.swing;
 import radikalchess.model.*;
 import radikalchess.model.Image;
 import radikalchess.model.checkers.MoveChecker;
+import radikalchess.model.checkers.PieceAttackRangeChecker;
 import radikalchess.model.pieces.*;
 
 import javax.swing.*;
@@ -106,7 +107,15 @@ public class BoardPanel extends JPanel {
                 }
             }
         }
-        cellPanel.setPressed(true);
+        if (cellPanel.isPressed()) {
+            cellPanel.setPressed(false);
+        } else {
+            cellPanel.setPressed(true);
+            System.out.println("\n>> RADIKALCHESS INFORMATION: NEW PIECE SELECTED <<");
+            showKillablePiecesFor(cellPanel.getPiece());
+            showThreats(cellPanel.getPiece());
+            showAttackRange(cellPanel.getPiece());
+        }
     }
 
     private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
@@ -120,20 +129,47 @@ public class BoardPanel extends JPanel {
         cellPanels[0][2].addPiece(new Bishop(playerA, new Image(new Bitmap("images/pieces/bluebishop.png"))));
         cellPanels[0][3].addPiece(new Rook(playerA, new Image(new Bitmap("images/pieces/bluerook.png"))));
 
-        cellPanels[1][0].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][1].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][2].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
-        cellPanels[1][3].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png"))));
+        cellPanels[1][0].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][1].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][2].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][3].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
 
-        cellPanels[4][0].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][1].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][2].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
-        cellPanels[4][3].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png"))));
+        cellPanels[4][0].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][1].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][2].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][3].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
 
         cellPanels[5][0].addPiece(new Rook(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
         cellPanels[5][1].addPiece(new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
         cellPanels[5][2].addPiece(new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
         cellPanels[5][3].addPiece(new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
+
+    private void showKillablePiecesFor(Piece piece) {
+        Piece[] killablePieces = PieceAttackRangeChecker.getInstance().getKillablePiecesFor(piece, board);
+        if (killablePieces.length == 0) {
+            System.out.println("* ATTACK STATUS: NOT POSSIBLE ATTACKS");
+            return;
+        }
+        System.out.println("* ATTACK STATUS: THREATENING TO...");
+        for (Piece killablePiece : killablePieces) {
+            System.out.println("\t > Piece at position " + killablePiece.getPosition());
+        }
+    }
+
+    private void showThreats(Piece piece) {
+        if (PieceAttackRangeChecker.getInstance().isKillable(piece, board))
+            System.out.println("* DEFENSE STATUS: THREATENED");
+        else System.out.println("* DEFENSE STATUS: NOT THREATENED");
+    }
+
+
+    private void showAttackRange(Piece piece) {
+        System.out.println("* ATTACK RANGE:");
+        for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, board)) {
+            System.out.println("\t > Position: " + position);
+        }
+    }
+
 
 }

@@ -21,7 +21,7 @@ public class MoveChecker {
         if (piece instanceof Bishop) return isAValidBishopMove(move, board);
         if (piece instanceof Rook) return isAValidRookMove(move, board);
         if (piece instanceof Queen) return isAValidQueenMove(move, board);
-        if (piece instanceof King) return isAValidKingMove(move);
+        if (piece instanceof King) return isAValidKingMove((King) piece, move, board);
         return false;
     }
 
@@ -31,7 +31,7 @@ public class MoveChecker {
         if (piece instanceof Bishop) return isAValidKillerBishopMove(move, board);
         if (piece instanceof Rook) return isAValidKillerRookMove(move, board);
         if (piece instanceof Queen) return isAValidKillerQueenMove(move, board);
-        if (piece instanceof King) return isAValidKingMove(move);
+        if (piece instanceof King) return isAValidKingMove((King) piece, move, board);
         return false;
     }
 
@@ -51,8 +51,11 @@ public class MoveChecker {
         return (isAValidCompleteHorizontalMove(move, board) || isAValidCompleteVerticalMove(move, board) || isAValidCompleteDiagonalMove(move, board));
     }
 
-    private boolean isAValidKingMove(Move move) {
-        return (isAValidPawnMove(move) || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1));
+    private boolean isAValidKingMove(King king, Move move, Board board) {
+        if (isAValidPawnMove(move) || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1)) {
+            return !PieceAttackRangeChecker.getInstance().isKillable(king, board);
+        }
+        return false;
     }
 
     private boolean isAValidCompleteHorizontalMove(Move move, Board board) {
