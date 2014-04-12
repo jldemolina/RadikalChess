@@ -61,10 +61,35 @@ public class BoardPanel extends JPanel {
                     movePressedPieceTo(cellPanel);
                 } else {
                     killPiece(cellPanel);
+                    checkCellPanel(cellPanel);
                 }
             }
+
+
         });
     }
+
+    private void checkCellPanel(CellPanel cellPanel) {
+        if (cellPanel.isPressed()) {
+            cellPanel.setPressed(false);
+        } else {
+            unCheckAllCellPanels();
+            cellPanel.setPressed(true);
+            System.out.println("\n>> RADIKALCHESS INFORMATION: NEW PIECE SELECTED <<");
+            showKillablePiecesFor(cellPanel.getPiece());
+            showThreats(cellPanel.getPiece());
+            showAttackRange(cellPanel.getPiece());
+        }
+    }
+
+    private void unCheckAllCellPanels() {
+        for (int i = 0; i < board.getNumberOfRows(); i++) {
+            for (int j = 0; j < board.getNumberOfCols(); j++) {
+                cellPanels[i][j].setPressed(false);
+            }
+        }
+    }
+
 
     private void movePressedPieceTo(CellPanel cellPanel) {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
@@ -106,15 +131,6 @@ public class BoardPanel extends JPanel {
                     }
                 }
             }
-        }
-        if (cellPanel.isPressed()) {
-            cellPanel.setPressed(false);
-        } else {
-            cellPanel.setPressed(true);
-            System.out.println("\n>> RADIKALCHESS INFORMATION: NEW PIECE SELECTED <<");
-            showKillablePiecesFor(cellPanel.getPiece());
-            showThreats(cellPanel.getPiece());
-            showAttackRange(cellPanel.getPiece());
         }
     }
 
