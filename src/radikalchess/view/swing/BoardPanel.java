@@ -28,6 +28,7 @@ public class BoardPanel extends JPanel {
         initializeBoard();
     }
 
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -57,6 +58,7 @@ public class BoardPanel extends JPanel {
         cellPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                hideAttackRange();
                 if (!cellPanel.hasAnyPiece()) {
                     movePressedPieceTo(cellPanel);
                 } else {
@@ -64,8 +66,6 @@ public class BoardPanel extends JPanel {
                     checkCellPanel(cellPanel);
                 }
             }
-
-
         });
     }
 
@@ -183,7 +183,20 @@ public class BoardPanel extends JPanel {
     private void showAttackRange(Piece piece) {
         System.out.println("* ATTACK RANGE:");
         for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, board)) {
+            cellPanels[position.getRow()][position.getCol()].setBackground(Color.ORANGE);
             System.out.println("\t > Position: " + position);
+        }
+    }
+
+    private void hideAttackRange() {
+        for (int i = 0; i < board.getNumberOfRows(); i++) {
+            for (int j = 0; j < board.getNumberOfCols(); j++) {
+                if ((j + i) % 2 == 0) {
+                    cellPanels[i][j].setBackground(Color.BLACK);
+                } else {
+                    cellPanels[i][j].setBackground(Color.WHITE);
+                }
+            }
         }
     }
 

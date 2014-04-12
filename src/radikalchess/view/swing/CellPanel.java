@@ -13,17 +13,17 @@ import java.io.IOException;
 
 public class CellPanel extends JPanel {
     private Cell cell;
-    private Color color;
+    private Color background;
     private JButton pieceButton;
     private Piece piece;
     private boolean pressed;
 
-    public CellPanel(Cell cell, Color color) {
+    public CellPanel(Cell cell, Color background) {
         this.cell = cell;
         this.pieceButton = new JButton();
-        this.color = color;
+        this.background = background;
         this.pressed = false;
-        this.setBackground(color);
+        this.setBackground(background);
         this.setVisible(true);
         preparePieceButton();
     }
@@ -70,11 +70,20 @@ public class CellPanel extends JPanel {
     }
 
     public void preparePieceButton() {
-        pieceButton.setBackground(color);
+        pieceButton.setBackground(background);
         this.add(pieceButton);
     }
 
     public void addActionListener(ActionListener l) {
         pieceButton.addActionListener(l);
+    }
+
+    public Color getBackground() {
+        return background;
+    }
+
+    public void setBackground(Color background) {
+        this.background = background;
+        repaint();
     }
 }
