@@ -53,7 +53,7 @@ public class MoveChecker {
 
     private boolean isAValidKingMove(King king, Move move, Board board) {
         if (isAValidPawnMove(move) || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1)) {
-            return !PieceAttackRangeChecker.getInstance().isKillable(king, board);
+            return !PieceAttackRangeChecker.getInstance().isKillable(king, move.getDestination(), board);
         }
         return false;
     }

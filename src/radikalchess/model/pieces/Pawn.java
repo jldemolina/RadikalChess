@@ -15,4 +15,11 @@ public class Pawn extends Piece {
     public AllowedPawnMove getAllowedPawnMove() {
         return allowedPawnMove;
     }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Piece piece = new Pawn(player, image, allowedPawnMove);
+        piece.setPosition(position);
+        return piece;
+    }
 }

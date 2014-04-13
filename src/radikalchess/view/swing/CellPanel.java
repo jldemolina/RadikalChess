@@ -31,8 +31,8 @@ public class CellPanel extends JPanel {
     public void addPiece(Piece piece) {
         try {
             cell.setPiece(piece);
-            this.piece = piece;
             piece.setPosition(cell.getPosition());
+            this.piece = piece;
             pieceButton.setIcon(new ImageIcon(ImageIO.read(new ByteArrayInputStream(piece.getImage().getBitmap().getByteArray()))));
         } catch (IOException ex) {
         }
@@ -86,4 +86,6 @@ public class CellPanel extends JPanel {
         this.background = background;
         repaint();
     }
+
+
 }

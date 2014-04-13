@@ -18,12 +18,13 @@ public class PieceAttackRangeChecker {
     }
 
     public Piece[] getKillablePiecesFor(Piece piece, Board board) {
-        if (piece instanceof Pawn) return getKillablePiecesForPawn((Pawn) piece, board);
-        if (piece instanceof Bishop) return getKillablePiecesForBishop(piece, board);
-        if (piece instanceof Rook) return getKillablePiecesForRook(piece, board);
-        if (piece instanceof Queen) return getKillablePiecesForQueen(piece, board);
         if (piece instanceof King) return getKillablePiecesForKing(piece, board);
-        return new Piece[0];
+        else {
+            ArrayList<Piece> pieces = new ArrayList<Piece>();
+            for (Position position : getAttackRangeFor(piece, board))
+                if (board.getPieceAt(position) != null) pieces.add(board.getPieceAt(position));
+            return pieces.toArray(new Piece[0]);
+        }
     }
 
     public Position[] getAttackRangeFor(Piece piece, Board board) {
@@ -31,7 +32,7 @@ public class PieceAttackRangeChecker {
         if (piece instanceof Bishop) return getAttackRangeForBishop(piece, board);
         if (piece instanceof Rook) return getAttackRangeForRook(piece, board);
         if (piece instanceof Queen) return getAttackRangeForQueen(piece, board);
-        if (piece instanceof King) return getAttackRangeForKing(piece, board);
+        if (piece instanceof King) return discardKillablePositions(piece, getAttackRangeForKing(piece, board), board);
         return new Position[0];
     }
 
@@ -46,122 +47,26 @@ public class PieceAttackRangeChecker {
         return false;
     }
 
-    private Piece[] getKillablePiecesForPawn(Pawn pawn, Board board) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
-        if (pawn.getAllowedPawnMove().equals(AllowedPawnMove.UP)) {
-            if (pawn.getPosition().getRow() - 1 >= 0 && pawn.getPosition().getCol() + 1 < board.getNumberOfCols()) {
-                if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() + 1].getPiece() != null) {
-                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() + 1)))
-                        pieces.add(board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() + 1].getPiece());
-                }
-            }
-            if (pawn.getPosition().getRow() - 1 >= 0 && pawn.getPosition().getCol() - 1 >= 0) {
-                if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() - 1].getPiece() != null) {
-                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() - 1)))
-                        pieces.add(board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() - 1].getPiece());
-                }
-            }
-        } else {
-            if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows() && pawn.getPosition().getCol() + 1 < board.getNumberOfCols()) {
-                if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() + 1].getPiece() != null) {
-                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() + 1)))
-                        pieces.add(board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() + 1].getPiece());
-                }
-            }
-            if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows() && pawn.getPosition().getCol() - 1 >= 0) {
-                if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() - 1].getPiece() != null) {
-                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1)))
-                        pieces.add(board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() - 1].getPiece());
-                }
-            }
-        }
-        return pieces.toArray(new Piece[0]);
-    }
+    public boolean isKillable(Piece piece, Position destination, Board board) {
+        boolean killable = false;
 
-    private Piece[] getKillablePiecesForBishop(Piece piece, Board board) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() + i >= board.getNumberOfRows() || piece.getPosition().getCol() + i >= board.getNumberOfCols())
-                break;
-            if (board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol() + i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + i, piece.getPosition().getCol() + i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol() + i].getPiece());
-                break;
-            }
+        Piece clone = null;
+        try {
+            clone = (Piece) piece.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() + i >= board.getNumberOfRows() || piece.getPosition().getCol() - i < 0)
-                break;
-            if (board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol() - i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + i, piece.getPosition().getCol() - i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol() - i].getPiece());
-                break;
-            }
-        }
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() - i < 0 || piece.getPosition().getCol() + i >= board.getNumberOfCols())
-                break;
-            if (board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol() + i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - i, piece.getPosition().getCol() + i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol() + i].getPiece());
-                break;
-            }
-        }
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() - i < 0 || piece.getPosition().getCol() - i < 0) break;
-            if (board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol() - i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - i, piece.getPosition().getCol() - i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol() - i].getPiece());
-                break;
-            }
-        }
-        return pieces.toArray(new Piece[0]);
-    }
 
-    private Piece[] getKillablePiecesForRook(Piece piece, Board board) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() + i >= board.getNumberOfRows()) break;
-            if (board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol()].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + i, piece.getPosition().getCol())))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() + i][piece.getPosition().getCol()].getPiece());
-                break;
-            }
-        }
-        for (int i = 1; i < board.getNumberOfRows(); i++) {
-            if (piece.getPosition().getRow() - i < 0) break;
-            if (board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol()].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - i, piece.getPosition().getCol())))
-                    pieces.add(board.getCells()[piece.getPosition().getRow() - i][piece.getPosition().getCol()].getPiece());
-                break;
-            }
-        }
-        for (int i = 1; i < board.getNumberOfCols(); i++) {
-            if (piece.getPosition().getCol() + i >= board.getNumberOfCols()) break;
-            if (board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() + i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() + i].getPiece());
-                break;
-            }
-        }
-        for (int i = 1; i < board.getNumberOfCols(); i++) {
-            if (piece.getPosition().getCol() - i < 0) break;
-            if (board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() - i].getPiece() != null) {
-                if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - i)))
-                    pieces.add(board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() - i].getPiece());
-                break;
-            }
-        }
-        return pieces.toArray(new Piece[0]);
-    }
+        board.setPieceAt(piece.getPosition(), null);
 
-    private Piece[] getKillablePiecesForQueen(Piece piece, Board board) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
-        for (Piece killablePiece : getKillablePiecesForRook(piece, board))
-            pieces.add(killablePiece);
-        for (Piece killablePiece : getKillablePiecesForBishop(piece, board))
-            pieces.add(killablePiece);
-        return pieces.toArray(new Piece[0]);
+        Piece killablePiece = board.getPieceAt(destination);
+        piece.setPosition(destination);
+        board.setPieceAt(destination, piece);
+        if (isKillable(piece, board)) killable = true;
+        board.setPieceAt(destination, killablePiece);
+        board.setPieceAt(clone.getPosition(), clone);
+
+        return killable;
     }
 
     private Piece[] getKillablePiecesForKing(Piece piece, Board board) {
@@ -355,69 +260,62 @@ public class PieceAttackRangeChecker {
         ArrayList<Position> positions = new ArrayList<Position>();
         if (piece.getPosition().getRow() - 1 >= 0 && piece.getPosition().getCol() + 1 < board.getNumberOfCols()) {
             if (board.getCells()[piece.getPosition().getRow() - 1][piece.getPosition().getCol() + 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1));
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1)))
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1));
         }
         if (piece.getPosition().getRow() - 1 >= 0 && piece.getPosition().getCol() - 1 >= 0) {
             if (board.getCells()[piece.getPosition().getRow() - 1][piece.getPosition().getCol() - 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1));
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1)))
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() - 1));
         }
         if (piece.getPosition().getRow() + 1 < board.getNumberOfRows() && piece.getPosition().getCol() + 1 < board.getNumberOfCols()) {
             if (board.getCells()[piece.getPosition().getRow() + 1][piece.getPosition().getCol() + 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1));
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1)))
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1));
         }
         if (piece.getPosition().getRow() + 1 < board.getNumberOfRows() && piece.getPosition().getCol() - 1 >= 0) {
             if (board.getCells()[piece.getPosition().getRow() + 1][piece.getPosition().getCol() - 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1));
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1)))
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() - 1));
         }
         if (piece.getPosition().getRow() + 1 < board.getNumberOfRows()) {
             if (board.getCells()[piece.getPosition().getRow() + 1][piece.getPosition().getCol()].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol()));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol())))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol()));
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol()));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol())))
+                positions.add(new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol()));
         }
         if (piece.getPosition().getRow() - 1 >= 0) {
             if (board.getCells()[piece.getPosition().getRow() - 1][piece.getPosition().getCol()].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol()));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol())))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol()));
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol()));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol())))
+                positions.add(new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol()));
         }
         if (piece.getPosition().getCol() + 1 < board.getNumberOfCols()) {
             if (board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() + 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1));
+                positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1)))
+                positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() + 1));
         }
         if (piece.getPosition().getCol() - 1 >= 0) {
             if (board.getCells()[piece.getPosition().getRow()][piece.getPosition().getCol() - 1].getPiece() == null)
-                if (!isKillable(piece, board))
-                    positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1));
-                else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1)))
-                    if (!isKillable(piece, board))
-                        positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1));
+                positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1));
+            else if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1)))
+                positions.add(new Position(piece.getPosition().getRow(), piece.getPosition().getCol() - 1));
         }
         return positions.toArray(new Position[0]);
+    }
+
+    private Position[] discardKillablePositions(Piece piece, Position[] positions, Board board) {
+        ArrayList<Position> unKillablePositions = new ArrayList<Position>();
+        for (Position position : positions) {
+            if (!isKillable(piece, position, board))
+                unKillablePositions.add(board.getCells()[position.getRow()][position.getCol()].getPosition());
+        }
+        return unKillablePositions.toArray(new Position[0]);
     }
 
     private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {

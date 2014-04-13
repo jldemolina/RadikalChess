@@ -31,4 +31,16 @@ public abstract class Piece implements Cloneable {
         this.position = position;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Piece) {
+            Piece piece = (Piece) object;
+            if (piece.image.getBitmap().getByteArray() == image.getBitmap().getByteArray()
+                    && piece.position.equals(position) && piece.player.equals(player)) return true;
+        }
+        return false;
+    }
+
+    @Override
+    public abstract Object clone() throws CloneNotSupportedException;
 }
