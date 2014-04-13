@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+/**
+ * This class represents a simple cell panel of the game.
+ *
+ * @author Jose Luis Molina
+ */
 public class CellPanel extends JPanel {
     private Cell cell;
     private Color background;

@@ -3,6 +3,13 @@ package radikalchess.model;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
 
+/**
+ * That represents the game board. The board is formed by cells, and these contain
+ * the various pieces that make up the game
+ *
+ * @author Jose Luis Molina
+ * @see radikalchess.model.Cell
+ */
 public class Board {
 
     private Cell cells[][];

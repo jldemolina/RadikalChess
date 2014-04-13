@@ -4,6 +4,12 @@ import radikalchess.model.Image;
 import radikalchess.model.Player;
 import radikalchess.model.Position;
 
+/**
+ * This class represents a game piece. It is an abstract class that inherits all the pieces that can be placed on the board.
+ * A piece have an player, an image, and a position.
+ *
+ * @author Jose Luis Molina
+ */
 public abstract class Piece implements Cloneable {
 
     protected Player player;

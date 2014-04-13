@@ -1,5 +1,11 @@
 package radikalchess.model;
 
+/**
+ * A position indicates a space on the game board.
+ * A board is a numbered space and the enumeration corresponds to the relative positions.
+ *
+ * @author Jose Luis Molina
+ */
 public class Position implements Cloneable {
     private int col;
     private int row;

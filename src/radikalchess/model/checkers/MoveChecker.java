@@ -5,6 +5,12 @@ import radikalchess.model.Move;
 import radikalchess.model.Position;
 import radikalchess.model.pieces.*;
 
+/**
+ * TThis is a special kind of movement verification (respects the Singleton pattern). Lets you know if a piece
+ * can be moved to another position on the board, knowing the rules of the game.
+ *
+ * @author Jose Luis Molina
+ */
 public class MoveChecker {
     public static MoveChecker INSTANCE;
 

@@ -4,6 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * An object that contains a vector of bits. Compose an image
+ *
+ * @author Jose Luis Molina
+ * @see radikalchess.model.Image
+ */
 public class Bitmap {
 
     private final String file;

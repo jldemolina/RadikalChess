@@ -6,6 +6,12 @@ import radikalchess.model.pieces.*;
 
 import java.util.ArrayList;
 
+/**
+ * This is a special class of checking (respects the Singleton pattern) giving the attack range of a piece
+ * in a certain position. Likewise, and from this, you can also get the destructible ("Killable") pieces
+ *
+ * @author Jose Luis Molina
+ */
 public class PieceAttackRangeChecker {
     public static PieceAttackRangeChecker INSTANCE;
 

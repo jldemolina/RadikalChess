@@ -1,5 +1,12 @@
 package radikalchess.model;
 
+/**
+ * This class represents a movement. A movement permits, within the board, to move a piece
+ * from one position to another.
+ *
+ * @author Jose Luis Molina
+ * @see Position
+ */
 public class Move {
 
     private final Position origin;

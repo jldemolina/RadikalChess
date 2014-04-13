@@ -4,6 +4,11 @@ import radikalchess.model.Board;
 import radikalchess.model.Player;
 import radikalchess.view.swing.ApplicationFrame;
 
+/**
+ * This class is responsible for the total control of the application.
+ *
+ * @author Jose Luis Molina
+ */
 public class SwingApplicationController {
 
     public void execute() {

@@ -11,6 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the board panel of the game. Contains a board, and represents it visually.
+ * Allows direct user interaction with the same
+ *
+ * @author Jose Luis Molina
+ * @see radikalchess.view.swing.CellPanel
+ */
 public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
@@ -87,7 +94,6 @@ public class BoardPanel extends JPanel {
             }
         }
     }
-
 
     private void movePressedPieceTo(CellPanel cellPanel) {
         for (int i = 0; i < board.getNumberOfRows(); i++) {

@@ -8,6 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class represents the main panel of the game. It is the support of the entire user interface based on Swing
+ *
+ * @author Jose Luis Molina
+ * @see radikalchess.view.swing.BoardPanel
+ */
 public class ApplicationFrame extends JFrame {
 
     private BoardPanel boardPanel;
