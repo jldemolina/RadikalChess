@@ -74,6 +74,19 @@ public class PieceAttackRangeChecker {
         return false;
     }
 
+    public boolean mayThrearenTheKing(Piece piece, Position destination, Board board) {
+        boolean killable = false;
+        Piece destinationPiece = board.getPieceAt(destination);
+        board.setPieceAt(destination, piece);
+
+        for (Piece Pieces : getKillablePiecesFor(piece, board))
+            if (piece instanceof King) killable = true;
+
+        board.setPieceAt(destination, destinationPiece);
+
+        return killable;
+    }
+
     private Piece[] getKillablePiecesForKing(Piece piece, Board board) {
         ArrayList<Piece> pieces = new ArrayList<Piece>();
         if (piece.getPosition().getRow() - 1 >= 0 && piece.getPosition().getCol() + 1 < board.getNumberOfCols()) {

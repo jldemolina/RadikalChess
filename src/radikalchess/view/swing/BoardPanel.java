@@ -105,13 +105,13 @@ public class BoardPanel extends JPanel {
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
                                 cellPanels[i][j].getPiece(), board)) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
-                                // if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)) {
-                                cellPanel.addPiece(cellPanels[i][j].getPiece());
-                                cellPanels[i][j].removePiece();
-                                cellPanels[i][j].setPressed(false);
-                                cellPanel.setPressed(false);
-                                board.getCells();
-                                // }
+                                if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)) {
+                                    cellPanel.addPiece(cellPanels[i][j].getPiece());
+                                    cellPanels[i][j].removePiece();
+                                    cellPanels[i][j].setPressed(false);
+                                    cellPanel.setPressed(false);
+                                    board.getCells();
+                                }
                             } else {
                                 cellPanel.addPiece(cellPanels[i][j].getPiece());
                                 cellPanels[i][j].removePiece();
@@ -191,13 +191,16 @@ public class BoardPanel extends JPanel {
         if (PieceAttackRangeChecker.getInstance().isKillable(piece, board))
             System.out.println("* DEFENSE STATUS: THREATENED");
         else System.out.println("* DEFENSE STATUS: NOT THREATENED");
+
     }
 
 
     private void showAttackRange(Piece piece) {
         System.out.println("* ATTACK RANGE:");
         for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, board)) {
-            System.out.println("\t > Position: " + position);
+            if (board.getPieceAt(position) instanceof King)
+                System.out.println("\t > Position: " + position + " > ADVERSARIAL KING");
+            else System.out.println("\t > Position: " + position);
         }
     }
 
