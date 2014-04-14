@@ -37,6 +37,10 @@ public abstract class Piece implements Cloneable {
         this.position = position;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object instanceof Piece) {

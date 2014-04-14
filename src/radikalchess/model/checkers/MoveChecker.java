@@ -23,7 +23,7 @@ public class MoveChecker {
     }
 
     public boolean isAValidMove(Move move, Piece piece, Board board) {
-        if (piece instanceof Pawn) return isAValidPawnMove(move);
+        if (piece instanceof Pawn) return isAValidPawnMove((Pawn) piece, move);
         if (piece instanceof Bishop) return isAValidBishopMove(move, board);
         if (piece instanceof Rook) return isAValidRookMove(move, board);
         if (piece instanceof Queen) return isAValidQueenMove(move, board);
@@ -41,8 +41,10 @@ public class MoveChecker {
         return false;
     }
 
-    private boolean isAValidPawnMove(Move move) {
-        return ((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 0 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1));
+    private boolean isAValidPawnMove(Pawn pawn, Move move) {
+        if (pawn.getAllowedPawnMove().equals(AllowedPawnMove.UP))
+            return (move.getOrigin().getCol() - move.getDestination().getCol() == 0 && move.getOrigin().getRow() - move.getDestination().getRow() == 1);
+        return (move.getOrigin().getCol() - move.getDestination().getCol() == 0 && move.getOrigin().getRow() - move.getDestination().getRow() == -1);
     }
 
     private boolean isAValidBishopMove(Move move, Board board) {
@@ -58,7 +60,9 @@ public class MoveChecker {
     }
 
     private boolean isAValidKingMove(King king, Move move, Board board) {
-        if (isAValidPawnMove(move) || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1)) {
+        if (((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 0 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1))
+                || ((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 0))
+                || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1)) {
             return !PieceAttackRangeChecker.getInstance().isKillable(king, move.getDestination(), board);
         }
         return false;

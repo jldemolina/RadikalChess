@@ -1,6 +1,7 @@
 package radikalchess.model.checkers;
 
 import radikalchess.model.Board;
+import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.pieces.*;
 
@@ -38,7 +39,7 @@ public class PieceAttackRangeChecker {
         if (piece instanceof Bishop) return getAttackRangeForBishop(piece, board);
         if (piece instanceof Rook) return getAttackRangeForRook(piece, board);
         if (piece instanceof Queen) return getAttackRangeForQueen(piece, board);
-        if (piece instanceof King) return discardKillablePositions(piece, getAttackRangeForKing(piece, board), board);
+        if (piece instanceof King) return getAttackRangeForKing(piece, board);
         return new Position[0];
     }
 
@@ -54,25 +55,23 @@ public class PieceAttackRangeChecker {
     }
 
     public boolean isKillable(Piece piece, Position destination, Board board) {
-        boolean killable = false;
-
-        Piece clone = null;
-        try {
-            clone = (Piece) piece.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        Player adversarial = null;
+        if (board.getPieceAt(destination) != null) {
+            adversarial = board.getPieceAt(destination).getPlayer();
+            board.getPieceAt(destination).setPlayer(piece.getPlayer());
         }
-
-        board.setPieceAt(piece.getPosition(), null);
-
-        Piece killablePiece = board.getPieceAt(destination);
-        piece.setPosition(destination);
-        board.setPieceAt(destination, piece);
-        if (isKillable(piece, board)) killable = true;
-        board.setPieceAt(destination, killablePiece);
-        board.setPieceAt(clone.getPosition(), clone);
-
-        return killable;
+        for (int i = 0; i < board.getNumberOfRows(); i++)
+            for (int j = 0; j < board.getNumberOfCols(); j++)
+                if (!(new Position(i, j)).equals(piece.getPosition()))
+                    if (board.getPieceAt(new Position(i, j)) != null)
+                        if (piece.getPlayer() != board.getPieceAt(new Position(i, j)).getPlayer())
+                            for (Position position : getAttackRangeFor(board.getPieceAt(new Position(i, j)), board))
+                                if (position.equals(destination)) {
+                                    if (board.getPieceAt(destination) != null)
+                                        board.getPieceAt(destination).setPlayer(adversarial);
+                                    return true;
+                                }
+        return false;
     }
 
     private Piece[] getKillablePiecesForKing(Piece piece, Board board) {
@@ -325,7 +324,7 @@ public class PieceAttackRangeChecker {
     }
 
     private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {
-        return board.getPieceAt(origin).getPlayer() == board.getPieceAt(destination).getPlayer();
+        return board.getPieceAt(origin).getPlayer().equals(board.getPieceAt(destination).getPlayer());
     }
 
 }
