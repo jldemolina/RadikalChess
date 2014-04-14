@@ -105,7 +105,8 @@ public class BoardPanel extends JPanel {
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
                                 cellPanels[i][j].getPiece(), board)) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
-                                if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)) {
+                                if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
+                                        || PieceAttackRangeChecker.getInstance().mayThrearenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), board)) {
                                     cellPanel.addPiece(cellPanels[i][j].getPiece());
                                     cellPanels[i][j].removePiece();
                                     cellPanels[i][j].setPressed(false);

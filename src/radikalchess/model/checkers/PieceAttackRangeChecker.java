@@ -79,8 +79,8 @@ public class PieceAttackRangeChecker {
         Piece destinationPiece = board.getPieceAt(destination);
         board.setPieceAt(destination, piece);
 
-        for (Piece Pieces : getKillablePiecesFor(piece, board))
-            if (piece instanceof King) killable = true;
+        for (Piece p : getKillablePiecesFor(piece, board))
+            if (p instanceof King) killable = true;
 
         board.setPieceAt(destination, destinationPiece);
 
@@ -337,7 +337,10 @@ public class PieceAttackRangeChecker {
     }
 
     private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {
-        return board.getPieceAt(origin).getPlayer().equals(board.getPieceAt(destination).getPlayer());
+        if (board.getPieceAt(origin) != null && board.getPieceAt(destination) != null) {
+            return board.getPieceAt(origin).getPlayer().equals(board.getPieceAt(destination).getPlayer());
+        }
+        return false;
     }
 
 }
