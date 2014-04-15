@@ -128,7 +128,6 @@ public class BoardPanel extends JPanel {
         }
     }
 
-
     private void killPiece(CellPanel cellPanel) {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
@@ -194,7 +193,6 @@ public class BoardPanel extends JPanel {
         else System.out.println("* DEFENSE STATUS: NOT THREATENED");
 
     }
-
 
     private void showAttackRange(Piece piece) {
         System.out.println("* ATTACK RANGE:");

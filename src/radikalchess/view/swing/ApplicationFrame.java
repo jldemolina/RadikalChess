@@ -5,8 +5,6 @@ import radikalchess.model.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * This class represents the main panel of the game. It is the support of the entire user interface based on Swing
@@ -41,30 +39,11 @@ public class ApplicationFrame extends JFrame {
         super.paint(g);
     }
 
-    private void reset() {
-        remove(boardPanel);
-        createBoardPanel();
-        repaint();
-        pack();
-    }
-
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
-        jPanel.add(createResetButton());
         return jPanel;
-    }
-
-    private JButton createResetButton() {
-        JButton resetButton = new JButton("Reset");
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-        return resetButton;
     }
 
     private JButton createPlayButton() {

@@ -186,7 +186,6 @@ public class MoveChecker {
         return false;
     }
 
-
     private boolean isAValidCompleteKillerDiagonalMove(Move move, Board board) {
         return (isAValidDownwardCompleteKillerDiagonalMove(move, board) || isAValidUpwardCompleteKillerDiagonalMove(move, board));
     }

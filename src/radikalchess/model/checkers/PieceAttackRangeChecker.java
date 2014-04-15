@@ -327,15 +327,6 @@ public class PieceAttackRangeChecker {
         return positions.toArray(new Position[0]);
     }
 
-    private Position[] discardKillablePositions(Piece piece, Position[] positions, Board board) {
-        ArrayList<Position> unKillablePositions = new ArrayList<Position>();
-        for (Position position : positions) {
-            if (!isKillable(piece, position, board))
-                unKillablePositions.add(board.getCells()[position.getRow()][position.getCol()].getPosition());
-        }
-        return unKillablePositions.toArray(new Position[0]);
-    }
-
     private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {
         if (board.getPieceAt(origin) != null && board.getPieceAt(destination) != null) {
             return board.getPieceAt(origin).getPlayer().equals(board.getPieceAt(destination).getPlayer());
