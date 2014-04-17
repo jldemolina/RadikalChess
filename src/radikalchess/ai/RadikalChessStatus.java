@@ -44,14 +44,12 @@ public class RadikalChessStatus {
         currentPlayer = (this.playerA == currentPlayer) ? playerB : playerA;
     }
 
-
     public boolean isTerminal() {
         King threadedKing = threadedKing();
         if (threadedKing != null) {
             Piece pieceThreading = getPieceThreadingTheKing(threadedKing);
             if (PieceAttackRangeChecker.getInstance().isKillable(pieceThreading, board)) return false;
-            if (checkMateCanBeInterrupted(threadedKing, pieceThreading)) return false;
-            return !canBeMoved(threadedKing);
+            return !checkMateCanBeInterrupted(threadedKing, pieceThreading) && !canBeMoved(threadedKing);
         }
         return false;
     }
@@ -78,7 +76,6 @@ public class RadikalChessStatus {
     }
 
     public Piece getPieceThreadingTheKing(King king) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (board.getCells()[i][j].getPiece() != null) {
@@ -96,7 +93,7 @@ public class RadikalChessStatus {
     }
 
     private boolean canBeMoved(King king) {
-        Move move = null;
+        Move move;
         if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow() + 1, king.getPosition().getCol() + 1)))) {
             if (MoveChecker.getInstance().isAValidKillerMove(move, king, board)) return true;
         }
@@ -130,7 +127,6 @@ public class RadikalChessStatus {
                     if (board.getCells()[i][j].getPiece() != null) {
                         for (Position killablePosition : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
                             if (killablePosition.equals(position)) {
-                                System.out.println("El jaque puede ser interrumpido");
                                 return true;
                             }
                         }
