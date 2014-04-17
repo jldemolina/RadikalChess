@@ -28,4 +28,15 @@ public class Pawn extends Piece {
         piece.setPosition(position);
         return piece;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Pawn) {
+            Pawn piece = (Pawn) object;
+            if (piece.image.getBitmap().getByteArray() == image.getBitmap().getByteArray()
+                    && piece.position.equals(position) && piece.player.equals(player)
+                    && piece.allowedPawnMove == allowedPawnMove) return true;
+        }
+        return false;
+    }
 }

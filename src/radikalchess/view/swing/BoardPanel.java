@@ -1,5 +1,6 @@
 package radikalchess.view.swing;
 
+import radikalchess.ai.RadikalChessStatus;
 import radikalchess.model.*;
 import radikalchess.model.Image;
 import radikalchess.model.checkers.MoveChecker;
@@ -21,16 +22,13 @@ import java.awt.event.ActionListener;
 public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
-    private final Board board;
-    private final Player playerA;
-    private final Player playerB;
+    private RadikalChessStatus radikalChessStatus;
 
-    public BoardPanel(Board board, Player playerA, Player playerB) {
-        this.board = board;
-        this.playerA = playerA;
-        this.playerB = playerB;
-        cellPanels = new CellPanel[board.getNumberOfRows()][board.getNumberOfCols()];
-        this.setLayout(new GridLayout(board.getNumberOfRows(), board.getNumberOfCols()));
+
+    public BoardPanel(RadikalChessStatus radikalChessStatus) {
+        this.radikalChessStatus = radikalChessStatus;
+        this.cellPanels = new CellPanel[radikalChessStatus.getBoard().getNumberOfRows()][radikalChessStatus.getBoard().getNumberOfCols()];
+        this.setLayout(new GridLayout(radikalChessStatus.getBoard().getNumberOfRows(), radikalChessStatus.getBoard().getNumberOfCols()));
         this.setVisible(true);
         initializeBoard();
     }
@@ -47,12 +45,12 @@ public class BoardPanel extends JPanel {
     }
 
     private void fillCellPanels() {
-        for (int i = 0; i < board.getNumberOfRows(); i++) {
-            for (int j = 0; j < board.getNumberOfCols(); j++) {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if ((j + i) % 2 == 0) {
-                    cellPanels[i][j] = new CellPanel(board.getCells()[i][j], Color.BLACK);
+                    cellPanels[i][j] = new CellPanel(radikalChessStatus.getBoard().getCells()[i][j], Color.BLACK);
                 } else {
-                    cellPanels[i][j] = new CellPanel(board.getCells()[i][j], Color.WHITE);
+                    cellPanels[i][j] = new CellPanel(radikalChessStatus.getBoard().getCells()[i][j], Color.WHITE);
                 }
                 addCellPanelActionListener(cellPanels[i][j]);
                 this.add(cellPanels[i][j]);
@@ -64,11 +62,15 @@ public class BoardPanel extends JPanel {
         cellPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!cellPanel.hasAnyPiece()) {
-                    movePressedPieceTo(cellPanel);
+                if (!radikalChessStatus.isTerminal()) {
+                    if (!cellPanel.hasAnyPiece()) {
+                        movePressedPieceTo(cellPanel);
+                    } else {
+                        killPiece(cellPanel);
+                        checkCellPanel(cellPanel);
+                    }
                 } else {
-                    killPiece(cellPanel);
-                    checkCellPanel(cellPanel);
+                    System.out.println("THE WINNER IS" + radikalChessStatus.getWinner().getName().toUpperCase());
                 }
             }
         });
@@ -84,41 +86,46 @@ public class BoardPanel extends JPanel {
             showKillablePiecesFor(cellPanel.getPiece());
             showThreats(cellPanel.getPiece());
             showAttackRange(cellPanel.getPiece());
+
+            System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
+
         }
     }
 
     private void unCheckAllCellPanels() {
-        for (int i = 0; i < board.getNumberOfRows(); i++) {
-            for (int j = 0; j < board.getNumberOfCols(); j++) {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 cellPanels[i][j].setPressed(false);
             }
         }
     }
 
     private void movePressedPieceTo(CellPanel cellPanel) {
-        for (int i = 0; i < board.getNumberOfRows(); i++) {
-            for (int j = 0; j < board.getNumberOfCols(); j++) {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
-                    if (cellPanels[i][j].isPressed()) {
-                        Player player = (this.playerA == cellPanels[i][j].getPiece().getPlayer()) ? playerB : playerA;
+                    if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
+                        Player player = (this.radikalChessStatus.getPlayerA() == cellPanels[i][j].getPiece().getPlayer()) ? radikalChessStatus.getPlayerB() : radikalChessStatus.getPlayerA();
                         if (MoveChecker.getInstance().isAValidMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), board)) {
+                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
                                 if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
-                                        || PieceAttackRangeChecker.getInstance().mayThrearenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), board)) {
+                                        || PieceAttackRangeChecker.getInstance().mayThrearenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), radikalChessStatus.getBoard())) {
                                     cellPanel.addPiece(cellPanels[i][j].getPiece());
                                     cellPanels[i][j].removePiece();
                                     cellPanels[i][j].setPressed(false);
                                     cellPanel.setPressed(false);
-                                    board.getCells();
+                                    radikalChessStatus.getBoard().getCells();
+                                    radikalChessStatus.alternatePlayer();
                                 }
                             } else {
                                 cellPanel.addPiece(cellPanels[i][j].getPiece());
                                 cellPanels[i][j].removePiece();
                                 cellPanels[i][j].setPressed(false);
                                 cellPanel.setPressed(false);
-                                board.getCells();
+                                radikalChessStatus.getBoard().getCells();
+                                radikalChessStatus.alternatePlayer();
                             }
                         }
                         break;
@@ -129,17 +136,18 @@ public class BoardPanel extends JPanel {
     }
 
     private void killPiece(CellPanel cellPanel) {
-        for (int i = 0; i < board.getNumberOfRows(); i++) {
-            for (int j = 0; j < board.getNumberOfCols(); j++) {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
-                    if (cellPanels[i][j].isPressed()) {
+                    if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
                         if (MoveChecker.getInstance().isAValidKillerMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), board)) {
+                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
                             cellPanels[i][j].removePiece();
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
+                            radikalChessStatus.alternatePlayer();
                         }
                         return;
                     }
@@ -149,34 +157,34 @@ public class BoardPanel extends JPanel {
     }
 
     private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
-        return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player)) <
-                new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player));
+        return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(radikalChessStatus.getBoard().searchKingPosition(player)) <
+                new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(radikalChessStatus.getBoard().searchKingPosition(player));
     }
 
     private void placePieces() {
-        cellPanels[0][0].addPiece(new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));
-        cellPanels[0][1].addPiece(new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))));
-        cellPanels[0][2].addPiece(new Bishop(playerA, new Image(new Bitmap("images/pieces/bluebishop.png"))));
-        cellPanels[0][3].addPiece(new Rook(playerA, new Image(new Bitmap("images/pieces/bluerook.png"))));
+        cellPanels[0][0].addPiece(new King(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/blueking.png"))));
+        cellPanels[0][1].addPiece(new Queen(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluequeen.png"))));
+        cellPanels[0][2].addPiece(new Bishop(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluebishop.png"))));
+        cellPanels[0][3].addPiece(new Rook(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluerook.png"))));
 
-        cellPanels[1][0].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
-        cellPanels[1][1].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
-        cellPanels[1][2].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
-        cellPanels[1][3].addPiece(new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][0].addPiece(new Pawn(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][1].addPiece(new Pawn(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][2].addPiece(new Pawn(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        cellPanels[1][3].addPiece(new Pawn(radikalChessStatus.getPlayerA(), new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
 
-        cellPanels[4][0].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
-        cellPanels[4][1].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
-        cellPanels[4][2].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
-        cellPanels[4][3].addPiece(new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][0].addPiece(new Pawn(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][1].addPiece(new Pawn(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][2].addPiece(new Pawn(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        cellPanels[4][3].addPiece(new Pawn(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
 
-        cellPanels[5][0].addPiece(new Rook(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
-        cellPanels[5][1].addPiece(new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
-        cellPanels[5][2].addPiece(new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
-        cellPanels[5][3].addPiece(new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
+        cellPanels[5][0].addPiece(new Rook(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacrook.png"))));
+        cellPanels[5][1].addPiece(new Bishop(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacbishop.png"))));
+        cellPanels[5][2].addPiece(new Queen(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacqueen.png"))));
+        cellPanels[5][3].addPiece(new King(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
     private void showKillablePiecesFor(Piece piece) {
-        Piece[] killablePieces = PieceAttackRangeChecker.getInstance().getKillablePiecesFor(piece, board);
+        Piece[] killablePieces = PieceAttackRangeChecker.getInstance().getKillablePiecesFor(piece, radikalChessStatus.getBoard());
         if (killablePieces.length == 0) {
             System.out.println("* ATTACK STATUS: NOT POSSIBLE ATTACKS");
             return;
@@ -188,7 +196,7 @@ public class BoardPanel extends JPanel {
     }
 
     private void showThreats(Piece piece) {
-        if (PieceAttackRangeChecker.getInstance().isKillable(piece, board))
+        if (PieceAttackRangeChecker.getInstance().isKillable(piece, radikalChessStatus.getBoard()))
             System.out.println("* DEFENSE STATUS: THREATENED");
         else System.out.println("* DEFENSE STATUS: NOT THREATENED");
 
@@ -196,8 +204,8 @@ public class BoardPanel extends JPanel {
 
     private void showAttackRange(Piece piece) {
         System.out.println("* ATTACK RANGE:");
-        for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, board)) {
-            if (board.getPieceAt(position) instanceof King)
+        for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, radikalChessStatus.getBoard())) {
+            if (radikalChessStatus.getBoard().getPieceAt(position) instanceof King)
                 System.out.println("\t > Position: " + position + " > ADVERSARIAL KING");
             else System.out.println("\t > Position: " + position);
         }

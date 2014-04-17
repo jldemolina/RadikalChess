@@ -229,6 +229,9 @@ public class MoveChecker {
     }
 
     private boolean arePiecesOfSamePlayer(Board board, Position origin, Position destination) {
-        return board.getPieceAt(origin).getPlayer() == board.getPieceAt(destination).getPlayer();
+        if (board.getPieceAt(origin) != null && board.getPieceAt(destination) != null) {
+            return board.getPieceAt(origin).getPlayer().equals(board.getPieceAt(destination).getPlayer());
+        }
+        return false;
     }
 }
