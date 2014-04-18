@@ -244,14 +244,10 @@ public class RadikalChessStatus {
                 || MoveChecker.getInstance().isAValidKillerMove(move, board.getPieceAt(move.getOrigin()), board)) {
             board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
             board.setPieceAt(move.getOrigin(), null);
+            alternatePlayer();
         }
     }
 
-    /**
-     * TODO
-     *
-     * @return
-     */
     @Override
     public Object clone() {
         return new RadikalChessStatus(board, playerA, playerB);
