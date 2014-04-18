@@ -46,6 +46,15 @@ public class BoardPanel extends JPanel {
         }
     }
 
+    public void reset() {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
+                cellPanels[i][j].removePiece();
+            }
+        }
+        placePieces();
+    }
+
     private void initializeBoard() {
         fillCellPanels();
         placePieces();

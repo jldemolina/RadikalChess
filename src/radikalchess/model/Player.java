@@ -8,9 +8,11 @@ package radikalchess.model;
  */
 public class Player {
     private String name;
+    private int points;
 
     public Player(String name) {
         this.name = name;
+        this.points = 0;
     }
 
     public String getName() {
@@ -19,6 +21,14 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public int getPoints() {
+        return points;
     }
 
     @Override

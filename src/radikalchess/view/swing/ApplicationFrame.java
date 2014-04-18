@@ -39,17 +39,39 @@ public class ApplicationFrame extends JFrame {
 
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
+        jPanel.add(createResetButton());
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
         return jPanel;
     }
 
+    private JButton createResetButton() {
+        JButton playButton = new JButton("Reset");
+
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boardPanel.reset();
+                if (radikalChessGame.getActualStatus().getCurrentPlayer().equals(radikalChessGame.getActualStatus().getPlayerB()))
+                    radikalChessGame.getActualStatus().alternatePlayer();
+                revalidate();
+            }
+        });
+        return playButton;
+    }
+
     private JButton createPlayButton() {
         JButton playButton = new JButton("Play");
+
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (!radikalChessGame.getActualStatus().isTerminal()) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
                     decideMovement();
                     boardPanel.update();
                 }
@@ -66,6 +88,7 @@ public class ApplicationFrame extends JFrame {
                 if (!radikalChessGame.getActualStatus().isTerminal()) {
                     decideMovement();
                     boardPanel.update();
+                    pack();
                 }
             }
         });
@@ -84,18 +107,12 @@ public class ApplicationFrame extends JFrame {
             move = (Move) radikalChessGame.getWhitePlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
             radikalChessGame.move(move);
-            System.out.println(move.toString()
-                    + "\n"
-                    + radikalChessGame.getWhitePlayerSearch().getMetrics()
-                    + "\n");
+            System.out.println(move.toString() + "\n" + radikalChessGame.getWhitePlayerSearch().getMetrics() + "\n");
         } else {
             move = (Move) radikalChessGame.getBlackPlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
             radikalChessGame.move(move);
-            System.out.println(move.toString()
-                    + "\n"
-                    + radikalChessGame.getBlackPlayerSearch().getMetrics()
-                    + "\n");
+            System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
     }
 

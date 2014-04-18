@@ -46,9 +46,7 @@ public class RadikalChessStatus {
     }
 
     /**
-     * TODO
-     *
-     * @return
+     * TODO fix movements
      */
     public Piece[] getPiecesForPermittedMoves() {
         ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -225,7 +223,7 @@ public class RadikalChessStatus {
     }
 
     /**
-     * TODO
+     * TODO fix movements
      */
     public List<Move> getPossibleMovements() {
         ArrayList<Move> moves = new ArrayList<Move>();
@@ -236,14 +234,17 @@ public class RadikalChessStatus {
         return moves;
     }
 
-    /**
-     * TODO
-     */
+
     public void move(Move move) {
-        if (MoveChecker.getInstance().isAValidMove(move, board.getPieceAt(move.getOrigin()), board)
-                || MoveChecker.getInstance().isAValidKillerMove(move, board.getPieceAt(move.getOrigin()), board)) {
+        if (MoveChecker.getInstance().isAValidMove(move, board.getPieceAt(move.getOrigin()), board)) {
             board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
             board.setPieceAt(move.getOrigin(), null);
+            alternatePlayer();
+        } else if (MoveChecker.getInstance().isAValidKillerMove(move, board.getPieceAt(move.getOrigin()), board)) {
+            currentPlayer.addPoints(board.getPieceAt(move.getDestination()).getPoints());
+            board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
+            board.setPieceAt(move.getOrigin(), null);
+            System.out.println("POINTS: " + currentPlayer.getName() + " " + currentPlayer.getPoints());
             alternatePlayer();
         }
     }
