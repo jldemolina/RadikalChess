@@ -24,7 +24,6 @@ public class BoardPanel extends JPanel {
     private CellPanel[][] cellPanels;
     private RadikalChessStatus radikalChessStatus;
 
-
     public BoardPanel(RadikalChessStatus radikalChessStatus) {
         this.radikalChessStatus = radikalChessStatus;
         this.cellPanels = new CellPanel[radikalChessStatus.getBoard().getNumberOfRows()][radikalChessStatus.getBoard().getNumberOfCols()];
@@ -86,6 +85,7 @@ public class BoardPanel extends JPanel {
             showKillablePiecesFor(cellPanel.getPiece());
             showThreats(cellPanel.getPiece());
             showAttackRange(cellPanel.getPiece());
+            showPermittedPieceToMove();
 
             System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
 
@@ -108,7 +108,8 @@ public class BoardPanel extends JPanel {
                         Player player = (this.radikalChessStatus.getPlayerA() == cellPanels[i][j].getPiece().getPlayer()) ? radikalChessStatus.getPlayerB() : radikalChessStatus.getPlayerA();
                         if (MoveChecker.getInstance().isAValidMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())) {
+                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())
+                                && isPermittedPieceToMove(cellPanels[i][j].getPiece())) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
                                 if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
                                         || PieceAttackRangeChecker.getInstance().mayThrearenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), radikalChessStatus.getBoard())) {
@@ -183,6 +184,13 @@ public class BoardPanel extends JPanel {
         cellPanels[5][3].addPiece(new King(radikalChessStatus.getPlayerB(), new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
+    private boolean isPermittedPieceToMove(Piece piece) {
+        for (Piece permittedPiece : radikalChessStatus.getPiecesForPermittedMoves()) {
+            if (permittedPiece.equals(piece)) return true;
+        }
+        return false;
+    }
+
     private void showKillablePiecesFor(Piece piece) {
         Piece[] killablePieces = PieceAttackRangeChecker.getInstance().getKillablePiecesFor(piece, radikalChessStatus.getBoard());
         if (killablePieces.length == 0) {
@@ -211,4 +219,10 @@ public class BoardPanel extends JPanel {
         }
     }
 
+    private void showPermittedPieceToMove() {
+        System.out.println("PERMITTED MOVEMENTS:");
+        for (Piece permittedPiece : radikalChessStatus.getPiecesForPermittedMoves()) {
+            System.out.println(permittedPiece);
+        }
+    }
 }

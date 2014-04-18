@@ -10,7 +10,7 @@ import radikalchess.model.Player;
  * @see radikalchess.model.pieces.AllowedPawnMove
  */
 public class Pawn extends Piece {
-
+    private static final String name = "Pawn";
     private final AllowedPawnMove allowedPawnMove;
 
     public Pawn(Player player, Image image, AllowedPawnMove allowedPawnMove) {
@@ -38,5 +38,10 @@ public class Pawn extends Piece {
                     && piece.allowedPawnMove == allowedPawnMove) return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return name + " [" + super.getPlayer().getName() + "]";
     }
 }

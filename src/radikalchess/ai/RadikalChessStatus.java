@@ -44,6 +44,26 @@ public class RadikalChessStatus {
         currentPlayer = (this.playerA == currentPlayer) ? playerB : playerA;
     }
 
+    public Piece[] getPiecesForPermittedMoves() {
+        ArrayList<Piece> pieces = new ArrayList<Piece>();
+        King threadedKing = threadedKing();
+        if (threadedKing == null) {
+            for (int i = 0; i < board.getNumberOfRows(); i++) {
+                for (int j = 0; j < board.getNumberOfCols(); j++) {
+                    if (board.getCells()[i][j].getPiece() != null)
+                        pieces.add(board.getCells()[i][j].getPiece());
+                }
+            }
+        } else {
+            if (canBeMoved(threadedKing)) pieces.add(threadedKing);
+            for (Piece piece : getPiecesCanInterruptCheckMate(threadedKing, getPieceThreadingTheKing(threadedKing)))
+                if (piece.getPlayer().equals(threadedKing.getPlayer())) pieces.add(piece);
+            for (Piece piece : getPiecesCanKill(getPieceThreadingTheKing(threadedKing)))
+                pieces.add(piece);
+        }
+        return pieces.toArray(new Piece[0]);
+    }
+
     public boolean isTerminal() {
         King threadedKing = threadedKing();
         if (threadedKing != null) {
@@ -137,6 +157,24 @@ public class RadikalChessStatus {
         return false;
     }
 
+    private Piece[] getPiecesCanInterruptCheckMate(King threadedKing, Piece pieceThreading) {
+        ArrayList<Piece> pieces = new ArrayList<Piece>();
+        for (Position position : getPositionsInside(threadedKing.getPosition(), pieceThreading.getPosition())) {
+            for (int i = 0; i < board.getNumberOfRows(); i++) {
+                for (int j = 0; j < board.getNumberOfCols(); j++) {
+                    if (board.getCells()[i][j].getPiece() != null) {
+                        for (Position killablePosition : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                            if (killablePosition.equals(position)) {
+                                pieces.add(board.getCells()[i][j].getPiece());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return pieces.toArray(new Piece[0]);
+    }
+
     private Position[] getPositionsInside(Position from, Position to) {
         ArrayList<Position> positions = new ArrayList<Position>();
 
@@ -154,9 +192,22 @@ public class RadikalChessStatus {
                 else if (from.getCol() > to.getCol()) positions.add(new Position(from.getRow(), from.getCol() - i));
                 else positions.add(new Position(from.getRow(), from.getCol()));
             }
-
         }
+
         return positions.toArray(new Position[0]);
+    }
+
+    private Piece[] getPiecesCanKill(Piece pieceToKill) {
+        ArrayList<Piece> pieces = new ArrayList<Piece>();
+        for (int i = 0; i < board.getNumberOfRows(); i++) {
+            for (int j = 0; j < board.getNumberOfCols(); j++) {
+                if (board.getCells()[i][j].getPiece() != null)
+                    for (Piece piece : PieceAttackRangeChecker.getInstance().getKillablePiecesFor(board.getCells()[i][j].getPiece(), board)) {
+                        if (piece.equals(pieceToKill)) pieces.add(board.getCells()[i][j].getPiece());
+                    }
+            }
+        }
+        return pieces.toArray(new Piece[0]);
     }
 
 }

@@ -9,9 +9,15 @@ import radikalchess.model.Player;
  * @author Jose Luis Molina
  */
 public class Rook extends Piece {
+    private static final String name = "Rook";
 
     public Rook(Player player, Image image) {
         super(player, image);
+    }
+
+    @Override
+    public String toString() {
+        return name + " [" + super.getPlayer().getName() + "]";
     }
 
     @Override

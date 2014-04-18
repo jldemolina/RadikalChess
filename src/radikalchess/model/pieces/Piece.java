@@ -52,5 +52,8 @@ public abstract class Piece implements Cloneable {
     }
 
     @Override
+    public abstract String toString();
+
+    @Override
     public abstract Object clone() throws CloneNotSupportedException;
 }
