@@ -42,6 +42,14 @@ public class PieceAttackRangeChecker {
         return new Position[0];
     }
 
+    public Position[] getMovementRangeFor(Piece piece, Board board) {
+        if (piece instanceof Pawn) return getMovementRangeFor((Pawn) piece, board);
+        if (piece instanceof Bishop) return getAttackRangeForBishop(piece, board);
+        if (piece instanceof Rook) return getAttackRangeForRook(piece, board);
+        if (piece instanceof Queen) return getAttackRangeForQueen(piece, board);
+        return new Position[0];
+    }
+
     public boolean isKillable(Piece piece, Board board) {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
@@ -122,8 +130,8 @@ public class PieceAttackRangeChecker {
         if (piece.getPosition().getRow() + 1 < board.getNumberOfRows() && piece.getPosition().getCol() + 1 < board.getNumberOfCols()) {
             if (board.getCells()[piece.getPosition().getRow() + 1][piece.getPosition().getCol() + 1].getPiece() != null) {
                 if (!arePiecesOfSamePlayer(board, piece.getPosition(), new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1)))
-                    if (!isKillable(piece, new Position(piece.getPosition().getRow() - 1, piece.getPosition().getCol() + 1), board))
-                        pieces.add(board.getCells()[piece.getPosition().getRow() - 1][piece.getPosition().getCol() + 1].getPiece());
+                    if (!isKillable(piece, new Position(piece.getPosition().getRow() + 1, piece.getPosition().getCol() + 1), board))
+                        pieces.add(board.getCells()[piece.getPosition().getRow() + 1][piece.getPosition().getCol() + 1].getPiece());
             }
         }
         if (piece.getPosition().getRow() + 1 < board.getNumberOfRows() && piece.getPosition().getCol() - 1 >= 0) {
@@ -191,6 +199,22 @@ public class PieceAttackRangeChecker {
                     positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1));
                 else if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1)))
                     positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1));
+            }
+        }
+        return positions.toArray(new Position[0]);
+    }
+
+    private Position[] getMovementRangeFor(Pawn pawn, Board board) {
+        ArrayList<Position> positions = new ArrayList<Position>();
+        if (pawn.getAllowedPawnMove().equals(AllowedPawnMove.UP)) {
+            if (pawn.getPosition().getRow() - 1 > 0) {
+                if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol()].getPiece() == null)
+                    positions.add(new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol()));
+            }
+        } else {
+            if (pawn.getPosition().getRow() + 1 < board.getNumberOfCols()) {
+                if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol()].getPiece() == null)
+                    positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol()));
             }
         }
         return positions.toArray(new Position[0]);

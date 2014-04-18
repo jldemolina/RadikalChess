@@ -56,4 +56,6 @@ public abstract class Piece implements Cloneable {
 
     @Override
     public abstract Object clone() throws CloneNotSupportedException;
+
+    public abstract int getPoints();
 }

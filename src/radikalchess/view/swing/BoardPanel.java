@@ -38,6 +38,14 @@ public class BoardPanel extends JPanel {
         g.setColor(Color.black);
     }
 
+    public void update() {
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
+                cellPanels[i][j].update();
+            }
+        }
+    }
+
     private void initializeBoard() {
         fillCellPanels();
         placePieces();

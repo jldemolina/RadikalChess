@@ -10,6 +10,7 @@ import radikalchess.model.Player;
  */
 public class Bishop extends Piece {
     private static final String name = "Bishop";
+    private static final int points = 5;
 
     public Bishop(Player player, Image image) {
         super(player, image);
@@ -25,5 +26,10 @@ public class Bishop extends Piece {
         Piece piece = new Bishop(player, image);
         piece.setPosition(position);
         return piece;
+    }
+
+    @Override
+    public int getPoints() {
+        return points;
     }
 }

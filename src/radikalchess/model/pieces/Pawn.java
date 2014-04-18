@@ -11,6 +11,7 @@ import radikalchess.model.Player;
  */
 public class Pawn extends Piece {
     private static final String name = "Pawn";
+    private static final int points = 2;
     private final AllowedPawnMove allowedPawnMove;
 
     public Pawn(Player player, Image image, AllowedPawnMove allowedPawnMove) {
@@ -27,6 +28,11 @@ public class Pawn extends Piece {
         Piece piece = new Pawn(player, image, allowedPawnMove);
         piece.setPosition(position);
         return piece;
+    }
+
+    @Override
+    public int getPoints() {
+        return points;
     }
 
     @Override

@@ -1,9 +1,12 @@
 package radikalchess.view.swing;
 
-import radikalchess.ai.RadikalChessStatus;
+import radikalchess.ai.RadikalChessGame;
+import radikalchess.model.Move;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * This class represents the main panel of the game. It is the support of the entire user interface based on Swing
@@ -14,11 +17,10 @@ import java.awt.*;
 public class ApplicationFrame extends JFrame {
 
     private BoardPanel boardPanel;
-    private RadikalChessStatus radikalChessStatus;
+    private RadikalChessGame radikalChessGame;
 
-
-    public ApplicationFrame(RadikalChessStatus radikalChessStatus) {
-        this.radikalChessStatus = radikalChessStatus;
+    public ApplicationFrame(RadikalChessGame radikalChessGame) {
+        this.radikalChessGame = radikalChessGame;
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,18 +46,57 @@ public class ApplicationFrame extends JFrame {
 
     private JButton createPlayButton() {
         JButton playButton = new JButton("Play");
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while (!radikalChessGame.getActualStatus().isTerminal()) {
+                    decideMovement();
+                    boardPanel.update();
+                }
+            }
+        });
         return playButton;
     }
 
     private JButton createMakeDecisionButton() {
         JButton makeDecisionButton = new JButton("Make decision");
+        makeDecisionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!radikalChessGame.getActualStatus().isTerminal()) {
+                    decideMovement();
+                    boardPanel.update();
+                }
+            }
+        });
         return makeDecisionButton;
     }
 
     private JPanel createBoardPanel() {
-        boardPanel = new BoardPanel(radikalChessStatus);
+        boardPanel = new BoardPanel(radikalChessGame.getActualStatus());
         boardPanel.setSize(400, 600);
         return boardPanel;
+    }
+
+    private void decideMovement() {
+        Move move;
+        if (radikalChessGame.getPlayer(radikalChessGame.getActualStatus()).equals(radikalChessGame.getActualStatus().getPlayerA())) {
+            move = (Move) radikalChessGame.getWhitePlayerSearch().makeDecision(
+                    radikalChessGame.getActualStatus());
+            radikalChessGame.move(move);
+            System.out.println(move.toString()
+                    + "\n"
+                    + radikalChessGame.getWhitePlayerSearch().getMetrics()
+                    + "\n");
+        } else {
+            move = (Move) radikalChessGame.getBlackPlayerSearch().makeDecision(
+                    radikalChessGame.getActualStatus());
+            radikalChessGame.move(move);
+            System.out.println(move.toString()
+                    + "\n"
+                    + radikalChessGame.getBlackPlayerSearch().getMetrics()
+                    + "\n");
+        }
     }
 
 }

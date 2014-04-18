@@ -30,16 +30,16 @@ import java.util.List;
  *
  * @param <STATE>  Type which is used for states in the game.
  * @param <ACTION> Type which is used for actions in the game.
- * @param <PLAYER> Type which is used for players in the game.
+ * @param <Player> Type which is used for players in the game.
  * @author Ruediger Lunde
  */
-public interface Game<STATE, ACTION, PLAYER> {
+public interface Game<STATE, ACTION, Player> {
 
     STATE getInitialState();
 
-    PLAYER[] getPlayers();
+    Player[] getPlayers();
 
-    PLAYER getPlayer(STATE state);
+    Player getPlayer(STATE state);
 
     List<ACTION> getActions(STATE state);
 
@@ -47,5 +47,5 @@ public interface Game<STATE, ACTION, PLAYER> {
 
     boolean isTerminal(STATE state);
 
-    double getUtility(STATE state, PLAYER player);
+    double getUtility(STATE state, Player player);
 }

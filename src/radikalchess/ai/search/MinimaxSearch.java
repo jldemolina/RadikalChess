@@ -37,25 +37,25 @@ import radikalchess.ai.Metrics;
  *
  * @param <STATE>  Type which is used for states in the game.
  * @param <ACTION> Type which is used for actions in the game.
- * @param <PLAYER> Type which is used for players in the game.
+ * @param <Player> Type which is used for players in the game.
  * @author Ruediger Lunde
  */
-public class MinimaxSearch<STATE, ACTION, PLAYER> implements
+public class MinimaxSearch<STATE, ACTION, Player> implements
         AdversarialSearch<STATE, ACTION> {
 
 
-    private Game<STATE, ACTION, PLAYER> game;
+    private Game<STATE, ACTION, Player> game;
     private int expandedNodes;
 
     /**
      * Creates a new search object for a given game.
      */
-    public static <STATE, ACTION, PLAYER> MinimaxSearch<STATE, ACTION, PLAYER> createFor(
-            Game<STATE, ACTION, PLAYER> game) {
-        return new MinimaxSearch<STATE, ACTION, PLAYER>(game);
+    public static <STATE, ACTION, Player> MinimaxSearch<STATE, ACTION, Player> createFor(
+            Game<STATE, ACTION, Player> game) {
+        return new MinimaxSearch<STATE, ACTION, Player>(game);
     }
 
-    public MinimaxSearch(Game<STATE, ACTION, PLAYER> game) {
+    public MinimaxSearch(Game<STATE, ACTION, Player> game) {
         this.game = game;
     }
 
@@ -64,7 +64,7 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
         expandedNodes = 0;
         ACTION result = null;
         double resultValue = Double.NEGATIVE_INFINITY;
-        PLAYER player = game.getPlayer(state);
+        Player player = game.getPlayer(state);
         for (ACTION action : game.getActions(state)) {
             double value = minValue(game.getResult(state, action), player, 0);
             if (value >= resultValue) {
@@ -75,7 +75,7 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
         return result;
     }
 
-    public double maxValue(STATE state, PLAYER player, int p) { // returns an utility
+    public double maxValue(STATE state, Player player, int p) { // returns an utility
         // value
         expandedNodes++;
         p++;
@@ -88,7 +88,7 @@ public class MinimaxSearch<STATE, ACTION, PLAYER> implements
         return value;
     }
 
-    public double minValue(STATE state, PLAYER player, int p) { // returns an utility
+    public double minValue(STATE state, Player player, int p) { // returns an utility
         // value
         expandedNodes++;
         p++;

@@ -10,6 +10,7 @@ import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RadikalChessStatus {
 
@@ -44,6 +45,11 @@ public class RadikalChessStatus {
         currentPlayer = (this.playerA == currentPlayer) ? playerB : playerA;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public Piece[] getPiecesForPermittedMoves() {
         ArrayList<Piece> pieces = new ArrayList<Piece>();
         King threadedKing = threadedKing();
@@ -208,6 +214,47 @@ public class RadikalChessStatus {
             }
         }
         return pieces.toArray(new Piece[0]);
+    }
+
+    public boolean isDefendingTheKing(Piece piece) {
+        boolean defending = false;
+        board.setPieceAt(piece.getPosition(), null);
+        if (threadedKing() != null) defending = true;
+        board.setPieceAt(piece.getPosition(), piece);
+        return defending;
+    }
+
+    /**
+     * TODO
+     */
+    public List<Move> getPossibleMovements() {
+        ArrayList<Move> moves = new ArrayList<Move>();
+        for (Piece piece : getPiecesForPermittedMoves()) {
+            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
+                moves.add(new Move(piece.getPosition(), position));
+        }
+        return moves;
+    }
+
+    /**
+     * TODO
+     */
+    public void move(Move move) {
+        if (MoveChecker.getInstance().isAValidMove(move, board.getPieceAt(move.getOrigin()), board)
+                || MoveChecker.getInstance().isAValidKillerMove(move, board.getPieceAt(move.getOrigin()), board)) {
+            board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
+            board.setPieceAt(move.getOrigin(), null);
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    @Override
+    public Object clone() {
+        return new RadikalChessStatus(board, playerA, playerB);
     }
 
 }
