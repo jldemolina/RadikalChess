@@ -250,8 +250,10 @@ public class RadikalChessStatus {
     }
 
     @Override
-    public Object clone() {
-        return new RadikalChessStatus(board, playerA, playerB);
+    public Object clone() throws CloneNotSupportedException {
+        RadikalChessStatus radikalChessStatus = new RadikalChessStatus((Board) board.clone(), playerA, playerB);
+        radikalChessStatus.currentPlayer = currentPlayer;
+        return radikalChessStatus;
     }
 
 }

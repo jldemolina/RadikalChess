@@ -83,7 +83,7 @@ public class PieceAttackRangeChecker {
         return killable;
     }
 
-    public boolean mayThrearenTheKing(Piece piece, Position destination, Board board) {
+    public boolean mayThreatenTheKing(Piece piece, Position destination, Board board) {
         boolean killable = false;
         Piece destinationPiece = board.getPieceAt(destination);
         board.setPieceAt(destination, piece);

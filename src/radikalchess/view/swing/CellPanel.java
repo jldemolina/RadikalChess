@@ -44,7 +44,7 @@ public class CellPanel extends JPanel {
             }
         } catch (IOException ex) {
         }
-        repaint();
+        revalidate();
     }
 
     public void addPiece(Piece piece) {
@@ -55,7 +55,7 @@ public class CellPanel extends JPanel {
             pieceButton.setIcon(new ImageIcon(ImageIO.read(new ByteArrayInputStream(piece.getImage().getBitmap().getByteArray()))));
         } catch (IOException ex) {
         }
-        repaint();
+        revalidate();
     }
 
     public void removePiece() {
@@ -63,7 +63,7 @@ public class CellPanel extends JPanel {
             cell.setPiece(null);
             piece = null;
             pieceButton.setIcon(null);
-            repaint();
+            revalidate();
         }
     }
 

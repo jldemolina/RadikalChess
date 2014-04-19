@@ -84,8 +84,12 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
 
     @Override
     public RadikalChessStatus getResult(RadikalChessStatus state, Move action) {
-        RadikalChessStatus result;
-        result = (RadikalChessStatus) state.clone();
+        RadikalChessStatus result = null;
+        try {
+            result = (RadikalChessStatus) state.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         result.move(action);
         return result;
     }

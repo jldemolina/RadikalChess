@@ -56,4 +56,15 @@ public class Board {
         return null;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Board board = new Board(cells.length, cells[0].length);
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                board.cells[i][j] = new Cell(new Position(i, j));
+                if (cells[i][j].getPiece() != null) board.cells[i][j].setPiece((Piece) cells[i][j].getPiece().clone());
+            }
+        }
+        return board;
+    }
 }

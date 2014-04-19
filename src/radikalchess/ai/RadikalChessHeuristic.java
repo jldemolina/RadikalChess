@@ -16,6 +16,8 @@ public class RadikalChessHeuristic implements Heuristic {
                         for (Piece killablePiece : PieceAttackRangeChecker.getInstance().getKillablePiecesFor(status.getBoard().getCells()[i][j].getPiece(), status.getBoard()))
                             heuristic += killablePiece.getPoints();
                     }
+                    if (PieceAttackRangeChecker.getInstance().isKillable(status.getBoard().getCells()[i][j].getPiece(), status.getBoard()))
+                        heuristic -= status.getBoard().getCells()[i][j].getPiece().getPoints();
                 }
             }
         }

@@ -46,9 +46,9 @@ public class ApplicationFrame extends JFrame {
     }
 
     private JButton createResetButton() {
-        JButton playButton = new JButton("Reset");
+        JButton resetButton = new JButton("Reset");
 
-        playButton.addActionListener(new ActionListener() {
+        resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boardPanel.reset();
@@ -57,7 +57,7 @@ public class ApplicationFrame extends JFrame {
                 revalidate();
             }
         });
-        return playButton;
+        return resetButton;
     }
 
     private JButton createPlayButton() {
@@ -67,11 +67,6 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (!radikalChessGame.getActualStatus().isTerminal()) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
                     decideMovement();
                     boardPanel.update();
                 }
@@ -88,7 +83,6 @@ public class ApplicationFrame extends JFrame {
                 if (!radikalChessGame.getActualStatus().isTerminal()) {
                     decideMovement();
                     boardPanel.update();
-                    pack();
                 }
             }
         });
@@ -114,6 +108,7 @@ public class ApplicationFrame extends JFrame {
             radikalChessGame.move(move);
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
+        radikalChessGame.getActualStatus().alternatePlayer();
     }
 
 }
