@@ -242,10 +242,8 @@ public class RadikalChessStatus {
             board.setPieceAt(move.getOrigin(), null);
             alternatePlayer();
         } else if (MoveChecker.getInstance().isAValidKillerMove(move, board.getPieceAt(move.getOrigin()), board)) {
-            currentPlayer.addPoints(board.getPieceAt(move.getDestination()).getPoints());
             board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
             board.setPieceAt(move.getOrigin(), null);
-            System.out.println("POINTS: " + currentPlayer.getName() + " " + currentPlayer.getPoints());
             alternatePlayer();
         }
     }

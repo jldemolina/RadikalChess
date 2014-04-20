@@ -24,7 +24,7 @@ public class ApplicationFrame extends JFrame {
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(450, 700));
+        this.setMinimumSize(new Dimension(550, 800));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
@@ -68,6 +68,7 @@ public class ApplicationFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (!radikalChessGame.getActualStatus().isTerminal()) {
+                    System.out.println("Thinking... and solving...");
                     decideMovement();
                     boardPanel.update();
                 }

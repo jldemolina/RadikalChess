@@ -56,8 +56,6 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
 
     /**
      * TODO
-     *
-     * @return
      */
     @Override
     public RadikalChessStatus getInitialState() {

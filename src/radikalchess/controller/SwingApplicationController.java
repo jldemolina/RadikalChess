@@ -26,8 +26,8 @@ public class SwingApplicationController {
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new RadikalChessHeuristic());
         game.setWhitePlayerHeuristic(new RadikalChessHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 4));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 4));
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 6));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 6));
 
         new ApplicationFrame(game);
     }
@@ -48,10 +48,10 @@ public class SwingApplicationController {
         board.setPieceAt(new Position(4, 2), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
         board.setPieceAt(new Position(4, 3), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
 
-        board.setPieceAt(new Position(5, 0), new King(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
-        board.setPieceAt(new Position(5, 1), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
-        board.setPieceAt(new Position(5, 2), new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
-        board.setPieceAt(new Position(5, 3), new Rook(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
+        board.setPieceAt(new Position(5, 0), new Rook(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
+        board.setPieceAt(new Position(5, 1), new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
+        board.setPieceAt(new Position(5, 2), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
+        board.setPieceAt(new Position(5, 3), new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
 }
