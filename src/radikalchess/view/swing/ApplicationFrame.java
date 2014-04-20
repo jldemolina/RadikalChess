@@ -50,7 +50,7 @@ public class ApplicationFrame extends JFrame {
      */
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
-        jPanel.add(createResetButton());
+        // jPanel.add(createResetButton());
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
         return jPanel;
@@ -67,9 +67,8 @@ public class ApplicationFrame extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                radikalChessGame.setActualStatus(radikalChessGame.getInitialState());
                 boardPanel.reset();
-                if (radikalChessGame.getActualStatus().getCurrentPlayer().equals(radikalChessGame.getActualStatus().getPlayerB()))
-                    radikalChessGame.getActualStatus().alternatePlayer();
                 revalidate();
             }
         });
@@ -143,6 +142,7 @@ public class ApplicationFrame extends JFrame {
             radikalChessGame.move(move);
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
+        System.out.println(radikalChessGame.getUtility(radikalChessGame.getActualStatus(), radikalChessGame.getPlayer(radikalChessGame.getActualStatus())));
     }
 
 }

@@ -50,11 +50,6 @@ public class BoardPanel extends JPanel {
     }
 
     public void reset() {
-        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
-            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
-                cellPanels[i][j].removePiece();
-            }
-        }
         placePieces();
     }
 
@@ -127,8 +122,9 @@ public class BoardPanel extends JPanel {
                     if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
                         Player player = (this.radikalChessStatus.getPlayerA() == cellPanels[i][j].getPiece().getPlayer()) ? radikalChessStatus.getPlayerB() : radikalChessStatus.getPlayerA();
                         if (MoveChecker.getInstance().isAValidMove(new Move
-                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())
+                                        (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
+                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard()
+                        )
                                 && isPermittedPieceToMove(cellPanels[i][j].getPiece())) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
                                 if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
@@ -162,8 +158,9 @@ public class BoardPanel extends JPanel {
                 if (cellPanels[i][j].hasAnyPiece()) {
                     if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
                         if (MoveChecker.getInstance().isAValidKillerMove(new Move
-                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard())) {
+                                        (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
+                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard()
+                        )) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
                             cellPanels[i][j].removePiece();
                             cellPanels[i][j].setPressed(false);

@@ -13,9 +13,15 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
     private Heuristic blackPlayerHeuristic;
     private AdversarialSearch whitePlayerSearch;
     private AdversarialSearch blackPlayerSearch;
+    private RadikalChessStatus initialStatus;
 
     public RadikalChessGame(RadikalChessStatus radikalChessStatus) {
         actualStatus = radikalChessStatus;
+        try {
+            initialStatus = (RadikalChessStatus) radikalChessStatus.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setWhitePlayerSearch(AdversarialSearch whitePlayerSearch) {
@@ -50,16 +56,17 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
         this.blackPlayerHeuristic = blackPlayerHeuristic;
     }
 
+    public void setActualStatus(RadikalChessStatus status) {
+        this.actualStatus = status;
+    }
+
     public RadikalChessStatus getActualStatus() {
         return actualStatus;
     }
 
-    /**
-     * TODO
-     */
     @Override
     public RadikalChessStatus getInitialState() {
-        return null; //new RadikalChessStatus(); // new RadikalChessStatus();
+        return initialStatus;
     }
 
     @Override
