@@ -10,6 +10,13 @@ public class Position implements Cloneable {
     private int col;
     private int row;
 
+    /**
+     * Create a position with one row and one column. Usually fit the same row and column of the table,
+     * the cell and the piece
+     *
+     * @param row
+     * @param col
+     */
     public Position(int row, int col) {
         this.col = col;
         this.row = row;
@@ -31,16 +38,20 @@ public class Position implements Cloneable {
         this.row = row;
     }
 
+    /**
+     * Get the Euclidean Distance to other position
+     * The Euclidean distance or Euclidean metric is the "ordinary" distance between two points that
+     * one would measure with a ruler, and is given by the Pythagorean formula
+     *
+     * @param position
+     * @return
+     */
     public double getEuclideanDistanceTo(Position position) {
         int x1 = this.getRow();
         int x2 = position.getRow();
         int y1 = this.getCol();
         int y2 = position.getCol();
         return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-    }
-
-    public Position move(int[] offset) {
-        return new Position(this.getRow() + offset[0], this.getCol() + offset[1]);
     }
 
     @Override

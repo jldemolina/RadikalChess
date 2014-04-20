@@ -19,6 +19,11 @@ public class ApplicationFrame extends JFrame {
     private BoardPanel boardPanel;
     private RadikalChessGame radikalChessGame;
 
+    /**
+     * Constructor charge of showing all the main frame and their respective panels and visors
+     *
+     * @param radikalChessGame
+     */
     public ApplicationFrame(RadikalChessGame radikalChessGame) {
         this.radikalChessGame = radikalChessGame;
 
@@ -38,6 +43,11 @@ public class ApplicationFrame extends JFrame {
         super.paint(g);
     }
 
+    /**
+     * Create the toolbar that contains the action buttons
+     *
+     * @return the JPanel created
+     */
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
         jPanel.add(createResetButton());
@@ -46,6 +56,11 @@ public class ApplicationFrame extends JFrame {
         return jPanel;
     }
 
+    /**
+     * Create a button to reset the board, the pieces, the cells ... In short, the full game.
+     *
+     * @return the JButton created
+     */
     private JButton createResetButton() {
         JButton resetButton = new JButton("Reset");
 
@@ -61,6 +76,11 @@ public class ApplicationFrame extends JFrame {
         return resetButton;
     }
 
+    /**
+     * Create a button that allows the AI to play a game against itself
+     *
+     * @return the JButton created
+     */
     private JButton createPlayButton() {
         JButton playButton = new JButton("Play");
 
@@ -77,6 +97,11 @@ public class ApplicationFrame extends JFrame {
         return playButton;
     }
 
+    /**
+     * Create a button that allows the AI to play a turn.
+     *
+     * @return the JButton created
+     */
     private JButton createMakeDecisionButton() {
         JButton makeDecisionButton = new JButton("Make decision");
         makeDecisionButton.addActionListener(new ActionListener() {
@@ -91,12 +116,20 @@ public class ApplicationFrame extends JFrame {
         return makeDecisionButton;
     }
 
+    /**
+     * Create the complete board panel
+     *
+     * @return the JPanel created
+     */
     private JPanel createBoardPanel() {
         boardPanel = new BoardPanel(radikalChessGame.getActualStatus());
         boardPanel.setSize(400, 600);
         return boardPanel;
     }
 
+    /**
+     * Permits from search algorithms and artificial intelligence, moving a record
+     */
     private void decideMovement() {
         Move move;
         if (radikalChessGame.getPlayer(radikalChessGame.getActualStatus()).equals(radikalChessGame.getActualStatus().getPlayerA())) {

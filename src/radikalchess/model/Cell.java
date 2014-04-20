@@ -15,6 +15,11 @@ public class Cell {
     private Piece piece;
     private final Position position;
 
+    /**
+     * Sets the position of a cell. Generally added in a board, in the same relative position
+     *
+     * @param position
+     */
     public Cell(Position position) {
         this.position = position;
     }

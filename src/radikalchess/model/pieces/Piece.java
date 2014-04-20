@@ -16,6 +16,10 @@ public abstract class Piece implements Cloneable {
     protected Position position;
     protected Image image;
 
+    /**
+     * @param player The player who owns the piece
+     * @param image  The picture represents the part
+     */
     public Piece(Player player, Image image) {
         this.player = player;
         this.image = image;
@@ -57,5 +61,8 @@ public abstract class Piece implements Cloneable {
     @Override
     public abstract Object clone() throws CloneNotSupportedException;
 
+    /**
+     * @return The points of the piece
+     */
     public abstract int getPoints();
 }

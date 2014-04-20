@@ -9,12 +9,16 @@ import radikalchess.model.pieces.*;
 import radikalchess.view.swing.ApplicationFrame;
 
 /**
- * This class is responsible for the total control of the application. It connects the model and the view (and, of course, the IA)
+ * This class is responsible for the total control of the application. It connects the model and the view
+ * (and, of course, the IA)
  *
  * @author Jose Luis Molina
  */
 public class SwingApplicationController {
 
+    /**
+     * Method that is responsible for implementing the entire application
+     */
     public void execute() {
         Board board = new Board(6, 4);
         Player playerA = new Player("Player A");
@@ -32,6 +36,9 @@ public class SwingApplicationController {
         new ApplicationFrame(game);
     }
 
+    /**
+     * Add absolutely all the pieces to the board
+     */
     private void addPieces(Board board, Player playerA, Player playerB) {
         board.setPieceAt(new Position(0, 0), new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));
         board.setPieceAt(new Position(0, 1), new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))));

@@ -12,6 +12,12 @@ public class Move {
     private final Position origin;
     private final Position destination;
 
+    /**
+     * Initializes a movement formed by a source position and a target one
+     *
+     * @param origin
+     * @param destination
+     */
     public Move(Position origin, Position destination) {
         this.origin = origin;
         this.destination = destination;

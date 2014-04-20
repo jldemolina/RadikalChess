@@ -14,6 +14,12 @@ public class Board {
 
     private Cell cells[][];
 
+    /**
+     * Create a board with a specific number of rows and columns
+     *
+     * @param numberOfRows
+     * @param numberOfCols
+     */
     public Board(int numberOfRows, int numberOfCols) {
         cells = new Cell[numberOfRows][numberOfCols];
         for (int i = 0; i < numberOfRows; i++) {
@@ -44,6 +50,12 @@ public class Board {
         cells[position.getRow()][position.getCol()].setPiece(piece);
     }
 
+    /**
+     * Walking across the board and looking for the position of king of a player
+     *
+     * @param player
+     * @return The position of the king
+     */
     public Position searchKingPosition(Player player) {
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++) {

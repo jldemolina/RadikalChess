@@ -14,6 +14,13 @@ public class Pawn extends Piece {
     private static final int points = 2;
     private final AllowedPawnMove allowedPawnMove;
 
+    /**
+     * Initializes the pawn
+     *
+     * @param player          The player who owns the piece
+     * @param image           The picture represents the part
+     * @param allowedPawnMove The direction of movement allowed for the pawn
+     */
     public Pawn(Player player, Image image, AllowedPawnMove allowedPawnMove) {
         super(player, image);
         this.allowedPawnMove = allowedPawnMove;
