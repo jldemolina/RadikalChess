@@ -55,7 +55,8 @@ public class RadikalChessStatus {
             for (int i = 0; i < board.getNumberOfRows(); i++) {
                 for (int j = 0; j < board.getNumberOfCols(); j++) {
                     if (board.getCells()[i][j].getPiece() != null)
-                        pieces.add(board.getCells()[i][j].getPiece());
+                        if (board.getCells()[i][j].getPiece().getPlayer().equals(currentPlayer))
+                            pieces.add(board.getCells()[i][j].getPiece());
                 }
             }
         } else {

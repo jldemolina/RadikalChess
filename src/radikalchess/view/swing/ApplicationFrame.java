@@ -30,6 +30,7 @@ public class ApplicationFrame extends JFrame {
 
         this.add(createToolbar(), BorderLayout.NORTH);
         this.add(createBoardPanel(), BorderLayout.CENTER);
+        revalidate();
     }
 
     @Override
@@ -108,7 +109,6 @@ public class ApplicationFrame extends JFrame {
             radikalChessGame.move(move);
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
-        radikalChessGame.getActualStatus().alternatePlayer();
     }
 
 }
