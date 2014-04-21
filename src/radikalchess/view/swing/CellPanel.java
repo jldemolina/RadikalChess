@@ -39,6 +39,7 @@ public class CellPanel extends JPanel {
                 this.piece = cell.getPiece();
                 pieceButton.setIcon(new ImageIcon(ImageIO.read(new ByteArrayInputStream(piece.getImage().getBitmap().getByteArray()))));
             } else {
+                this.piece = null;
                 cell.setPiece(null);
                 pieceButton.setIcon(null);
             }

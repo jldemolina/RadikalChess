@@ -245,10 +245,13 @@ public class RadikalChessStatus {
             for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
                 if (piece instanceof King) {
                     if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
-                            || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board))
+                            || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board)) {
                         moves.add(new Move(piece.getPosition(), position));
+                    }
                 } else {
-                    moves.add(new Move(piece.getPosition(), position));
+                    if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
+                            || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
+                        moves.add(new Move(piece.getPosition(), position));
                 }
         }
         return moves;
@@ -272,6 +275,13 @@ public class RadikalChessStatus {
         RadikalChessStatus radikalChessStatus = new RadikalChessStatus((Board) board.clone(), playerA, playerB);
         radikalChessStatus.currentPlayer = currentPlayer;
         return radikalChessStatus;
+    }
+
+    private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
+        if (board.searchKingPosition(player) != null)
+            return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player)) <
+                    new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player));
+        return false;
     }
 
 }

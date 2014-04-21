@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 /**
  * This class represents the main panel of the game. It is the support of the entire user interface based on Swing
@@ -135,7 +136,7 @@ public class ApplicationFrame extends JFrame {
             move = (Move) radikalChessGame.getWhitePlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
             radikalChessGame.move(move);
-            System.out.println(move.toString() + "\n" + radikalChessGame.getWhitePlayerSearch().getMetrics() + "\n");
+            System.out.println((move.toString() + "\n" + radikalChessGame.getWhitePlayerSearch().getMetrics() + "\n"));
         } else {
             move = (Move) radikalChessGame.getBlackPlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
@@ -143,6 +144,8 @@ public class ApplicationFrame extends JFrame {
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
         System.out.println(radikalChessGame.getUtility(radikalChessGame.getActualStatus(), radikalChessGame.getPlayer(radikalChessGame.getActualStatus())));
+        System.out.println(Arrays.toString(radikalChessGame.getActualStatus().getPossibleMovements().toArray(new Move[0])));
+
     }
 
 }

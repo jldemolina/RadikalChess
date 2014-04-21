@@ -87,14 +87,24 @@ public class PieceAttackRangeChecker {
 
     public boolean mayThreatenTheKing(Piece piece, Position destination, Board board) {
         boolean killable = false;
-        Piece destinationPiece = board.getPieceAt(destination);
-        board.setPieceAt(destination, piece);
+        Piece clonedPiece;
+        Board clonedBoard;
 
-        for (Piece p : getKillablePiecesFor(piece, board))
+        try {
+            clonedPiece = (Piece) piece.clone();
+            clonedBoard = (Board) board.clone();
+
+            Piece destinationPiece = clonedBoard.getPieceAt(destination);
+            clonedBoard.setPieceAt(destination, clonedPiece);
+
+            for (Piece p : getKillablePiecesFor(clonedPiece, clonedBoard))
             if (p instanceof King) killable = true;
 
-        board.setPieceAt(destination, destinationPiece);
+            clonedBoard.setPieceAt(destination, destinationPiece);
 
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
         return killable;
     }
 
