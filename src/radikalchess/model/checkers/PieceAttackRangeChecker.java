@@ -1,7 +1,6 @@
 package radikalchess.model.checkers;
 
 import radikalchess.model.Board;
-import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.pieces.*;
 
@@ -64,25 +63,34 @@ public class PieceAttackRangeChecker {
     }
 
     public boolean isKillable(Piece piece, Position destination, Board board) {
-        boolean killable = false;
-        Player adversarial = null;
-        if (board.getPieceAt(destination) != null) {
-            adversarial = board.getPieceAt(destination).getPlayer();
-            board.getPieceAt(destination).setPlayer(piece.getPlayer());
+        Piece clonedPiece;
+        Board clonedBoard;
+
+        try {
+            clonedPiece = (Piece) piece.clone();
+            clonedBoard = (Board) board.clone();
+
+
+            if (clonedBoard.getPieceAt(destination) != null) {
+                clonedBoard.getPieceAt(destination).setPlayer(piece.getPlayer());
+            }
+
+            clonedBoard.setPieceAt(clonedPiece.getPosition(), null);
+
+            for (int i = 0; i < clonedBoard.getNumberOfRows(); i++)
+                for (int j = 0; j < clonedBoard.getNumberOfCols(); j++)
+                    if (!(new Position(i, j)).equals(clonedPiece.getPosition()))
+                        if (clonedBoard.getPieceAt(new Position(i, j)) != null)
+                            if (clonedPiece.getPlayer() != clonedBoard.getPieceAt(new Position(i, j)).getPlayer())
+                                for (Position position : getAttackRangeFor(clonedBoard.getPieceAt(new Position(i, j)), clonedBoard))
+                                    if (position.equals(destination))
+                                        return true;
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
 
-        for (int i = 0; i < board.getNumberOfRows(); i++)
-            for (int j = 0; j < board.getNumberOfCols(); j++)
-                if (!(new Position(i, j)).equals(piece.getPosition()))
-                    if (board.getPieceAt(new Position(i, j)) != null)
-                        if (piece.getPlayer() != board.getPieceAt(new Position(i, j)).getPlayer())
-                            for (Position position : getAttackRangeFor(board.getPieceAt(new Position(i, j)), board))
-                                if (position.equals(destination))
-                                    killable = true;
-
-        if (board.getPieceAt(destination) != null)
-            board.getPieceAt(destination).setPlayer(adversarial);
-        return killable;
+        return false;
     }
 
     public boolean mayThreatenTheKing(Piece piece, Position destination, Board board) {
@@ -98,7 +106,7 @@ public class PieceAttackRangeChecker {
             clonedBoard.setPieceAt(destination, clonedPiece);
 
             for (Piece p : getKillablePiecesFor(clonedPiece, clonedBoard))
-            if (p instanceof King) killable = true;
+                if (p instanceof King) killable = true;
 
             clonedBoard.setPieceAt(destination, destinationPiece);
 

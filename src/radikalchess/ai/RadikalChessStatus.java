@@ -241,6 +241,7 @@ public class RadikalChessStatus {
      */
     public List<Move> getPossibleMovements() {
         ArrayList<Move> moves = new ArrayList<Move>();
+        Piece threadedKing = threadedKing();
         for (Piece piece : getPiecesForPermittedMoves()) {
             for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
                 if (piece instanceof King) {
@@ -249,9 +250,15 @@ public class RadikalChessStatus {
                         moves.add(new Move(piece.getPosition(), position));
                     }
                 } else {
-                    if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
-                            || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
+                    if (threadedKing == null) {
+
                         moves.add(new Move(piece.getPosition(), position));
+                    } else {
+                        for (Position positionInside : getPositionsInside(piece.getPosition(), threadedKing.getPosition())) {
+                            if (positionInside.equals(position))
+                                moves.add(new Move(piece.getPosition(), position));
+                        }
+                    }
                 }
         }
         return moves;
