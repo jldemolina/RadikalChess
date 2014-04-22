@@ -101,6 +101,7 @@ public class BoardPanel extends JPanel {
             showThreats(cellPanel.getPiece());
             showAttackRange(cellPanel.getPiece());
             showPermittedPieceToMove();
+            showPermittedMovements();
 
             System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
 
@@ -229,4 +230,12 @@ public class BoardPanel extends JPanel {
             System.out.println(permittedPiece);
         }
     }
+
+    private void showPermittedMovements() {
+        System.out.println("PERMITTED MOVEMENTS:");
+        for (Move move : radikalChessStatus.getPossibleMovements()) {
+            System.out.println(move);
+        }
+    }
+
 }

@@ -1,8 +1,8 @@
 package radikalchess.controller;
 
 import radikalchess.ai.RadikalChessGame;
-import radikalchess.ai.RadikalChessHeuristic;
 import radikalchess.ai.RadikalChessStatus;
+import radikalchess.ai.heuristics.MediumHeuristic;
 import radikalchess.ai.search.AlphaBetaSearch;
 import radikalchess.model.*;
 import radikalchess.model.pieces.*;
@@ -28,16 +28,16 @@ public class SwingApplicationController {
 
         RadikalChessStatus status = new RadikalChessStatus(board, playerA, playerB);
         RadikalChessGame game = new RadikalChessGame(status);
-        game.setBlackPlayerHeuristic(new RadikalChessHeuristic());
-        game.setWhitePlayerHeuristic(new RadikalChessHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 5));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 5));
+        game.setBlackPlayerHeuristic(new MediumHeuristic());
+        game.setWhitePlayerHeuristic(new MediumHeuristic());
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 3));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
 
         new ApplicationFrame(game);
     }
 
     /**
-     * Add absolutely all the pieces to the board
+     * Adds absolutely all the pieces to the board
      */
     private void addPieces(Board board, Player playerA, Player playerB) {
         board.setPieceAt(new Position(0, 0), new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));

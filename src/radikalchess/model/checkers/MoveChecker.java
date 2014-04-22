@@ -8,7 +8,6 @@ import radikalchess.model.pieces.*;
 /**
  * TThis is a special kind of movement verification (respects the Singleton pattern). Lets you know if a piece
  * can be moved to another position on the board, knowing the rules of the game.
- * TODO - CHECK EVERY METHOD INTO THE CLASS
  *
  * @author Jose Luis Molina
  */

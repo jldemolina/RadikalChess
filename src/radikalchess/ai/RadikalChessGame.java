@@ -1,5 +1,6 @@
 package radikalchess.ai;
 
+import radikalchess.ai.heuristics.Heuristic;
 import radikalchess.ai.search.AdversarialSearch;
 import radikalchess.model.Move;
 import radikalchess.model.Player;

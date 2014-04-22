@@ -79,10 +79,9 @@ public class PieceAttackRangeChecker {
 
             for (int i = 0; i < clonedBoard.getNumberOfRows(); i++)
                 for (int j = 0; j < clonedBoard.getNumberOfCols(); j++)
-                    if (!(new Position(i, j)).equals(clonedPiece.getPosition()))
-                        if (clonedBoard.getPieceAt(new Position(i, j)) != null)
-                            if (clonedPiece.getPlayer() != clonedBoard.getPieceAt(new Position(i, j)).getPlayer())
-                                for (Position position : getAttackRangeFor(clonedBoard.getPieceAt(new Position(i, j)), clonedBoard))
+                    if (clonedBoard.getCells()[i][j].getPiece() != null)
+                        if (!clonedPiece.getPlayer().equals(clonedBoard.getCells()[i][j].getPiece().getPlayer()))
+                            for (Position position : getAttackRangeFor(clonedBoard.getCells()[i][j].getPiece(), clonedBoard))
                                     if (position.equals(destination))
                                         return true;
 

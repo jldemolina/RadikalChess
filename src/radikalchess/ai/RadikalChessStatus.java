@@ -129,13 +129,13 @@ public class RadikalChessStatus {
         if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow() - 1, king.getPosition().getCol() - 1)))) {
             if (MoveChecker.getInstance().isAValidKillerMove(move, king, board)) return true;
         }
-        if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow() - 1, king.getPosition().getCol())))) {
+        if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow() + 1, king.getPosition().getCol())))) {
             if (MoveChecker.getInstance().isAValidKillerMove(move, king, board)) return true;
         }
         if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow() - 1, king.getPosition().getCol())))) {
             if (MoveChecker.getInstance().isAValidKillerMove(move, king, board)) return true;
         }
-        if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow(), king.getPosition().getCol() - 1)))) {
+        if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow(), king.getPosition().getCol() + 1)))) {
             if (MoveChecker.getInstance().isAValidKillerMove(move, king, board)) return true;
         }
         if (inBoardMove(move = new Move(king.getPosition(), new Position(king.getPosition().getRow(), king.getPosition().getCol() - 1)))) {
@@ -236,9 +236,6 @@ public class RadikalChessStatus {
         return defending;
     }
 
-    /**
-     * TODO fix movements
-     */
     public List<Move> getPossibleMovements() {
         ArrayList<Move> moves = new ArrayList<Move>();
         Piece threadedKing = threadedKing();
@@ -251,8 +248,9 @@ public class RadikalChessStatus {
                     }
                 } else {
                     if (threadedKing == null) {
-
-                        moves.add(new Move(piece.getPosition(), position));
+                        if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
+                                || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
+                            moves.add(new Move(piece.getPosition(), position));
                     } else {
                         for (Position positionInside : getPositionsInside(piece.getPosition(), threadedKing.getPosition())) {
                             if (positionInside.equals(position))
