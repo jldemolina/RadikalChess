@@ -15,7 +15,6 @@ public class MediumHeuristic implements Heuristic {
             for (int j = 0; j < status.getBoard().getNumberOfCols(); j++) {
                 if (status.getBoard().getCells()[i][j].getPiece() != null) {
                     if (status.getBoard().getCells()[i][j].getPiece().getPlayer().equals(player)) {
-                        heuristic += status.getBoard().getCells()[i][j].getPiece().getPoints();
                         for (Piece killablePiece : PieceAttackRangeChecker.getInstance().getKillablePiecesFor(status.getBoard().getCells()[i][j].getPiece(), status.getBoard()))
                             heuristic += killablePiece.getPoints() / 2;
                         if (PieceAttackRangeChecker.getInstance().isKillable(status.getBoard().getCells()[i][j].getPiece(), status.getBoard())) {
@@ -25,7 +24,7 @@ public class MediumHeuristic implements Heuristic {
                             }
                         }
                     } else {
-                        heuristic -= status.getBoard().getCells()[i][j].getPiece().getPoints() * 4;
+                        heuristic -= status.getBoard().getCells()[i][j].getPiece().getPoints() * 3;
                     }
 
                 }

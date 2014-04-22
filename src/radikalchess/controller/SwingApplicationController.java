@@ -30,8 +30,8 @@ public class SwingApplicationController {
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
         game.setWhitePlayerHeuristic(new MediumHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 3));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 4));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 4));
 
         new ApplicationFrame(game);
     }

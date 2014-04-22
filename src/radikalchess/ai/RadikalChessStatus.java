@@ -68,13 +68,7 @@ public class RadikalChessStatus {
     }
 
     public boolean isTerminal() {
-        King threadedKing = threadedKing();
-        if (threadedKing != null) {
-            Piece pieceThreading = getPieceThreadingTheKing(threadedKing);
-            if (PieceAttackRangeChecker.getInstance().isKillable(pieceThreading, board)) return false;
-            return !checkMateCanBeInterrupted(threadedKing, pieceThreading) && !canBeMoved(threadedKing);
-        }
-        return false;
+        return (getPossibleMovements().size() == 0);
     }
 
     public Player getWinner() {
@@ -165,6 +159,11 @@ public class RadikalChessStatus {
                                 return true;
                             }
                         }
+                        for (Position killablePosition : PieceAttackRangeChecker.getInstance().getMovementRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                            if (killablePosition.equals(position)) {
+                                return true;
+                            }
+                        }
                     }
                 }
             }
@@ -192,8 +191,8 @@ public class RadikalChessStatus {
 
     private Position[] getPositionsInside(Position from, Position to) {
         ArrayList<Position> positions = new ArrayList<Position>();
-
-        for (int i = 1; i < Math.abs(from.getRow() - to.getRow()); i++) {
+        int distance = (from.getRow() == to.getRow()) ? Math.abs(from.getCol() - to.getCol()) : Math.abs(from.getRow() - to.getRow());
+        for (int i = 1; i < distance; i++) {
             if (from.getRow() < to.getRow()) {
                 if (from.getCol() < to.getCol()) positions.add(new Position(from.getRow() + i, from.getCol() + i));
                 else if (from.getCol() > to.getCol()) positions.add(new Position(from.getRow() + i, from.getCol() - i));
@@ -238,30 +237,54 @@ public class RadikalChessStatus {
 
     public List<Move> getPossibleMovements() {
         ArrayList<Move> moves = new ArrayList<Move>();
-        Piece threadedKing = threadedKing();
-        for (Piece piece : getPiecesForPermittedMoves()) {
-            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
-                if (piece instanceof King) {
-                    if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
-                            || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board)) {
-                        moves.add(new Move(piece.getPosition(), position));
-                    }
-                } else {
-                    if (threadedKing == null) {
-                        if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
-                                || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
-                            moves.add(new Move(piece.getPosition(), position));
-                    } else {
-                        for (Position positionInside : getPositionsInside(piece.getPosition(), threadedKing.getPosition())) {
-                            if (positionInside.equals(position))
-                                moves.add(new Move(piece.getPosition(), position));
-                        }
-                    }
-                }
-        }
+        King threadedKing = threadedKing();
+        if (threadedKing == null)
+            moves.addAll(getPossibleMovementsWithoutKingCheck());
+        else
+            moves.addAll(getPossibleMovementsWithKingCheck(threadedKing));
         return moves;
     }
 
+    public List<Move> getPossibleMovementsWithoutKingCheck() {
+        ArrayList<Move> moves = new ArrayList<Move>();
+        for (Piece piece : getPiecesForPermittedMoves())
+            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
+                if (piece instanceof King) {
+                    if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
+                            || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board))
+                        moves.add(new Move(piece.getPosition(), position));
+                } else {
+                    if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
+                            || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
+                        moves.add(new Move(piece.getPosition(), position));
+                }
+        return moves;
+
+    }
+
+    public List<Move> getPossibleMovementsWithKingCheck(King threadedKing) {
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Piece pieceThreading = getPieceThreadingTheKing(threadedKing);
+        Piece[] piecesCanInterruptCheckMate = getPiecesCanInterruptCheckMate(threadedKing, pieceThreading);
+        Position[] positionsInside = getPositionsInside(threadedKing.getPosition(), pieceThreading.getPosition());
+        for (Piece piece : getPiecesForPermittedMoves())
+            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
+                if (piece instanceof King)
+                    if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
+                            || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board))
+                        moves.add(new Move(piece.getPosition(), position));
+                    else if (pieceThreading.getPosition().equals(position))
+                        moves.add(new Move(piece.getPosition(), position));
+                    else
+                        for (Piece pieceCanInterrupt : piecesCanInterruptCheckMate)
+                            if (piece.equals(pieceCanInterrupt))
+                                for (Position positionInside : positionsInside)
+                                    if (position.equals(positionInside))
+                                        moves.add(new Move(piece.getPosition(), position));
+
+        return moves;
+
+    }
 
     public void move(Move move) {
         if (MoveChecker.getInstance().isAValidMove(move, board.getPieceAt(move.getOrigin()), board)) {
