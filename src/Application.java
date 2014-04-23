@@ -7,7 +7,7 @@ import radikalchess.controller.SwingApplicationController;
  * @author Jose Luis Molina
  * @see radikalchess.controller.SwingApplicationController
  */
-public class SwingApplication {
+public class Application {
 
     public static void main(String[] args) {
         new SwingApplicationController().execute();

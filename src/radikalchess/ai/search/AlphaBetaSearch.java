@@ -6,7 +6,6 @@ import radikalchess.ai.Metrics;
 public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
         AdversarialSearch<STATE, ACTION> {
 
-
     Game<STATE, ACTION, PLAYER> game;
     private int expandedNodes;
     private double time, avgTime;

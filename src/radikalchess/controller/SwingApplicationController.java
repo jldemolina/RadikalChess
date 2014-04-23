@@ -3,7 +3,6 @@ package radikalchess.controller;
 import radikalchess.ai.RadikalChessGame;
 import radikalchess.ai.RadikalChessStatus;
 import radikalchess.ai.heuristics.MediumHeuristic;
-import radikalchess.ai.heuristics.ShieldHeuristic;
 import radikalchess.ai.search.AlphaBetaSearch;
 import radikalchess.model.*;
 import radikalchess.model.pieces.*;
@@ -30,7 +29,7 @@ public class SwingApplicationController {
         RadikalChessStatus status = new RadikalChessStatus(board, playerA, playerB);
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
-        game.setWhitePlayerHeuristic(new ShieldHeuristic());
+        game.setWhitePlayerHeuristic(new MediumHeuristic());
         game.setBlackPlayerSearch(new AlphaBetaSearch(game, 4));
         game.setWhitePlayerSearch(new AlphaBetaSearch(game, 4));
 

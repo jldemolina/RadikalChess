@@ -5,7 +5,7 @@ import radikalchess.model.Move;
 import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.checkers.MoveChecker;
-import radikalchess.model.checkers.PieceAttackRangeChecker;
+import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
 
@@ -81,7 +81,7 @@ public class RadikalChessStatus {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (board.getCells()[i][j].getPiece() != null) {
-                    for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                    for (Position position : MovementRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
                         if (board.getPieceAt(position) instanceof King) {
                             return (King) board.getPieceAt(position);
                         }
@@ -96,7 +96,7 @@ public class RadikalChessStatus {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (board.getCells()[i][j].getPiece() != null) {
-                    for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                    for (Position position : MovementRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
                         if (board.getPieceAt(position) != null) {
                             if (board.getPieceAt(position).equals(king)) {
                                 return board.getCells()[i][j].getPiece();
@@ -149,28 +149,6 @@ public class RadikalChessStatus {
                 && move.getDestination().getRow() < board.getNumberOfRows();
     }
 
-    private boolean checkMateCanBeInterrupted(King threadedKing, Piece pieceThreading) {
-        for (Position position : getPositionsInside(threadedKing.getPosition(), pieceThreading.getPosition())) {
-            for (int i = 0; i < board.getNumberOfRows(); i++) {
-                for (int j = 0; j < board.getNumberOfCols(); j++) {
-                    if (board.getCells()[i][j].getPiece() != null) {
-                        for (Position killablePosition : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
-                            if (killablePosition.equals(position)) {
-                                return true;
-                            }
-                        }
-                        for (Position killablePosition : PieceAttackRangeChecker.getInstance().getMovementRangeFor(board.getCells()[i][j].getPiece(), board)) {
-                            if (killablePosition.equals(position)) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     private Piece[] getPiecesCanInterruptCheckMate(King threadedKing, Piece pieceThreading) {
         ArrayList<Piece> pieces = new ArrayList<Piece>();
         for (Position position : getPositionsInside(threadedKing.getPosition(), pieceThreading.getPosition())) {
@@ -178,7 +156,7 @@ public class RadikalChessStatus {
                 for (int j = 0; j < board.getNumberOfCols(); j++) {
                     if (board.getCells()[i][j].getPiece() != null) {
                         if (!(board.getCells()[i][j].getPiece() instanceof King))
-                            for (Position killablePosition : PieceAttackRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                            for (Position killablePosition : MovementRangeChecker.getInstance().getAttackRangeFor(board.getCells()[i][j].getPiece(), board)) {
                                 if (killablePosition.equals(position)) {
                                     pieces.add(board.getCells()[i][j].getPiece());
                                 }
@@ -217,7 +195,7 @@ public class RadikalChessStatus {
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++) {
                 if (board.getCells()[i][j].getPiece() != null)
-                    for (Piece piece : PieceAttackRangeChecker.getInstance().getKillablePiecesFor(board.getCells()[i][j].getPiece(), board)) {
+                    for (Piece piece : MovementRangeChecker.getInstance().getKillablePiecesFor(board.getCells()[i][j].getPiece(), board)) {
                         if (piece.equals(pieceToKill)) pieces.add(board.getCells()[i][j].getPiece());
                     }
             }
@@ -250,7 +228,7 @@ public class RadikalChessStatus {
         ArrayList<Move> moves = new ArrayList<Move>();
         Piece threadedKing = threadedKing();
         for (Piece piece : getPiecesForPermittedMoves()) {
-            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
+            for (Position position : MovementRangeChecker.getInstance().getMovementRangeFor(piece, board))
                 if (piece instanceof King) {
                     if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
                             || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board)) {
@@ -259,7 +237,7 @@ public class RadikalChessStatus {
                 } else {
                     if (threadedKing == null) {
                         if (isReducedEuclideanDistance(piece.getPosition(), position, (piece.getPlayer().equals(playerA)) ? playerB : playerA)
-                                || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
+                                || MovementRangeChecker.getInstance().mayThreatenTheKing(piece, position, board))
                             moves.add(new Move(piece.getPosition(), position));
                     } else {
                         for (Position positionInside : getPositionsInside(piece.getPosition(), threadedKing.getPosition())) {
@@ -280,7 +258,7 @@ public class RadikalChessStatus {
         Position[] positionsInside = getPositionsInside(threadedKing.getPosition(), pieceThreading.getPosition());
         Piece[] piecesForPermittedMoved = getPiecesForPermittedMoves();
         for (Piece piece : piecesForPermittedMoved)
-            for (Position position : PieceAttackRangeChecker.getInstance().getMovementRangeFor(piece, board))
+            for (Position position : MovementRangeChecker.getInstance().getMovementRangeFor(piece, board))
                 if (piece instanceof King) {
                     if (MoveChecker.getInstance().isAValidMove(new Move(piece.getPosition(), position), piece, board)
                             || MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board))
@@ -288,11 +266,11 @@ public class RadikalChessStatus {
                 } else if (pieceThreading.getPosition().equals(position)) {
                     moves.add(new Move(piece.getPosition(), position));
                 } else
-                        for (Piece pieceCanInterrupt : piecesCanInterruptCheckMate)
-                            if (piece.equals(pieceCanInterrupt))
-                                for (Position positionInside : positionsInside)
-                                    if (position.equals(positionInside))
-                                        moves.add(new Move(piece.getPosition(), position));
+                    for (Piece pieceCanInterrupt : piecesCanInterruptCheckMate)
+                        if (piece.equals(pieceCanInterrupt))
+                            for (Position positionInside : positionsInside)
+                                if (position.equals(positionInside))
+                                    moves.add(new Move(piece.getPosition(), position));
 
         return moves;
 

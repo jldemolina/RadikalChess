@@ -63,7 +63,7 @@ public class MoveChecker {
         if (((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 0 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1))
                 || ((Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 0))
                 || (Math.abs(move.getOrigin().getCol() - move.getDestination().getCol()) == 1 && Math.abs(move.getOrigin().getRow() - move.getDestination().getRow()) == 1)) {
-            return !PieceAttackRangeChecker.getInstance().isKillable(king, move.getDestination(), board);
+            return !MovementRangeChecker.getInstance().isKillable(king, move.getDestination(), board);
         }
         return false;
     }

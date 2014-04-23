@@ -43,7 +43,6 @@ import radikalchess.ai.Metrics;
 public class MinimaxSearch<STATE, ACTION, Player> implements
         AdversarialSearch<STATE, ACTION> {
 
-
     private Game<STATE, ACTION, Player> game;
     private int expandedNodes;
 
@@ -75,8 +74,7 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
         return result;
     }
 
-    public double maxValue(STATE state, Player player, int p) { // returns an utility
-        // value
+    public double maxValue(STATE state, Player player, int p) {
         expandedNodes++;
         p++;
         if (game.isTerminal(state) || p > P)
@@ -88,8 +86,7 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
         return value;
     }
 
-    public double minValue(STATE state, Player player, int p) { // returns an utility
-        // value
+    public double minValue(STATE state, Player player, int p) {
         expandedNodes++;
         p++;
         if (game.isTerminal(state) || p > P)

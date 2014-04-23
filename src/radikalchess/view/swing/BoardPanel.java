@@ -5,7 +5,7 @@ import radikalchess.model.Move;
 import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.checkers.MoveChecker;
-import radikalchess.model.checkers.PieceAttackRangeChecker;
+import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
 
@@ -101,7 +101,6 @@ public class BoardPanel extends JPanel {
             showThreats(cellPanel.getPiece());
             showAttackRange(cellPanel.getPiece());
             showPermittedPieceToMove();
-            showPermittedMovements();
 
             System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
 
@@ -129,7 +128,7 @@ public class BoardPanel extends JPanel {
                                 && isPermittedPieceToMove(cellPanels[i][j].getPiece())) {
                             if (!(cellPanels[i][j].getPiece() instanceof King)) {
                                 if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
-                                        || PieceAttackRangeChecker.getInstance().mayThreatenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), radikalChessStatus.getBoard())) {
+                                        || MovementRangeChecker.getInstance().mayThreatenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), radikalChessStatus.getBoard())) {
                                     cellPanel.addPiece(cellPanels[i][j].getPiece());
                                     cellPanels[i][j].removePiece();
                                     cellPanels[i][j].setPressed(false);
@@ -197,7 +196,7 @@ public class BoardPanel extends JPanel {
     }
 
     private void showKillablePiecesFor(Piece piece) {
-        Piece[] killablePieces = PieceAttackRangeChecker.getInstance().getKillablePiecesFor(piece, radikalChessStatus.getBoard());
+        Piece[] killablePieces = MovementRangeChecker.getInstance().getKillablePiecesFor(piece, radikalChessStatus.getBoard());
         if (killablePieces.length == 0) {
             System.out.println("* ATTACK STATUS: NOT POSSIBLE ATTACKS");
             return;
@@ -209,7 +208,7 @@ public class BoardPanel extends JPanel {
     }
 
     private void showThreats(Piece piece) {
-        if (PieceAttackRangeChecker.getInstance().isKillable(piece, radikalChessStatus.getBoard()))
+        if (MovementRangeChecker.getInstance().isKillable(piece, radikalChessStatus.getBoard()))
             System.out.println("* DEFENSE STATUS: THREATENED");
         else System.out.println("* DEFENSE STATUS: NOT THREATENED");
 
@@ -217,7 +216,7 @@ public class BoardPanel extends JPanel {
 
     private void showAttackRange(Piece piece) {
         System.out.println("* ATTACK RANGE:");
-        for (Position position : PieceAttackRangeChecker.getInstance().getAttackRangeFor(piece, radikalChessStatus.getBoard())) {
+        for (Position position : MovementRangeChecker.getInstance().getAttackRangeFor(piece, radikalChessStatus.getBoard())) {
             if (radikalChessStatus.getBoard().getPieceAt(position) instanceof King)
                 System.out.println("\t > Position: " + position + " > ADVERSARIAL KING");
             else System.out.println("\t > Position: " + position);
@@ -228,13 +227,6 @@ public class BoardPanel extends JPanel {
         System.out.println("PERMITTED MOVEMENTS:");
         for (Piece permittedPiece : radikalChessStatus.getPiecesForPermittedMoves()) {
             System.out.println(permittedPiece);
-        }
-    }
-
-    private void showPermittedMovements() {
-        System.out.println("PERMITTED MOVEMENTS:");
-        for (Move move : radikalChessStatus.getPossibleMovements()) {
-            System.out.println(move);
         }
     }
 

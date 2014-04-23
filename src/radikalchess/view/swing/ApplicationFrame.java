@@ -142,7 +142,6 @@ public class ApplicationFrame extends JFrame {
             radikalChessGame.move(move);
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }
-        System.out.println(radikalChessGame.getUtility(radikalChessGame.getActualStatus(), radikalChessGame.getPlayer(radikalChessGame.getActualStatus())));
     }
 
 }

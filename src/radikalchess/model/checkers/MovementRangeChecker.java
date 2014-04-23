@@ -12,14 +12,14 @@ import java.util.ArrayList;
  *
  * @author Jose Luis Molina
  */
-public class PieceAttackRangeChecker {
-    private static PieceAttackRangeChecker INSTANCE;
+public class MovementRangeChecker {
+    private static MovementRangeChecker INSTANCE;
 
-    private PieceAttackRangeChecker() {
+    private MovementRangeChecker() {
     }
 
-    public static PieceAttackRangeChecker getInstance() {
-        if (INSTANCE == null) INSTANCE = new PieceAttackRangeChecker();
+    public static MovementRangeChecker getInstance() {
+        if (INSTANCE == null) INSTANCE = new MovementRangeChecker();
         return INSTANCE;
     }
 
@@ -82,8 +82,8 @@ public class PieceAttackRangeChecker {
                     if (clonedBoard.getCells()[i][j].getPiece() != null)
                         if (!clonedPiece.getPlayer().equals(clonedBoard.getCells()[i][j].getPiece().getPlayer()))
                             for (Position position : getAttackRangeFor(clonedBoard.getCells()[i][j].getPiece(), clonedBoard))
-                                    if (position.equals(destination))
-                                        return true;
+                                if (position.equals(destination))
+                                    return true;
 
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
@@ -113,21 +113,6 @@ public class PieceAttackRangeChecker {
             e.printStackTrace();
         }
         return killable;
-    }
-
-    public Piece[] getPiecesAttacking(Piece piece, Board board) {
-        ArrayList<Piece> pieces = new ArrayList<Piece>();
-        for (int i = 0; i < board.getNumberOfRows(); i++) {
-            for (int j = 0; j < board.getNumberOfCols(); j++) {
-                for (Piece killablePiece : getKillablePiecesFor(piece, board)) {
-                    if (killablePiece.equals(piece)) {
-                        pieces.add(board.getCells()[i][j].getPiece());
-                    }
-                }
-            }
-
-        }
-        return pieces.toArray(new Piece[0]);
     }
 
     private Piece[] getKillablePiecesForKing(Piece piece, Board board) {
