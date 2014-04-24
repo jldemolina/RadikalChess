@@ -17,8 +17,8 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
     private RadikalChessStatus initialStatus;
 
     public RadikalChessGame(RadikalChessStatus radikalChessStatus) {
-        actualStatus = radikalChessStatus;
         try {
+            actualStatus = (RadikalChessStatus) radikalChessStatus.clone();
             initialStatus = (RadikalChessStatus) radikalChessStatus.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
@@ -66,8 +66,13 @@ public class RadikalChessGame implements Game<RadikalChessStatus, Move, Player> 
     }
 
     @Override
-    public RadikalChessStatus getInitialState() {
-        return initialStatus;
+    public RadikalChessStatus getInitialStatus() {
+        try {
+            return (RadikalChessStatus) this.initialStatus.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

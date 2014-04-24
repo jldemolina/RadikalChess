@@ -49,8 +49,17 @@ public class BoardPanel extends JPanel {
         revalidate();
     }
 
-    public void reset() {
-        placePieces();
+    public void update(RadikalChessStatus radikalChessStatus) {
+        this.radikalChessStatus = radikalChessStatus;
+        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
+                cellPanels[i][j].removePiece();
+                if (radikalChessStatus.getBoard().getCells()[i][j].getPiece() != null)
+                    cellPanels[i][j].addPiece(radikalChessStatus.getBoard().getCells()[i][j].getPiece());
+                this.add(cellPanels[i][j]);
+            }
+        }
+        revalidate();
     }
 
     private void initializeBoard() {

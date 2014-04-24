@@ -50,7 +50,7 @@ public class ApplicationFrame extends JFrame {
      */
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
-        // jPanel.add(createResetButton());
+        jPanel.add(createResetButton());
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
         return jPanel;
@@ -67,9 +67,7 @@ public class ApplicationFrame extends JFrame {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                radikalChessGame.setActualStatus(radikalChessGame.getInitialState());
-                boardPanel.reset();
-                revalidate();
+                boardPanel.update(radikalChessGame.getInitialStatus());
             }
         });
         return resetButton;

@@ -35,7 +35,7 @@ import java.util.List;
  */
 public interface Game<STATE, ACTION, Player> {
 
-    STATE getInitialState();
+    STATE getInitialStatus();
 
     Player[] getPlayers();
 
