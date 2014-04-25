@@ -2,7 +2,6 @@ package radikalchess.view.swing;
 
 import radikalchess.ai.RadikalChessStatus;
 import radikalchess.model.Move;
-import radikalchess.model.Player;
 import radikalchess.model.Position;
 import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
@@ -40,6 +39,9 @@ public class BoardPanel extends JPanel {
         g.setColor(Color.black);
     }
 
+    /**
+     * Update the current view (repaint and revalidate)
+     */
     public void update() {
         for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
             for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
@@ -49,6 +51,11 @@ public class BoardPanel extends JPanel {
         revalidate();
     }
 
+    /**
+     * Update the current view (repaint and revalidate) with an specific status
+     *
+     * @param radikalChessStatus
+     */
     public void update(RadikalChessStatus radikalChessStatus) {
         this.radikalChessStatus = radikalChessStatus;
         for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
@@ -129,30 +136,17 @@ public class BoardPanel extends JPanel {
             for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
                     if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
-                        Player player = (this.radikalChessStatus.getPlayerA() == cellPanels[i][j].getPiece().getPlayer()) ? radikalChessStatus.getPlayerB() : radikalChessStatus.getPlayerA();
                         if (MoveChecker.getInstance().isAValidMove(new Move
                                         (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
                                 cellPanels[i][j].getPiece(), radikalChessStatus.getBoard()
                         )
                                 && isPermittedPieceToMove(cellPanels[i][j].getPiece())) {
-                            if (!(cellPanels[i][j].getPiece() instanceof King)) {
-                                if (isReducedEuclideanDistance(cellPanels[i][j].getPosition(), cellPanel.getPosition(), player)
-                                        || MovementRangeChecker.getInstance().mayThreatenTheKing(cellPanels[i][j].getPiece(), cellPanel.getPosition(), radikalChessStatus.getBoard())) {
-                                    cellPanel.addPiece(cellPanels[i][j].getPiece());
-                                    cellPanels[i][j].removePiece();
-                                    cellPanels[i][j].setPressed(false);
-                                    cellPanel.setPressed(false);
-                                    radikalChessStatus.getBoard().getCells();
-                                    radikalChessStatus.alternatePlayer();
-                                }
-                            } else {
-                                cellPanel.addPiece(cellPanels[i][j].getPiece());
-                                cellPanels[i][j].removePiece();
-                                cellPanels[i][j].setPressed(false);
-                                cellPanel.setPressed(false);
-                                radikalChessStatus.getBoard().getCells();
-                                radikalChessStatus.alternatePlayer();
-                            }
+                            cellPanel.addPiece(cellPanels[i][j].getPiece());
+                            cellPanels[i][j].removePiece();
+                            cellPanels[i][j].setPressed(false);
+                            cellPanel.setPressed(false);
+                            radikalChessStatus.getBoard().getCells();
+                            radikalChessStatus.alternatePlayer();
                         }
                         break;
                     }
@@ -181,11 +175,6 @@ public class BoardPanel extends JPanel {
                 }
             }
         }
-    }
-
-    private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
-        return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(radikalChessStatus.getBoard().searchKingPosition(player)) <
-                new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(radikalChessStatus.getBoard().searchKingPosition(player));
     }
 
     private void placePieces() {
