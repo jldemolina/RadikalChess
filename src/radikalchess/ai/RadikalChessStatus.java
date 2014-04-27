@@ -37,6 +37,10 @@ public class RadikalChessStatus {
         return playerB;
     }
 
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
     }

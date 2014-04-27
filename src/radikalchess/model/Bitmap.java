@@ -25,6 +25,10 @@ public class Bitmap {
         this.byteArray = extractFromFile();
     }
 
+    public String getFile() {
+        return file;
+    }
+
     /**
      * @return The vector of bits that make up the image
      */

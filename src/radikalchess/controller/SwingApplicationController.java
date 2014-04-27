@@ -6,6 +6,8 @@ import radikalchess.ai.heuristics.MediumHeuristic;
 import radikalchess.ai.search.AlphaBetaSearch;
 import radikalchess.model.*;
 import radikalchess.model.pieces.*;
+import radikalchess.persistence.FileSaveGameListLoader;
+import radikalchess.persistence.FileSaveGameMaker;
 import radikalchess.view.swing.ApplicationFrame;
 
 /**
@@ -33,7 +35,7 @@ public class SwingApplicationController {
         game.setBlackPlayerSearch(new AlphaBetaSearch(game, 4));
         game.setWhitePlayerSearch(new AlphaBetaSearch(game, 4));
 
-        new ApplicationFrame(game);
+        new ApplicationFrame(game, new FileSaveGameMaker("game/savegames/savegames.txt"), new FileSaveGameListLoader("game/savegames/savegames.txt"));
     }
 
     /**
