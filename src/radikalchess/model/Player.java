@@ -23,6 +23,7 @@ public class Player {
 
     @Override
     public boolean equals(Object object) {
-        return name == ((Player) object).name;
+        Player player = (Player) object;
+        return name.equals(player.name);
     }
 }
