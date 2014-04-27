@@ -7,7 +7,10 @@ import radikalchess.model.pieces.*;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class FileSaveGameMaker implements SaveGameMaker {
@@ -20,6 +23,7 @@ public class FileSaveGameMaker implements SaveGameMaker {
 
     @Override
     public void save(RadikalChessGame game) {
+        Calendar calendar = new GregorianCalendar();
         FileWriter writer;
         RadikalChessStatus status = game.getActualStatus();
         Date date = new Date();
@@ -29,8 +33,7 @@ public class FileSaveGameMaker implements SaveGameMaker {
                     status.getBoard().getNumberOfCols() + "," + status.getPlayerA().getName() + "," + status.getPlayerB().getName()
                     + "," + status.getCurrentPlayer().getName());
             writePieces(status, writer);
-            writer.write("\nendOfSaveGame," + date.getYear() + "," + date.getMonth() + "," +
-                    date.getDate() + "," + date.getHours() + "," + date.getMinutes());
+            writer.write("\nendOfSaveGame," + new SimpleDateFormat("yyyy,MM,dd,HH,mm").format(new Date()));
             writer.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

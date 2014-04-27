@@ -71,7 +71,6 @@ public class ApplicationFrame extends JFrame {
     private JPanel createLoadAndSaveToolbar() {
         JPanel jPanel = new JPanel();
         JComboBox<SaveGame> loadGameComboBox = createLoadComboBox();
-        jPanel.add(new JLabel("Load"));
         jPanel.add(loadGameComboBox);
         jPanel.add(new JLabel("Or"));
         jPanel.add(createSaveButton(loadGameComboBox));
@@ -158,7 +157,8 @@ public class ApplicationFrame extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED)
                     return;
-                boardPanel.update((((SaveGame) saveGameComboBox.getSelectedItem()).getGame().getActualStatus()));
+                if (saveGameComboBox.getSelectedItem() instanceof SaveGame)
+                    boardPanel.update((((SaveGame) saveGameComboBox.getSelectedItem()).getGame().getActualStatus()));
             }
         });
         return makeDecisionButton;
@@ -169,8 +169,8 @@ public class ApplicationFrame extends JFrame {
      *
      * @return the JButton created
      */
-    private JComboBox<SaveGame> createLoadComboBox() {
-        JComboBox<SaveGame> saveGames = new JComboBox();
+    private JComboBox createLoadComboBox() {
+        JComboBox saveGames = new JComboBox();
         fileGameListLoader.load();
         saveGames.addActionListener(new ActionListener() {
             @Override
@@ -185,6 +185,7 @@ public class ApplicationFrame extends JFrame {
 
     private void populateLoadGameComboBox(JComboBox saveGamesComboBox) {
         saveGamesComboBox.removeAllItems();
+        saveGamesComboBox.addItem("Select game to load");
         for (int i = 0; i < SaveGameList.getInstance().size(); i++) {
             saveGamesComboBox.addItem(SaveGameList.getInstance().get(i));
         }
