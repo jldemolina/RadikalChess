@@ -56,7 +56,7 @@ public class FileSaveGameListLoader implements SaveGameListLoader {
     }
 
     private AllowedPawnMove getAllowedPawnMoveAnalyzed(String[] game) {
-        if (game[6].equals(AllowedPawnMove.UP))
+        if (game[6].equals("UP"))
             return AllowedPawnMove.UP;
         return AllowedPawnMove.DOWN;
     }

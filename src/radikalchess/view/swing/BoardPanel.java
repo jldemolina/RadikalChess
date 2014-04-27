@@ -57,14 +57,13 @@ public class BoardPanel extends JPanel {
      * @param radikalChessStatus
      */
     public void update(RadikalChessStatus radikalChessStatus) {
-        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
-            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
+        this.radikalChessStatus = radikalChessStatus;
+        for (int i = 0; i < this.radikalChessStatus.getBoard().getNumberOfRows(); i++) {
+            for (int j = 0; j < this.radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 cellPanels[i][j].removePiece();
-                if (radikalChessStatus.getBoard().getCells()[i][j].getPiece() != null)
-                    cellPanels[i][j].addPiece(radikalChessStatus.getBoard().getCells()[i][j].getPiece());
             }
         }
-        revalidate();
+        placePieces();
     }
 
     private void initializeBoard() {
@@ -144,6 +143,7 @@ public class BoardPanel extends JPanel {
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
                             radikalChessStatus.getBoard().getCells();
+                            radikalChessStatus.alternatePlayer();
                         }
                         break;
                     }

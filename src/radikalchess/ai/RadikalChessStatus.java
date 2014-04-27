@@ -14,8 +14,8 @@ import java.util.List;
 
 public class RadikalChessStatus {
 
-    private final Player playerA;
-    private final Player playerB;
+    private Player playerA;
+    private Player playerB;
     private Board board;
     private Player currentPlayer;
 

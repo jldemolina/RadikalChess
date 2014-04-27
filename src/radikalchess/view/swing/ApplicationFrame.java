@@ -177,7 +177,6 @@ public class ApplicationFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SaveGameList.getInstance().clear();
                 fileGameListLoader.load();
-                System.out.println(SaveGameList.getInstance().size());
             }
         });
         populateLoadGameComboBox(saveGames);
