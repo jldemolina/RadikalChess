@@ -98,7 +98,7 @@ public class BoardPanel extends JPanel {
                         checkCellPanel(cellPanel);
                     }
                 } else {
-                    System.out.println("THE WINNER IS" + radikalChessStatus.getWinner().getName().toUpperCase());
+                    System.out.println("THE WINNER IS " + radikalChessStatus.getWinner().getName().toUpperCase());
                 }
             }
         });
@@ -144,7 +144,6 @@ public class BoardPanel extends JPanel {
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
                             radikalChessStatus.getBoard().getCells();
-                            radikalChessStatus.alternatePlayer();
                         }
                         break;
                     }
