@@ -45,6 +45,10 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
 
     private Game<STATE, ACTION, Player> game;
     private int expandedNodes;
+    private int totalExpandedNodes;
+    private double time;
+    private double totalTime;
+    private int movements;
 
     /**
      * Creates a new search object for a given game.
@@ -62,6 +66,7 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
     public ACTION makeDecision(STATE state) {
         expandedNodes = 0;
         ACTION result = null;
+        time = System.currentTimeMillis();
         double resultValue = Double.NEGATIVE_INFINITY;
         Player player = game.getPlayer(state);
         for (ACTION action : game.getActions(state)) {
@@ -71,11 +76,15 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
                 resultValue = value;
             }
         }
+        movements++;
+        time = System.currentTimeMillis() - time;
+        totalTime += time;
         return result;
     }
 
     public double maxValue(STATE state, Player player, int p) {
         expandedNodes++;
+        totalExpandedNodes++;
         p++;
         if (game.isTerminal(state) || p > P)
             return game.getUtility(state, player);
@@ -88,6 +97,7 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
 
     public double minValue(STATE state, Player player, int p) {
         expandedNodes++;
+        totalExpandedNodes++;
         p++;
         if (game.isTerminal(state) || p > P)
             return game.getUtility(state, player);
@@ -102,6 +112,10 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
     public Metrics getMetrics() {
         Metrics result = new Metrics();
         result.set("expandedNodes", expandedNodes);
+        result.set("totalExpandedNodes", totalExpandedNodes);
+        result.set("time", time / 1000);
+        result.set("totalTime", totalTime / 1000);
+        result.set("movements", movements);
         return result;
     }
 }

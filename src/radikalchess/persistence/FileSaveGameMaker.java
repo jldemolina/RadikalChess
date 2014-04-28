@@ -8,9 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 public class FileSaveGameMaker implements SaveGameMaker {
@@ -23,10 +21,8 @@ public class FileSaveGameMaker implements SaveGameMaker {
 
     @Override
     public void save(RadikalChessGame game) {
-        Calendar calendar = new GregorianCalendar();
         FileWriter writer;
         RadikalChessStatus status = game.getActualStatus();
-        Date date = new Date();
         try {
             writer = new FileWriter(file, true);
             writer.write("\nstatus," + status.getBoard().getNumberOfRows() + "," +

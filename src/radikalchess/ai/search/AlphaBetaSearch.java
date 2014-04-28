@@ -8,15 +8,16 @@ public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
 
     Game<STATE, ACTION, PLAYER> game;
     private int expandedNodes;
-    private double time, avgTime;
+    private double time;
     private int movements;
     private int p;
+    private int totalExpandedNodes;
+    private double totalTime;
 
     public AlphaBetaSearch(Game<STATE, ACTION, PLAYER> game, int p) {
         this.game = game;
         movements = 0;
         this.p = p;
-        this.avgTime = 0;
     }
 
     @Override
@@ -36,12 +37,13 @@ public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
         }
         movements++;
         time = System.currentTimeMillis() - time;
-        avgTime += time;
+        totalTime += time;
         return result;
     }
 
     public double maxValue(STATE state, PLAYER player, double alpha, double beta, int p) {
         expandedNodes++;
+        totalExpandedNodes++;
         p++;
         if (game.isTerminal(state) || p > this.p) {
             return game.getUtility(state, player);
@@ -60,6 +62,7 @@ public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
 
     public double minValue(STATE state, PLAYER player, double alpha, double beta, int p) {
         expandedNodes++;
+        totalExpandedNodes++;
         p++;
         if (game.isTerminal(state) || p > this.p) {
             return game.getUtility(state, player);
@@ -80,8 +83,9 @@ public class AlphaBetaSearch<STATE, ACTION, PLAYER> implements
     public Metrics getMetrics() {
         Metrics result = new Metrics();
         result.set("expandedNodes", expandedNodes);
+        result.set("totalExpandedNodes", totalExpandedNodes);
         result.set("time", time / 1000);
-        result.set("averageTime", avgTime / (movements / 2) / 1000);
+        result.set("totalTime", totalTime / 1000);
         result.set("movements", movements);
         return result;
     }
