@@ -53,3 +53,31 @@ piece,5,1,bishop,Player B,images/pieces/lilacbishop.png
 piece,5,2,queen,Player B,images/pieces/lilacqueen.png
 piece,5,3,king,Player B,images/pieces/lilacking.png
 endOfSaveGame,2014,04,27,19,00
+status,6,4,Player A,Player B,Player A
+piece,0,0,rook,Player B,images/pieces/lilacrook.png
+piece,0,2,bishop,Player A,images/pieces/bluebishop.png
+piece,0,3,rook,Player A,images/pieces/bluerook.png
+piece,1,1,bishop,Player B,images/pieces/lilacbishop.png
+piece,1,2,king,Player A,images/pieces/blueking.png
+piece,2,2,queen,Player B,images/pieces/lilacqueen.png
+piece,2,3,pawn,Player A,images/pieces/bluepawn.png,DOWN
+piece,3,1,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,3,2,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,4,1,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,4,3,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,5,3,king,Player B,images/pieces/lilacking.png
+endOfSaveGame,2014,04,28,14,29
+status,6,4,Player A,Player B,Player A
+piece,0,0,rook,Player B,images/pieces/lilacrook.png
+piece,0,2,bishop,Player A,images/pieces/bluebishop.png
+piece,0,3,rook,Player A,images/pieces/bluerook.png
+piece,1,1,bishop,Player B,images/pieces/lilacbishop.png
+piece,1,2,king,Player A,images/pieces/blueking.png
+piece,2,2,queen,Player B,images/pieces/lilacqueen.png
+piece,2,3,pawn,Player A,images/pieces/bluepawn.png,DOWN
+piece,3,1,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,3,2,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,4,1,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,4,3,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,5,3,king,Player B,images/pieces/lilacking.png
+endOfSaveGame,2014,04,28,14,29

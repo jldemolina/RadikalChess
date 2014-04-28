@@ -2,11 +2,13 @@ package radikalchess.view.swing;
 
 import radikalchess.ai.RadikalChessStatus;
 import radikalchess.model.Move;
+import radikalchess.model.Play;
 import radikalchess.model.Position;
 import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
+import radikalchess.persistence.PlayMaker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,8 +26,12 @@ public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
     private RadikalChessStatus radikalChessStatus;
+    private int numberOfMovements;
+    private PlayMaker playMaker;
 
-    public BoardPanel(RadikalChessStatus radikalChessStatus) {
+    public BoardPanel(RadikalChessStatus radikalChessStatus, PlayMaker playMaker) {
+        this.playMaker = playMaker;
+        this.numberOfMovements = 0;
         this.radikalChessStatus = radikalChessStatus;
         this.cellPanels = new CellPanel[radikalChessStatus.getBoard().getNumberOfRows()][radikalChessStatus.getBoard().getNumberOfCols()];
         this.setLayout(new GridLayout(radikalChessStatus.getBoard().getNumberOfRows(), radikalChessStatus.getBoard().getNumberOfCols()));
@@ -97,6 +103,8 @@ public class BoardPanel extends JPanel {
                         checkCellPanel(cellPanel);
                     }
                 } else {
+                    if (numberOfMovements != 0)
+                        playMaker.save(new Play(radikalChessStatus.getWinner(), numberOfMovements));
                     System.out.println("THE WINNER IS " + radikalChessStatus.getWinner().getName().toUpperCase());
                 }
             }
@@ -144,6 +152,7 @@ public class BoardPanel extends JPanel {
                             cellPanel.setPressed(false);
                             radikalChessStatus.getBoard().getCells();
                             radikalChessStatus.alternatePlayer();
+                            numberOfMovements++;
                         }
                         break;
                     }
@@ -166,6 +175,7 @@ public class BoardPanel extends JPanel {
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
                             radikalChessStatus.alternatePlayer();
+                            numberOfMovements++;
                         }
                         return;
                     }

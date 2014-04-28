@@ -37,6 +37,7 @@ public class FileSaveGameListLoader implements SaveGameListLoader {
                                     Integer.valueOf(game[4]), Integer.valueOf(game[5]))
                     ));
             }
+            reader.close();
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
         }

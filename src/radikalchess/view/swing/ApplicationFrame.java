@@ -5,6 +5,8 @@ import radikalchess.model.Move;
 import radikalchess.model.SaveGame;
 import radikalchess.model.SaveGameList;
 import radikalchess.persistence.FileSaveGameListLoader;
+import radikalchess.persistence.PlayListLoader;
+import radikalchess.persistence.PlayMaker;
 import radikalchess.persistence.SaveGameMaker;
 
 import javax.swing.*;
@@ -26,6 +28,8 @@ public class ApplicationFrame extends JFrame {
     private RadikalChessGame radikalChessGame;
     private SaveGameMaker saveGameMaker;
     private FileSaveGameListLoader fileGameListLoader;
+    private PlayMaker playMaker;
+    private PlayListLoader playListLoader;
 
     /**
      * Constructor charge of showing all the main frame and their respective panels and visors
@@ -33,14 +37,17 @@ public class ApplicationFrame extends JFrame {
      * @param radikalChessGame
      * @param fileGameListLoader
      */
-    public ApplicationFrame(RadikalChessGame radikalChessGame, SaveGameMaker saveGameMaker, FileSaveGameListLoader fileGameListLoader) {
+    public ApplicationFrame(RadikalChessGame radikalChessGame, SaveGameMaker saveGameMaker, FileSaveGameListLoader fileGameListLoader,
+                            PlayMaker playMaker, PlayListLoader playListLoader) {
         this.radikalChessGame = radikalChessGame;
         this.saveGameMaker = saveGameMaker;
         this.fileGameListLoader = fileGameListLoader;
+        this.playMaker = playMaker;
+        this.playListLoader = playListLoader;
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setMinimumSize(new Dimension(350, 600));
+        this.setMinimumSize(new Dimension(400, 650));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
 
@@ -65,6 +72,7 @@ public class ApplicationFrame extends JFrame {
         jPanel.add(createResetButton());
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
+        jPanel.add(createRankingButton());
         return jPanel;
     }
 
@@ -135,6 +143,17 @@ public class ApplicationFrame extends JFrame {
         return makeDecisionButton;
     }
 
+    private JButton createRankingButton() {
+        JButton makeDecisionButton = new JButton("★");
+        makeDecisionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RankingFrame(playMaker, playListLoader);
+            }
+        });
+        return makeDecisionButton;
+    }
+
     /**
      * Create a button that allows save the game status
      *
@@ -198,7 +217,7 @@ public class ApplicationFrame extends JFrame {
      * @return the JPanel created
      */
     private JPanel createBoardPanel() {
-        boardPanel = new BoardPanel(radikalChessGame.getActualStatus());
+        boardPanel = new BoardPanel(radikalChessGame.getActualStatus(), playMaker);
         boardPanel.setSize(400, 600);
         return boardPanel;
     }
