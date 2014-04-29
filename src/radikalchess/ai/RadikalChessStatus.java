@@ -165,6 +165,11 @@ public class RadikalChessStatus {
                                     pieces.add(board.getCells()[i][j].getPiece());
                                 }
                             }
+                        for (Position killablePosition : MovementRangeChecker.getInstance().getMovementRangeFor(board.getCells()[i][j].getPiece(), board)) {
+                            if (killablePosition.equals(position)) {
+                                pieces.add(board.getCells()[i][j].getPiece());
+                            }
+                        }
                     }
                 }
             }

@@ -230,11 +230,13 @@ public class ApplicationFrame extends JFrame {
         if (radikalChessGame.getPlayer(radikalChessGame.getActualStatus()).equals(radikalChessGame.getActualStatus().getPlayerA())) {
             move = (Move) radikalChessGame.getWhitePlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
+            System.out.println(radikalChessGame.getUtility(radikalChessGame.getActualStatus(), radikalChessGame.getActualStatus().getCurrentPlayer()));
             radikalChessGame.move(move);
             System.out.println((move.toString() + "\n" + radikalChessGame.getWhitePlayerSearch().getMetrics() + "\n"));
         } else {
             move = (Move) radikalChessGame.getBlackPlayerSearch().makeDecision(
                     radikalChessGame.getActualStatus());
+            System.out.println(radikalChessGame.getUtility(radikalChessGame.getActualStatus(), radikalChessGame.getActualStatus().getCurrentPlayer()));
             radikalChessGame.move(move);
             System.out.println(move.toString() + "\n" + radikalChessGame.getBlackPlayerSearch().getMetrics() + "\n");
         }

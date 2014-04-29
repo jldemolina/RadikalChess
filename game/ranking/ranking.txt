@@ -1,4 +1,0 @@
-Pepe,45
-Carmelo,33
-Jose,23
-Juana,34
