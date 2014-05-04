@@ -46,7 +46,7 @@ public class RadikalChessStatus {
     }
 
     public void alternatePlayer() {
-        currentPlayer = (this.playerA == currentPlayer) ? playerB : playerA;
+        currentPlayer = (this.playerA.equals(currentPlayer)) ? playerB : playerA;
     }
 
     public Piece[] getPiecesForPermittedMoves() {

@@ -184,7 +184,8 @@ public class MovementRangeChecker {
                     positions.add(new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol()));
             }
         } else {
-            if (pawn.getPosition().getRow() + 1 < board.getNumberOfCols()) {
+            if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows()) {
+                System.out.println("dentro");
                 if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol()].getPiece() == null)
                     positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol()));
             }
