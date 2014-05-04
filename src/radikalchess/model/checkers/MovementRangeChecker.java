@@ -179,13 +179,12 @@ public class MovementRangeChecker {
     private Position[] getMovementRangeFor(Pawn pawn, Board board) {
         ArrayList<Position> positions = new ArrayList<Position>();
         if (pawn.getAllowedPawnMove().equals(AllowedPawnMove.UP)) {
-            if (pawn.getPosition().getRow() - 1 > 0) {
+            if (pawn.getPosition().getRow() - 1 >= 0) {
                 if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol()].getPiece() == null)
                     positions.add(new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol()));
             }
         } else {
             if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows()) {
-                System.out.println("dentro");
                 if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol()].getPiece() == null)
                     positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol()));
             }

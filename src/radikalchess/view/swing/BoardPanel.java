@@ -2,12 +2,10 @@ package radikalchess.view.swing;
 
 import radikalchess.ai.RadikalChessStatus;
 import radikalchess.model.Move;
-import radikalchess.model.Play;
 import radikalchess.model.Position;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
-import radikalchess.persistence.PlayMaker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,10 +24,8 @@ public class BoardPanel extends JPanel {
     private CellPanel[][] cellPanels;
     private RadikalChessStatus radikalChessStatus;
     private int numberOfMovements;
-    private PlayMaker playMaker;
 
-    public BoardPanel(RadikalChessStatus radikalChessStatus, PlayMaker playMaker) {
-        this.playMaker = playMaker;
+    public BoardPanel(RadikalChessStatus radikalChessStatus) {
         this.numberOfMovements = 0;
         this.radikalChessStatus = radikalChessStatus;
         this.cellPanels = new CellPanel[radikalChessStatus.getBoard().getNumberOfRows()][radikalChessStatus.getBoard().getNumberOfCols()];
@@ -101,7 +97,6 @@ public class BoardPanel extends JPanel {
                     }
                 } else {
                     if (numberOfMovements != 0)
-                        playMaker.save(new Play(radikalChessStatus.getWinner(), numberOfMovements));
                     System.out.println("THE WINNER IS " + radikalChessStatus.getWinner().getName().toUpperCase());
                 }
             }
@@ -137,7 +132,7 @@ public class BoardPanel extends JPanel {
         for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
             for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
-                    if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
+                    if (cellPanels[i][j].isPressed()) {
                         if (isPermittedMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())))) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
@@ -162,6 +157,7 @@ public class BoardPanel extends JPanel {
                     cellPanels[i][j].addPiece(radikalChessStatus.getBoard().getCells()[i][j].getPiece());
             }
         }
+        System.out.println("hola");
     }
 
     private boolean isPermittedMove(Move move) {

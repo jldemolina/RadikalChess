@@ -5,8 +5,6 @@ import radikalchess.model.Move;
 import radikalchess.model.SaveGame;
 import radikalchess.model.SaveGameList;
 import radikalchess.persistence.FileSaveGameListLoader;
-import radikalchess.persistence.PlayListLoader;
-import radikalchess.persistence.PlayMaker;
 import radikalchess.persistence.SaveGameMaker;
 
 import javax.swing.*;
@@ -28,8 +26,6 @@ public class ApplicationFrame extends JFrame {
     private RadikalChessGame radikalChessGame;
     private SaveGameMaker saveGameMaker;
     private FileSaveGameListLoader fileGameListLoader;
-    private PlayMaker playMaker;
-    private PlayListLoader playListLoader;
 
     /**
      * Constructor charge of showing all the main frame and their respective panels and visors
@@ -37,13 +33,11 @@ public class ApplicationFrame extends JFrame {
      * @param radikalChessGame
      * @param fileGameListLoader
      */
-    public ApplicationFrame(RadikalChessGame radikalChessGame, SaveGameMaker saveGameMaker, FileSaveGameListLoader fileGameListLoader,
-                            PlayMaker playMaker, PlayListLoader playListLoader) {
+    public ApplicationFrame(RadikalChessGame radikalChessGame, SaveGameMaker saveGameMaker, FileSaveGameListLoader fileGameListLoader
+    ) {
         this.radikalChessGame = radikalChessGame;
         this.saveGameMaker = saveGameMaker;
         this.fileGameListLoader = fileGameListLoader;
-        this.playMaker = playMaker;
-        this.playListLoader = playListLoader;
 
         this.setTitle("RadikalChess");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -69,10 +63,9 @@ public class ApplicationFrame extends JFrame {
      */
     private JPanel createToolbar() {
         JPanel jPanel = new JPanel();
-        jPanel.add(createResetButton());
+        jPanel.add(createConfigurationButton());
         jPanel.add(createPlayButton());
         jPanel.add(createMakeDecisionButton());
-        jPanel.add(createRankingButton());
         return jPanel;
     }
 
@@ -87,17 +80,17 @@ public class ApplicationFrame extends JFrame {
     }
 
     /**
-     * Create a button to reset the board, the pieces, the cells ... In short, the full game.
+     * Create a button to config the board: Heuristics, search, and more
      *
      * @return the JButton created
      */
-    private JButton createResetButton() {
-        JButton resetButton = new JButton("Reset");
+    private JButton createConfigurationButton() {
+        JButton resetButton = new JButton("Configuration");
 
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boardPanel.update(radikalChessGame.getInitialStatus());
+                new ConfigurationPanel(radikalChessGame);
             }
         });
         return resetButton;
@@ -138,17 +131,6 @@ public class ApplicationFrame extends JFrame {
                     decideMovement();
                     boardPanel.update();
                 }
-            }
-        });
-        return makeDecisionButton;
-    }
-
-    private JButton createRankingButton() {
-        JButton makeDecisionButton = new JButton("★");
-        makeDecisionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RankingFrame(playMaker, playListLoader);
             }
         });
         return makeDecisionButton;
@@ -217,7 +199,7 @@ public class ApplicationFrame extends JFrame {
      * @return the JPanel created
      */
     private JPanel createBoardPanel() {
-        boardPanel = new BoardPanel(radikalChessGame.getActualStatus(), playMaker);
+        boardPanel = new BoardPanel(radikalChessGame.getActualStatus());
         boardPanel.setSize(400, 600);
         return boardPanel;
     }

@@ -217,7 +217,7 @@ public class RadikalChessStatus {
         Piece king = threadedKing();
         board.setPieceAt(piece.getPosition(), null);
         if (king != null)
-            if (king.getPlayer().equals(piece))
+            if (king.getPlayer().equals(piece.getPlayer()))
                 defending = true;
         board.setPieceAt(piece.getPosition(), piece);
         return defending;

@@ -6,8 +6,6 @@ import radikalchess.ai.heuristics.MediumHeuristic;
 import radikalchess.ai.search.AlphaBetaSearch;
 import radikalchess.model.*;
 import radikalchess.model.pieces.*;
-import radikalchess.persistence.FilePlayListLoader;
-import radikalchess.persistence.FilePlayMaker;
 import radikalchess.persistence.FileSaveGameListLoader;
 import radikalchess.persistence.FileSaveGameMaker;
 import radikalchess.view.swing.ApplicationFrame;
@@ -20,7 +18,6 @@ import radikalchess.view.swing.ApplicationFrame;
  */
 public class SwingApplicationController {
     private static final String saveGameFilePath = "game/savegames/savegames.txt";
-    private static final String rankingFilePath = "game/ranking/ranking.txt";
 
     /**
      * Method that is responsible for implementing the entire application
@@ -40,9 +37,7 @@ public class SwingApplicationController {
         game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
 
         new ApplicationFrame(game, new FileSaveGameMaker(saveGameFilePath),
-                new FileSaveGameListLoader(saveGameFilePath),
-                new FilePlayMaker(rankingFilePath),
-                new FilePlayListLoader(rankingFilePath));
+                new FileSaveGameListLoader(saveGameFilePath));
     }
 
     /**
