@@ -36,5 +36,11 @@ public class Move {
         return "Moving piece from " + origin.toString() + " to " + destination.toString();
     }
 
-
+    @Override
+    public boolean equals(Object object) {
+        Move move = (Move) object;
+        if (origin.equals(move.origin) && destination.equals(move.destination))
+            return true;
+        return false;
+    }
 }

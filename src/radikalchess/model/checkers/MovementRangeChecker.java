@@ -189,6 +189,29 @@ public class MovementRangeChecker {
                     positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol()));
             }
         }
+        if (pawn.getAllowedPawnMove().equals(AllowedPawnMove.UP)) {
+            if (pawn.getPosition().getRow() - 1 >= 0 && pawn.getPosition().getCol() + 1 < board.getNumberOfCols()) {
+                if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() + 1].getPiece() != null)
+                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() + 1)))
+                        positions.add(new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() + 1));
+            }
+            if (pawn.getPosition().getRow() - 1 >= 0 && pawn.getPosition().getCol() - 1 >= 0) {
+                if (board.getCells()[pawn.getPosition().getRow() - 1][pawn.getPosition().getCol() - 1].getPiece() != null)
+                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() - 1)))
+                        positions.add(new Position(pawn.getPosition().getRow() - 1, pawn.getPosition().getCol() - 1));
+            }
+        } else {
+            if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows() && pawn.getPosition().getCol() + 1 < board.getNumberOfCols()) {
+                if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() + 1].getPiece() != null)
+                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() + 1)))
+                        positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() + 1));
+            }
+            if (pawn.getPosition().getRow() + 1 < board.getNumberOfRows() && pawn.getPosition().getCol() - 1 >= 0) {
+                if (board.getCells()[pawn.getPosition().getRow() + 1][pawn.getPosition().getCol() - 1].getPiece() != null)
+                    if (!arePiecesOfSamePlayer(board, pawn.getPosition(), new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1)))
+                        positions.add(new Position(pawn.getPosition().getRow() + 1, pawn.getPosition().getCol() - 1));
+            }
+        }
         return positions.toArray(new Position[0]);
     }
 

@@ -4,7 +4,6 @@ import radikalchess.ai.RadikalChessStatus;
 import radikalchess.model.Move;
 import radikalchess.model.Play;
 import radikalchess.model.Position;
-import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Piece;
@@ -96,10 +95,8 @@ public class BoardPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!radikalChessStatus.isTerminal()) {
-                    if (!cellPanel.hasAnyPiece()) {
-                        movePressedPieceTo(cellPanel);
-                    } else {
-                        killPiece(cellPanel);
+                    movePressedPieceTo(cellPanel);
+                    if (cellPanel.hasAnyPiece()) {
                         checkCellPanel(cellPanel);
                     }
                 } else {
@@ -141,11 +138,8 @@ public class BoardPanel extends JPanel {
             for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
                 if (cellPanels[i][j].hasAnyPiece()) {
                     if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
-                        if (MoveChecker.getInstance().isAValidMove(new Move
-                                        (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard()
-                        )
-                                && isPermittedPieceToMove(cellPanels[i][j].getPiece())) {
+                        if (isPermittedMove(new Move
+                                (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())))) {
                             cellPanel.addPiece(cellPanels[i][j].getPiece());
                             cellPanels[i][j].removePiece();
                             cellPanels[i][j].setPressed(false);
@@ -161,29 +155,6 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    private void killPiece(CellPanel cellPanel) {
-        for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
-            for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
-                if (cellPanels[i][j].hasAnyPiece()) {
-                    if (cellPanels[i][j].isPressed() && cellPanels[i][j].getPiece().getPlayer().equals(radikalChessStatus.getCurrentPlayer())) {
-                        if (MoveChecker.getInstance().isAValidKillerMove(new Move
-                                        (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())),
-                                cellPanels[i][j].getPiece(), radikalChessStatus.getBoard()
-                        )) {
-                            cellPanel.addPiece(cellPanels[i][j].getPiece());
-                            cellPanels[i][j].removePiece();
-                            cellPanels[i][j].setPressed(false);
-                            cellPanel.setPressed(false);
-                            radikalChessStatus.alternatePlayer();
-                            numberOfMovements++;
-                        }
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
     private void placePieces() {
         for (int i = 0; i < radikalChessStatus.getBoard().getNumberOfRows(); i++) {
             for (int j = 0; j < radikalChessStatus.getBoard().getNumberOfCols(); j++) {
@@ -193,9 +164,9 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    private boolean isPermittedPieceToMove(Piece piece) {
-        for (Piece permittedPiece : radikalChessStatus.getPiecesForPermittedMoves()) {
-            if (permittedPiece.equals(piece)) return true;
+    private boolean isPermittedMove(Move move) {
+        for (Move permittedMove : radikalChessStatus.getPossibleMovements()) {
+            if (permittedMove.equals(move)) return true;
         }
         return false;
     }
@@ -230,8 +201,8 @@ public class BoardPanel extends JPanel {
 
     private void showPermittedPieceToMove() {
         System.out.println("PERMITTED MOVEMENTS:");
-        for (Piece permittedPiece : radikalChessStatus.getPiecesForPermittedMoves()) {
-            System.out.println(permittedPiece);
+        for (Move permittedMove : radikalChessStatus.getPossibleMovements()) {
+            System.out.println(permittedMove);
         }
     }
 
