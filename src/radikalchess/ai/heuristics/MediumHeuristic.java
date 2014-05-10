@@ -26,7 +26,7 @@ public class MediumHeuristic implements Heuristic {
 
             }
         }
-        return heuristic;
+        return -heuristic;
     }
 
     private double getTheBiggestThreatPoints(RadikalChessStatus status, Piece piece) {

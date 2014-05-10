@@ -65,6 +65,7 @@ public class RadikalChessStatus {
     }
 
     public List<Move> getPossibleMovements() {
+        Player adversarial = (currentPlayer.equals(playerA)) ? playerB : playerA;
         ArrayList<Move> moves = new ArrayList<Move>();
         for (int i = 0; i < board.getNumberOfRows(); i++) {
             for (int j = 0; j < board.getNumberOfCols(); j++)
@@ -73,7 +74,7 @@ public class RadikalChessStatus {
                         for (Position position : MovementRangeChecker.getInstance().getMovementRangeFor(board.getPieceAt(board.getCells()[i][j].getPosition()), board)) {
                             if (board.getCells()[i][j].getPiece() instanceof King || board.getCells()[i][j].getPiece() instanceof Pawn)
                                 moves.add(new Move(board.getCells()[i][j].getPiece().getPosition(), position));
-                            else if (isReducedEuclideanDistance(board.getCells()[i][j].getPiece().getPosition(), position, currentPlayer)
+                            else if (isReducedEuclideanDistance(board.getCells()[i][j].getPiece().getPosition(), position, adversarial)
                                     || MovementRangeChecker.getInstance().mayThreatenTheKing(board.getCells()[i][j].getPiece(), position, board)) {
                                 moves.add(new Move(board.getCells()[i][j].getPiece().getPosition(), position));
                         }

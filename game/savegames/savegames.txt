@@ -98,3 +98,15 @@ piece,5,1,bishop,Player B,images/pieces/lilacbishop.png
 piece,5,2,queen,Player B,images/pieces/lilacqueen.png
 piece,5,3,king,Player B,images/pieces/lilacking.png
 endOfSaveGame,2014,05,04,20,10
+status,6,4,Player A,Player B,Player A
+piece,0,0,king,Player A,images/pieces/blueking.png
+piece,0,1,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,1,1,bishop,Player A,images/pieces/bluebishop.png
+piece,2,3,pawn,Player A,images/pieces/bluepawn.png,DOWN
+piece,3,0,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,3,1,queen,Player A,images/pieces/bluequeen.png
+piece,3,3,pawn,Player B,images/pieces/lilacpawn.png,UP
+piece,4,2,bishop,Player B,images/pieces/lilacbishop.png
+piece,5,0,king,Player B,images/pieces/lilacking.png
+piece,5,3,queen,Player B,images/pieces/lilacqueen.png
+endOfSaveGame,2014,05,10,20,32
