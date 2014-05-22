@@ -5,6 +5,7 @@ import radikalchess.controller.SwingApplicationController;
  * which in turn is responsible for connecting the view and model.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.controller.SwingApplicationController
  */
 public class Application {

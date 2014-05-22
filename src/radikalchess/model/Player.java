@@ -5,6 +5,7 @@ package radikalchess.model;
  * It has a name that generally should be unique.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class Player {
     private String name;

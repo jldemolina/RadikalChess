@@ -5,6 +5,7 @@ package radikalchess.model;
  * A board is a numbered space and the enumeration corresponds to the relative positions.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class Position implements Cloneable {
     private int col;

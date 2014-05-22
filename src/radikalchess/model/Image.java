@@ -4,6 +4,7 @@ package radikalchess.model;
  * An image is an object containing a bitmap
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.model.Bitmap
  */
 public class Image {

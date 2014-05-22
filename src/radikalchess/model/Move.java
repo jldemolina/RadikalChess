@@ -5,6 +5,7 @@ package radikalchess.model;
  * from one position to another.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see Position
  */
 public class Move {

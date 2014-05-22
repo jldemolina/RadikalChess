@@ -15,6 +15,7 @@ import radikalchess.view.swing.ApplicationFrame;
  * (and, of course, the IA)
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class SwingApplicationController {
     private static final String saveGameFilePath = "game/savegames/savegames.txt";
@@ -33,8 +34,8 @@ public class SwingApplicationController {
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
         game.setWhitePlayerHeuristic(new MediumHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 3));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 6));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 6));
 
         new ApplicationFrame(game, new FileSaveGameMaker(saveGameFilePath),
                 new FileSaveGameListLoader(saveGameFilePath));

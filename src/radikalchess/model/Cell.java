@@ -7,6 +7,7 @@ import radikalchess.model.pieces.Piece;
  * As is numbered, has a defined position
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.model.pieces.Piece
  * @see radikalchess.model.Position
  */

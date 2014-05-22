@@ -17,16 +17,15 @@ import java.awt.event.ActionListener;
  * Allows direct user interaction with the same
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.view.swing.CellPanel
  */
 public class BoardPanel extends JPanel {
 
     private CellPanel[][] cellPanels;
     private RadikalChessStatus radikalChessStatus;
-    private int numberOfMovements;
 
     public BoardPanel(RadikalChessStatus radikalChessStatus) {
-        this.numberOfMovements = 0;
         this.radikalChessStatus = radikalChessStatus;
         this.cellPanels = new CellPanel[radikalChessStatus.getBoard().getNumberOfRows()][radikalChessStatus.getBoard().getNumberOfCols()];
         this.setLayout(new GridLayout(radikalChessStatus.getBoard().getNumberOfRows(), radikalChessStatus.getBoard().getNumberOfCols()));
@@ -91,12 +90,12 @@ public class BoardPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!radikalChessStatus.isTerminal()) {
+                    System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
                     movePressedPieceTo(cellPanel);
                     if (cellPanel.hasAnyPiece()) {
                         checkCellPanel(cellPanel);
                     }
                 } else {
-                    if (numberOfMovements != 0)
                     System.out.println("THE WINNER IS " + radikalChessStatus.getWinner().getName().toUpperCase());
                 }
             }
@@ -114,9 +113,6 @@ public class BoardPanel extends JPanel {
             showThreats(cellPanel.getPiece());
             showAttackRange(cellPanel.getPiece());
             showPermittedPieceToMove();
-
-            System.out.println("\n\n" + radikalChessStatus.getCurrentPlayer().getName().toUpperCase() + "'s TURN");
-
         }
     }
 
@@ -141,7 +137,6 @@ public class BoardPanel extends JPanel {
                             cellPanel.setPressed(false);
                             radikalChessStatus.getBoard().getCells();
                             radikalChessStatus.alternatePlayer();
-                            numberOfMovements++;
                         }
                         break;
                     }
@@ -157,7 +152,6 @@ public class BoardPanel extends JPanel {
                     cellPanels[i][j].addPiece(radikalChessStatus.getBoard().getCells()[i][j].getPiece());
             }
         }
-        System.out.println("hola");
     }
 
     private boolean isPermittedMove(Move move) {

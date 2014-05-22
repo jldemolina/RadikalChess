@@ -77,19 +77,18 @@ public class RadikalChessStatus {
                             else if (isReducedEuclideanDistance(board.getCells()[i][j].getPiece().getPosition(), position, adversarial)
                                     || MovementRangeChecker.getInstance().mayThreatenTheKing(board.getCells()[i][j].getPiece(), position, board)) {
                                 moves.add(new Move(board.getCells()[i][j].getPiece().getPosition(), position));
+                            }
                         }
                     }
                 }
-            }
         }
         return moves;
     }
 
     public void move(Move move) {
         board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
-            board.setPieceAt(move.getOrigin(), null);
-            alternatePlayer();
-
+        board.setPieceAt(move.getOrigin(), null);
+        alternatePlayer();
     }
 
     @Override

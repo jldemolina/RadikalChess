@@ -1,8 +1,5 @@
 package radikalchess.model;
 
-/**
- * Created by Jose on 28/04/14.
- */
 public class Play {
     private final Player player;
     private final int numberOfMovements;

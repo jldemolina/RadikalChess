@@ -15,6 +15,7 @@ import java.io.IOException;
  * This class represents a simple cell panel of the game.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class CellPanel extends JPanel {
     private Cell cell;

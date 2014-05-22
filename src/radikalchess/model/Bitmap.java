@@ -8,6 +8,7 @@ import java.nio.file.Files;
  * An object that contains a vector of bits. Compose an image
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.model.Image
  */
 public class Bitmap {

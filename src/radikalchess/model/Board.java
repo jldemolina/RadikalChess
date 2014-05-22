@@ -8,6 +8,7 @@ import radikalchess.model.pieces.Piece;
  * the various pieces that make up the game
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  * @see radikalchess.model.Cell
  */
 public class Board {

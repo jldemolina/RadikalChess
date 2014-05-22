@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * in a certain position. Likewise, and from this, you can also get the destructible ("Killable") pieces
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class MovementRangeChecker {
     private static MovementRangeChecker INSTANCE;

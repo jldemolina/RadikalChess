@@ -4,9 +4,6 @@ import radikalchess.ai.RadikalChessGame;
 
 import java.util.Date;
 
-/**
- * Created by Jose on 27/04/14.
- */
 public class SaveGame {
     private final RadikalChessGame game;
     private final Date date;
