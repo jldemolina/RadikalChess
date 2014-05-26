@@ -4,6 +4,7 @@ import radikalchess.model.Board;
 import radikalchess.model.Move;
 import radikalchess.model.Player;
 import radikalchess.model.Position;
+import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Pawn;
@@ -72,7 +73,7 @@ public class RadikalChessStatus {
                 if (board.getCells()[i][j].getPiece() != null) {
                     if (board.getCells()[i][j].getPiece().getPlayer().equals(currentPlayer)) {
                         for (Position position : MovementRangeChecker.getInstance().getMovementRangeFor(board.getPieceAt(board.getCells()[i][j].getPosition()), board)) {
-                            if (board.getCells()[i][j].getPiece() instanceof King || board.getCells()[i][j].getPiece() instanceof Pawn)
+                            if (board.getCells()[i][j].getPiece() instanceof Pawn || MoveChecker.getInstance().isAValidKillerMove(new Move(board.getCells()[i][j].getPiece().getPosition(), position), board.getCells()[i][j].getPiece(), board))
                                 moves.add(new Move(board.getCells()[i][j].getPiece().getPosition(), position));
                             else if (isReducedEuclideanDistance(board.getCells()[i][j].getPiece().getPosition(), position, adversarial)
                                     || MovementRangeChecker.getInstance().mayThreatenTheKing(board.getCells()[i][j].getPiece(), position, board)) {
