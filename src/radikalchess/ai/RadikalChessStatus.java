@@ -1,9 +1,6 @@
 package radikalchess.ai;
 
-import radikalchess.model.Board;
-import radikalchess.model.Move;
-import radikalchess.model.Player;
-import radikalchess.model.Position;
+import radikalchess.model.*;
 import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
@@ -18,11 +15,13 @@ public class RadikalChessStatus {
     private Player playerB;
     private Board board;
     private Player currentPlayer;
+    private ArrayList<Transformer> transformers;
 
     public RadikalChessStatus(Board board, Player playerA, Player playerB) {
         this.board = board;
         this.playerA = this.currentPlayer = playerA;
         this.playerB = playerB;
+        this.transformers = new ArrayList<>();
     }
 
     public Board getBoard() {
@@ -47,6 +46,10 @@ public class RadikalChessStatus {
 
     public void alternatePlayer() {
         currentPlayer = (this.playerA.equals(currentPlayer)) ? playerB : playerA;
+    }
+
+    public ArrayList<Transformer> getTransformers() {
+        return transformers;
     }
 
     public boolean isTerminal() {
@@ -89,6 +92,13 @@ public class RadikalChessStatus {
     public void move(Move move) {
         board.setPieceAt(move.getDestination(), board.getPieceAt(move.getOrigin()));
         board.setPieceAt(move.getOrigin(), null);
+        if (board.getPieceAt(move.getDestination()) instanceof Pawn) {
+            if (move.getDestination().getRow() == 0 || move.getDestination().getRow() == board.getNumberOfRows() - 1) {
+                for (Transformer transformer : transformers)
+                    if (transformer instanceof QueenTransformer)
+                        transformer.transform(board.getPieceAt(move.getDestination()), board);
+            }
+        }
         alternatePlayer();
     }
 
@@ -96,6 +106,8 @@ public class RadikalChessStatus {
     public Object clone() throws CloneNotSupportedException {
         RadikalChessStatus radikalChessStatus = new RadikalChessStatus((Board) board.clone(), playerA, playerB);
         radikalChessStatus.currentPlayer = currentPlayer;
+        for (Transformer transformer : transformers)
+            radikalChessStatus.getTransformers().add(transformer);
         return radikalChessStatus;
     }
 

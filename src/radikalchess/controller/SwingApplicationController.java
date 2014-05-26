@@ -31,6 +31,9 @@ public class SwingApplicationController {
         addPieces(board, playerA, playerB);
 
         RadikalChessStatus status = new RadikalChessStatus(board, playerA, playerB);
+        status.getTransformers().add(new QueenTransformer(new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png")))));
+        System.out.println(status.getTransformers().size());
+
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
         game.setWhitePlayerHeuristic(new MediumHeuristic());

@@ -131,12 +131,11 @@ public class BoardPanel extends JPanel {
                     if (cellPanels[i][j].isPressed()) {
                         if (isPermittedMove(new Move
                                 (new Position(i, j), new Position(cellPanel.getPosition().getRow(), cellPanel.getPosition().getCol())))) {
-                            cellPanel.addPiece(cellPanels[i][j].getPiece());
-                            cellPanels[i][j].removePiece();
+                            radikalChessStatus.move(new Move(cellPanels[i][j].getPiece().getPosition(), cellPanel.getPosition()));
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
                             radikalChessStatus.getBoard().getCells();
-                            radikalChessStatus.alternatePlayer();
+                            this.update();
                         }
                         break;
                     }

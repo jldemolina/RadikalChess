@@ -57,4 +57,5 @@ public class Pawn extends Piece {
     public String toString() {
         return name + " [" + super.getPlayer().getName() + "]";
     }
+
 }
