@@ -2,8 +2,8 @@ package radikalchess.view.swing;
 
 import radikalchess.ai.RadikalChessGame;
 import radikalchess.ai.heuristics.AttackHeuristic;
+import radikalchess.ai.heuristics.BadPlayerHeuristic;
 import radikalchess.ai.heuristics.MediumHeuristic;
-import radikalchess.ai.heuristics.ShieldHeuristic;
 import radikalchess.ai.search.AlphaBetaSearch;
 import radikalchess.ai.search.MinimaxSearch;
 
@@ -26,13 +26,12 @@ public class ConfigurationPanel extends JFrame {
         this.game = game;
 
         this.setTitle("Configuration");
-        this.setMinimumSize(new Dimension(200, 500));
+        this.setMinimumSize(new Dimension(590, 100));
         this.setVisible(true);
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
         this.add(createPanel(), BorderLayout.CENTER);
-
 
         revalidate();
     }
@@ -50,6 +49,7 @@ public class ConfigurationPanel extends JFrame {
 
     private JComboBox createPlayerASearchComboBox() {
         final JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Seleccionar búsqueda");
         comboBox.addItem("Minimax");
         comboBox.addItem("Alpha-Beta (3)");
         comboBox.addItem("Alpha-Beta (4)");
@@ -78,6 +78,7 @@ public class ConfigurationPanel extends JFrame {
 
     private JComboBox createPlayerBSearchComboBox() {
         final JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Seleccionar búsqueda");
         comboBox.addItem("Minimax");
         comboBox.addItem("Alpha-Beta (3)");
         comboBox.addItem("Alpha-Beta (4)");
@@ -106,16 +107,17 @@ public class ConfigurationPanel extends JFrame {
 
     private JComboBox createPlayerBHeutisticsComboBox() {
         final JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Seleccionar heurística");
         comboBox.addItem("Medium Heuristic");
-        comboBox.addItem("Shield Heuristic");
+        comboBox.addItem("BadPlayer Heuristic");
         comboBox.addItem("Attack Heuristic");
         comboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED)
                     return;
-                if (comboBox.getSelectedItem().equals("Shield Heuristic"))
-                    game.setBlackPlayerHeuristic(new ShieldHeuristic());
+                if (comboBox.getSelectedItem().equals("BadPlayer Heuristic"))
+                    game.setBlackPlayerHeuristic(new BadPlayerHeuristic());
                 else if (comboBox.getSelectedItem().equals("Medium Heuristic"))
                     game.setBlackPlayerHeuristic(new MediumHeuristic());
                 else
@@ -128,16 +130,17 @@ public class ConfigurationPanel extends JFrame {
 
     private JComboBox createPlayerAHeutisticsComboBox() {
         final JComboBox comboBox = new JComboBox();
+        comboBox.addItem("Seleccionar heurística");
         comboBox.addItem("Medium Heuristic");
-        comboBox.addItem("Shield Heuristic");
+        comboBox.addItem("BadPlayer Heuristic");
         comboBox.addItem("Attack Heuristic");
         comboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() != ItemEvent.SELECTED)
                     return;
-                if (comboBox.getSelectedItem().equals("Shield Heuristic"))
-                    game.setBlackPlayerHeuristic(new ShieldHeuristic());
+                if (comboBox.getSelectedItem().equals("BadPlayer Heuristic"))
+                    game.setBlackPlayerHeuristic(new BadPlayerHeuristic());
                 else if (comboBox.getSelectedItem().equals("Medium Heuristic"))
                     game.setBlackPlayerHeuristic(new MediumHeuristic());
                 else

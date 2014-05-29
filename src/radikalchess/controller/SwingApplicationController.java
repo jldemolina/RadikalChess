@@ -37,15 +37,15 @@ public class SwingApplicationController {
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
         game.setWhitePlayerHeuristic(new MediumHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 6));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 6));
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 3));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
 
         new ApplicationFrame(game, new FileSaveGameMaker(saveGameFilePath),
                 new FileSaveGameListLoader(saveGameFilePath));
     }
 
     /**
-     * Adds absolutely all the pieces to the board
+     * Add absolutely all the pieces to the board
      */
     private void addPieces(Board board, Player playerA, Player playerB) {
         board.setPieceAt(new Position(0, 0), new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));

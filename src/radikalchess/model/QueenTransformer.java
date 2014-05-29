@@ -14,7 +14,6 @@ public class QueenTransformer implements Transformer {
 
     @Override
     public void transform(Piece piece, Board board) {
-        board.setPieceAt(piece.getPosition(), new Queen(playerAQueen.getPlayer(), new Image(new Bitmap("images/pieces/lilacqueen.png"))));
         Queen queen;
         Position position = piece.getPosition();
         try {
