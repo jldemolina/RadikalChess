@@ -13,11 +13,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 /**
- * This class represents the main panel of the game. It is the support of the entire user interface based on Swing
+ * This class represents the configuration panel of the game.
  *
  * @author Jose Luis Molina
  * @author Eduardo Mendoza García
- * @see BoardPanel
  */
 public class ConfigurationPanel extends JFrame {
     private RadikalChessGame game;

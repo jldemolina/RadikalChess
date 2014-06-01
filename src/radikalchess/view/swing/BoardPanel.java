@@ -60,10 +60,11 @@ public class BoardPanel extends JPanel {
         this.radikalChessStatus = radikalChessStatus;
         for (int i = 0; i < this.radikalChessStatus.getBoard().getNumberOfRows(); i++) {
             for (int j = 0; j < this.radikalChessStatus.getBoard().getNumberOfCols(); j++) {
-                cellPanels[i][j].removePiece();
+                cellPanels[i][j].removePiece(true);
             }
         }
         placePieces();
+        revalidate();
     }
 
     private void initializeBoard() {
@@ -134,8 +135,8 @@ public class BoardPanel extends JPanel {
                             radikalChessStatus.move(new Move(cellPanels[i][j].getPiece().getPosition(), cellPanel.getPosition()));
                             cellPanels[i][j].setPressed(false);
                             cellPanel.setPressed(false);
-                            radikalChessStatus.getBoard().getCells();
-                            this.update();
+                            update();
+                            break;
                         }
                         break;
                     }

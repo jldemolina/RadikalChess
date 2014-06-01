@@ -7,6 +7,7 @@ import radikalchess.model.Player;
  * This class represents a piece of board, and inherits from the class Piece
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public class Rook extends Piece {
     private static final String name = "Rook";

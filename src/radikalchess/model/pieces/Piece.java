@@ -9,6 +9,7 @@ import radikalchess.model.Position;
  * A piece have an player, an image, and a position.
  *
  * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
  */
 public abstract class Piece implements Cloneable {
 

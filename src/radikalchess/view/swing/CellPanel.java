@@ -60,14 +60,15 @@ public class CellPanel extends JPanel {
         revalidate();
     }
 
-    public void removePiece() {
+    public void removePiece(boolean removeInOriginalCell) {
         if (piece != null) {
-            cell.setPiece(null);
+            if (removeInOriginalCell) cell.setPiece(null);
             piece = null;
             pieceButton.setIcon(null);
             revalidate();
         }
     }
+
 
     public Piece getPiece() {
         return piece;

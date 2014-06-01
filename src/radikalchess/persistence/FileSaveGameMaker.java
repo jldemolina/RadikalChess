@@ -10,6 +10,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Is responsible for creating a new saved game and store it in a file
+ *
+ * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
+ * @see radikalchess.model.SaveGame
+ */
 public class FileSaveGameMaker implements SaveGameMaker {
 
     private final String file;

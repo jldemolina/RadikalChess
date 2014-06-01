@@ -8,6 +8,13 @@ import radikalchess.model.pieces.*;
 import java.io.*;
 import java.util.Date;
 
+/**
+ * Load the list of saved games in the Singleton class SaveGameList, from a file
+ *
+ * @author Jose Luis Molina
+ * @author Eduardo Mendoza García
+ * @see radikalchess.model.SaveGame
+ */
 public class FileSaveGameListLoader implements SaveGameListLoader {
 
     private final String file;
