@@ -45,17 +45,14 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
 
     private Game<STATE, ACTION, Player> game;
     private int expandedNodes;
-    private int totalExpandedNodes;
     private double time;
+    private static int totalExpandedNodes;
     private double totalTime;
-    private int movements;
 
-    /**
-     * Creates a new search object for a given game.
-     */
-    public static <STATE, ACTION, Player> MinimaxSearch<STATE, ACTION, Player> createFor(
-            Game<STATE, ACTION, Player> game) {
-        return new MinimaxSearch<STATE, ACTION, Player>(game);
+
+    public static <STATE, ACTION, PLAYER> MinimaxSearch<STATE, ACTION, PLAYER> createFor(
+            Game<STATE, ACTION, PLAYER> game) {
+        return new MinimaxSearch<>(game);
     }
 
     public MinimaxSearch(Game<STATE, ACTION, Player> game) {
@@ -65,47 +62,51 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
     @Override
     public ACTION makeDecision(STATE state) {
         expandedNodes = 0;
-        ACTION result = null;
         time = System.currentTimeMillis();
+        int currentDepth = 0;
+        ACTION result = null;
         double resultValue = Double.NEGATIVE_INFINITY;
         Player player = game.getPlayer(state);
         for (ACTION action : game.getActions(state)) {
-            double value = minValue(game.getResult(state, action), player, 0);
-            if (value >= resultValue) {
+            double value = minValue(game.getResult(state, action), currentDepth, player);
+            if (value > resultValue) {
                 result = action;
                 resultValue = value;
             }
         }
-        movements++;
+        totalExpandedNodes += expandedNodes;
         time = System.currentTimeMillis() - time;
-        totalTime += time;
         return result;
     }
 
-    public double maxValue(STATE state, Player player, int p) {
+
+    public double maxValue(STATE state, int currentDepth, Player player) {
         expandedNodes++;
-        totalExpandedNodes++;
-        p++;
-        if (game.isTerminal(state) || p > P)
+        currentDepth++;
+        if (game.isTerminal(state) || currentDepth > P) {
             return game.getUtility(state, player);
+        }
         double value = Double.NEGATIVE_INFINITY;
-        for (ACTION action : game.getActions(state))
+        for (ACTION action : game.getActions(state)) {
             value = Math.max(value,
-                    minValue(game.getResult(state, action), player, p));
+                    minValue(game.getResult(state, action), currentDepth, player));
+        }
         return value;
     }
 
-    public double minValue(STATE state, Player player, int p) {
+    public double minValue(STATE state, int currentDepth, Player player) {
         expandedNodes++;
-        totalExpandedNodes++;
-        p++;
-        if (game.isTerminal(state) || p > P)
+        currentDepth++;
+        if (game.isTerminal(state) || currentDepth > P) {
             return game.getUtility(state, player);
+        }
         double value = Double.POSITIVE_INFINITY;
-        for (ACTION action : game.getActions(state))
+        for (ACTION action : game.getActions(state)) {
             value = Math.min(value,
-                    maxValue(game.getResult(state, action), player, p));
+                    maxValue(game.getResult(state, action), currentDepth, player));
+        }
         return value;
+
     }
 
     @Override
@@ -115,7 +116,6 @@ public class MinimaxSearch<STATE, ACTION, Player> implements
         result.set("totalExpandedNodes", totalExpandedNodes);
         result.set("time", time / 1000);
         result.set("totalTime", totalTime / 1000);
-        result.set("movements", movements);
         return result;
     }
 }

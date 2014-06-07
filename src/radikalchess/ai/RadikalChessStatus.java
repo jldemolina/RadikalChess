@@ -5,6 +5,7 @@ import radikalchess.model.checkers.MoveChecker;
 import radikalchess.model.checkers.MovementRangeChecker;
 import radikalchess.model.pieces.King;
 import radikalchess.model.pieces.Pawn;
+import radikalchess.model.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class RadikalChessStatus {
                 if (board.getCells()[i][j].getPiece() != null) {
                     if (board.getCells()[i][j].getPiece().getPlayer().equals(currentPlayer)) {
                         for (Position position : MovementRangeChecker.getInstance().getMovementRangeFor(board.getPieceAt(board.getCells()[i][j].getPosition()), board)) {
-                            if (board.getCells()[i][j].getPiece() instanceof Pawn || MoveChecker.getInstance().isAValidKillerMove(new Move(board.getCells()[i][j].getPiece().getPosition(), position), board.getCells()[i][j].getPiece(), board))
+                            if (board.getCells()[i][j].getPiece() instanceof Pawn || canKillPiece(board.getCells()[i][j].getPiece(), position))
                                 moves.add(new Move(board.getCells()[i][j].getPiece().getPosition(), position));
                             else if (isReducedEuclideanDistance(board.getCells()[i][j].getPiece().getPosition(), position, adversarial)
                                     || MovementRangeChecker.getInstance().mayThreatenTheKing(board.getCells()[i][j].getPiece(), position, board)) {
@@ -112,9 +113,14 @@ public class RadikalChessStatus {
     }
 
     private boolean isReducedEuclideanDistance(Position origin, Position destination, Player player) {
-        if (board.searchKingPosition(player) != null)
             return new Position(destination.getRow(), destination.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player)) <
                     new Position(origin.getRow(), origin.getCol()).getEuclideanDistanceTo(board.searchKingPosition(player));
+    }
+
+    private boolean canKillPiece(Piece piece, Position position) {
+        if (MoveChecker.getInstance().isAValidKillerMove(new Move(piece.getPosition(), position), piece, board)) {
+            return (board.getPieceAt(position) != null);
+        }
         return false;
     }
 

@@ -28,7 +28,8 @@ public class SwingApplicationController {
         Player playerA = new Player("Player A");
         Player playerB = new Player("Player B");
 
-        addPieces(board, playerA, playerB);
+        addPiecesToLittleBoard(board, playerA, playerB);
+        // addPiecesToHugeBoard(board, playerA, playerB);
 
         RadikalChessStatus status = new RadikalChessStatus(board, playerA, playerB);
         status.getTransformers().add(new QueenTransformer(new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png")))));
@@ -37,8 +38,8 @@ public class SwingApplicationController {
         RadikalChessGame game = new RadikalChessGame(status);
         game.setBlackPlayerHeuristic(new MediumHeuristic());
         game.setWhitePlayerHeuristic(new MediumHeuristic());
-        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 3));
-        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 3));
+        game.setBlackPlayerSearch(new AlphaBetaSearch(game, 4));
+        game.setWhitePlayerSearch(new AlphaBetaSearch(game, 4));
 
         new ApplicationFrame(game, new FileSaveGameMaker(saveGameFilePath),
                 new FileSaveGameListLoader(saveGameFilePath));
@@ -47,7 +48,7 @@ public class SwingApplicationController {
     /**
      * Add absolutely all the pieces to the board
      */
-    private void addPieces(Board board, Player playerA, Player playerB) {
+    private void addPiecesToLittleBoard(Board board, Player playerA, Player playerB) {
         board.setPieceAt(new Position(0, 0), new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));
         board.setPieceAt(new Position(0, 1), new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))));
         board.setPieceAt(new Position(0, 2), new Bishop(playerA, new Image(new Bitmap("images/pieces/bluebishop.png"))));
@@ -67,6 +68,31 @@ public class SwingApplicationController {
         board.setPieceAt(new Position(5, 1), new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
         board.setPieceAt(new Position(5, 2), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
         board.setPieceAt(new Position(5, 3), new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
+    }
+
+    /**
+     * Add absolutely all the pieces to the board
+     */
+    private void addPiecesToHugeBoard(Board board, Player playerA, Player playerB) {
+        board.setPieceAt(new Position(0, 0), new King(playerA, new Image(new Bitmap("images/pieces/blueking.png"))));
+        board.setPieceAt(new Position(0, 1), new Queen(playerA, new Image(new Bitmap("images/pieces/bluequeen.png"))));
+        board.setPieceAt(new Position(0, 2), new Bishop(playerA, new Image(new Bitmap("images/pieces/bluebishop.png"))));
+        board.setPieceAt(new Position(0, 3), new Rook(playerA, new Image(new Bitmap("images/pieces/bluerook.png"))));
+
+        board.setPieceAt(new Position(1, 0), new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        board.setPieceAt(new Position(1, 1), new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        board.setPieceAt(new Position(1, 2), new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+        board.setPieceAt(new Position(1, 3), new Pawn(playerA, new Image(new Bitmap("images/pieces/bluepawn.png")), AllowedPawnMove.DOWN));
+
+        board.setPieceAt(new Position(5, 0), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        board.setPieceAt(new Position(5, 1), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        board.setPieceAt(new Position(5, 2), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+        board.setPieceAt(new Position(5, 3), new Pawn(playerB, new Image(new Bitmap("images/pieces/lilacpawn.png")), AllowedPawnMove.UP));
+
+        board.setPieceAt(new Position(6, 0), new Rook(playerB, new Image(new Bitmap("images/pieces/lilacrook.png"))));
+        board.setPieceAt(new Position(6, 1), new Bishop(playerB, new Image(new Bitmap("images/pieces/lilacbishop.png"))));
+        board.setPieceAt(new Position(6, 2), new Queen(playerB, new Image(new Bitmap("images/pieces/lilacqueen.png"))));
+        board.setPieceAt(new Position(6, 3), new King(playerB, new Image(new Bitmap("images/pieces/lilacking.png"))));
     }
 
 }

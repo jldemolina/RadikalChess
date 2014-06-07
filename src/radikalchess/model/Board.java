@@ -47,7 +47,9 @@ public class Board {
     }
 
     public void setPieceAt(Position position, Piece piece) {
-        if (piece != null) piece.setPosition(position);
+        if (piece != null) {
+            piece.setPosition(position);
+        }
         cells[position.getRow()][position.getCol()].setPiece(piece);
     }
 

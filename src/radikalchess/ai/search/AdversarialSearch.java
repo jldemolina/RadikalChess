@@ -11,7 +11,7 @@ import radikalchess.ai.Metrics;
  */
 public interface AdversarialSearch<STATE, ACTION> {
 
-    public static final int P = 6;
+    public static final int P = 4;
 
     /**
      * Returns the action which appears to be the best at the given state.
